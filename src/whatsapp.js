@@ -3,7 +3,7 @@
 // Change WHATSAPP_NUMBER to your business number (with country code, no + or spaces)
 // Example: India +91 98765 43210  →  "919876543210"
 // ─────────────────────────────────────────────────────────────────────────────
-export const WHATSAPP_NUMBER = '918690020072';
+export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '918690020072';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // WhatsApp Channel Link
@@ -11,7 +11,7 @@ export const WHATSAPP_NUMBER = '918690020072';
 // To get this: Open WhatsApp → Channels → Your Channel → Share → Copy link
 // Example: "https://whatsapp.com/channel/0029VaXXXXXXXXXXXXXXXX"
 // ─────────────────────────────────────────────────────────────────────────────
-export const WHATSAPP_CHANNEL_LINK = 'https://wa.me/918690020072';
+export const WHATSAPP_CHANNEL_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 /**
  * Open the WhatsApp Channel in a new tab.

@@ -16,8 +16,9 @@ export default function AdminLayout() {
   }, []);
 
   const handleLogin = (email) => {
-    // Check against the exact email provided by the user
-    if (email === 'rishabsingh9853@gmail.com') {
+    // Check against the exact email provided by the environment variable
+    const adminEmail = import.meta.env.VITE_ADMIN_EMAIL || 'rishabsingh9853@gmail.com';
+    if (email === adminEmail) {
       localStorage.setItem('efive_admin_auth', 'true');
       setIsAuthenticated(true);
       return true;
