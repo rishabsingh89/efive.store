@@ -97,46 +97,46 @@ export const ROOM_SHAPES = [
 // ── Room Type Defaults ───────────────────────────────────────────────────────
 export const ROOM_TYPE_DEFAULTS = {
   living: {
-    width: 700, height: 500,
+    width: 450, height: 350,
     wallColor: '#D6BCA1', floorType: 'tiles', ceilingColor: '#FFFFFF',
-    windows: [{ x: 300, y: 0, w: 120, side: 'top' }],
-    doors: [{ x: 0, y: 200, w: 60, side: 'left' }],
+    windows: [{ x: 225, y: 0, w: 120, side: 'top' }],
+    doors: [{ x: 0, y: 175, w: 100, side: 'left' }],
   },
   bedroom: {
-    width: 600, height: 450,
+    width: 400, height: 350,
     wallColor: '#D6BCA1', floorType: 'tiles', ceilingColor: '#FFFFFF',
-    windows: [{ x: 220, y: 0, w: 100, side: 'top' }],
-    doors: [{ x: 0, y: 60, w: 90, side: 'left' }, { x: 0, y: 200, w: 90, side: 'left' }],
+    windows: [{ x: 200, y: 0, w: 100, side: 'top' }],
+    doors: [{ x: 0, y: 100, w: 100, side: 'left' }, { x: 0, y: 250, w: 100, side: 'left' }],
   },
   kitchen: {
-    width: 500, height: 400,
+    width: 350, height: 250,
     wallColor: '#F8F6F0', floorType: 'tiles', ceilingColor: '#FFFFFF',
-    windows: [{ x: 180, y: 0, w: 100, side: 'top' }],
-    doors: [{ x: 0, y: 160, w: 60, side: 'left' }],
+    windows: [{ x: 175, y: 0, w: 100, side: 'top' }],
+    doors: [{ x: 0, y: 125, w: 100, side: 'left' }],
   },
   bathroom: {
-    width: 350, height: 300,
+    width: 250, height: 200,
     wallColor: '#E8EDE8', floorType: 'marble', ceilingColor: '#FFFFFF',
-    windows: [{ x: 120, y: 0, w: 70, side: 'top' }],
-    doors: [{ x: 0, y: 110, w: 50, side: 'left' }],
+    windows: [{ x: 125, y: 0, w: 70, side: 'top' }],
+    doors: [{ x: 0, y: 100, w: 80, side: 'left' }],
   },
   dining: {
-    width: 550, height: 450,
+    width: 400, height: 300,
     wallColor: '#F0EBE0', floorType: 'wooden', ceilingColor: '#FFFFFF',
     windows: [{ x: 200, y: 0, w: 120, side: 'top' }],
-    doors: [{ x: 0, y: 180, w: 60, side: 'left' }],
+    doors: [{ x: 0, y: 150, w: 100, side: 'left' }],
   },
   study: {
-    width: 450, height: 380,
+    width: 350, height: 300,
     wallColor: '#EAE6DC', floorType: 'wooden', ceilingColor: '#FFFFFF',
-    windows: [{ x: 160, y: 0, w: 100, side: 'top' }],
-    doors: [{ x: 0, y: 150, w: 55, side: 'left' }],
+    windows: [{ x: 175, y: 0, w: 100, side: 'top' }],
+    doors: [{ x: 0, y: 150, w: 90, side: 'left' }],
   },
   lounge: {
-    width: 650, height: 480,
+    width: 500, height: 350,
     wallColor: '#E8E3D8', floorType: 'carpet', ceilingColor: '#FFFFFF',
     windows: [{ x: 250, y: 0, w: 130, side: 'top' }],
-    doors: [{ x: 0, y: 200, w: 60, side: 'left' }],
+    doors: [{ x: 0, y: 175, w: 100, side: 'left' }],
   },
 };
 
@@ -165,7 +165,7 @@ export const FURNITURE_DEFAULTS = {
   study:     { w: 100, h: 60,  minW: 60,  maxW: 140, minH: 40, maxH: 80,  emoji: '📚' },
   kitchen:   { w: 60,  h: 60,  minW: 30,  maxW: 100, minH: 30, maxH: 100, emoji: '🍳' },
   decor:     { w: 40,  h: 40,  minW: 20,  maxW: 80,  minH: 20, maxH: 80,  emoji: '🖼️' },
-  doors:     { w: 80,  h: 20,  minW: 60,  maxW: 120, minH: 10, maxH: 30,  emoji: '🚪' },
+  doors:     { w: 100,  h: 20,  minW: 80,  maxW: 150, minH: 10, maxH: 30,  emoji: '🚪' },
   windows:   { w: 100, h: 10,  minW: 50,  maxW: 150, minH: 5,  maxH: 20,  emoji: '🪟' },
 };
 

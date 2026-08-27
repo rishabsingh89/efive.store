@@ -75,7 +75,7 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
         {/* Header Section */}
         <div style={styles.header}>
           <div style={styles.headerLeft}>
-            <button onClick={handleClose} style={styles.backBtn} aria-label="Go back">
+            <button onClick={handleClose} className="premium-back-btn" aria-label="Go back">
               <ArrowLeft size={20} />
               <span>Back</span>
             </button>
@@ -104,8 +104,8 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
             transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s',
           }}
         >
-          <h1 style={styles.heroTitle}>{category.name} Collection</h1>
-          <p style={styles.heroSubtitle}>
+          <h1 className="premium-hero-title">{category.name} Collection</h1>
+          <p className="premium-hero-subtitle">
             Explore our curated selection of {categoryProducts.length} premium{' '}
             {category.name.toLowerCase()} pieces, designed for the discerning taste.
           </p>
@@ -143,7 +143,7 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
         <div style={{ height: '3rem' }} />
       </div>
 
-      {/* Inline keyframes */}
+      {/* Inline keyframes and styles */}
       <style>{`
         @keyframes categorySectionFadeIn {
           from {
@@ -154,6 +154,62 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
             opacity: 1;
             transform: translateY(0) scale(1);
           }
+        }
+
+        .premium-back-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1.2rem;
+          background-color: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 12px;
+          color: #ffffff;
+          font-size: 0.9rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+          font-family: var(--font-body);
+          backdrop-filter: blur(8px);
+          box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+          transform-origin: center;
+          outline: none;
+        }
+        
+        .premium-back-btn:hover {
+          background-color: rgba(255, 255, 255, 0.15);
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+        
+        .premium-back-btn:active {
+          transform: scale(0.92) translateY(2px);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3), inset 0 2px 4px rgba(0,0,0,0.2);
+          background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .premium-hero-title {
+          font-family: var(--font-heading);
+          font-size: 3.5rem;
+          font-weight: 700;
+          background: linear-gradient(135deg, #ffffff 0%, #C5A880 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 1.25rem;
+          letter-spacing: -0.02em;
+          line-height: 1.15;
+          text-shadow: 0 4px 24px rgba(197, 168, 128, 0.2);
+        }
+        
+        .premium-hero-subtitle {
+          font-family: var(--font-body);
+          font-size: 1.1rem;
+          color: rgba(255, 255, 255, 0.85);
+          line-height: 1.8;
+          font-weight: 400;
+          max-width: 85%;
+          margin: 0 auto 1.5rem auto;
+          text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
       `}</style>
     </div>
@@ -185,7 +241,7 @@ const styles = {
     height: '100%',
     objectFit: 'cover',
     transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-    filter: 'blur(4px) brightness(0.35)',
+    filter: 'blur(3px) brightness(0.55)',
   },
   bgOverlayGradient: {
     position: 'absolute',
@@ -193,10 +249,10 @@ const styles = {
     background: `
       linear-gradient(
         180deg,
-        rgba(30, 29, 27, 0.92) 0%,
-        rgba(30, 29, 27, 0.85) 25%,
-        rgba(30, 29, 27, 0.80) 50%,
-        rgba(30, 29, 27, 0.92) 100%
+        rgba(30, 29, 27, 0.85) 0%,
+        rgba(30, 29, 27, 0.75) 25%,
+        rgba(30, 29, 27, 0.65) 50%,
+        rgba(30, 29, 27, 0.85) 100%
       )
     `,
   },

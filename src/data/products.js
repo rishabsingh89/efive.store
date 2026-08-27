@@ -1,111 +1,21 @@
 export const categories = [
-  { id: 'sofa', name: 'Sofa', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80' },
   { id: 'beds', name: 'Beds', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=400&q=80' },
   { id: 'dining', name: 'Dining', image: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=400&q=80' },
   { id: 'chairs', name: 'Chairs', image: 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=400&q=80' },
   { id: 'decor', name: 'Decor', image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80' },
-  { id: 'kitchen', name: 'Kitchen & Appliances', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=400&q=80' },
-  { id: 'wardrobes', name: 'Wardrobes', image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=400&q=80' },
-  { id: 'dressers', name: 'Dressers', image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=400&q=80' },
-  { id: 'tvunits', name: 'TV Units', image: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=400&q=80' },
-  { id: 'recliners', name: 'Recliners', image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&q=80' },
-  { id: 'study', name: 'Study Table', image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=400&q=80' },
-  { id: 'tables', name: 'Tables', image: 'https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=400&q=80' },
-  { id: 'doors', name: 'Doors', image: '/Door-1.webp' },
-  { id: 'windows', name: 'Windows', image: '/window-1.webp' }
+  { id: 'tvunits', name: 'TV Units', image: '/images/tvunits/view-1.png' },
+  { id: 'study', name: 'Study Table', image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=400&q=80' }
 ];
 
 export const products = [
-  // --- SOFA ---
-  {
-    id: 'sofa-1',
-    name: 'Aurelia 3-Seater Velvet Sofa',
-    category: 'sofa',
-    price: 45999,
-    originalPrice: 59999,
-    rating: 4.8,
-    reviews: 124,
-    description: 'Immerse yourself in pure luxury with the Aurelia Velvet Sofa. Upholstered in premium, high-density velvet with elegant deep button tufting and solid wood legs with gold metal caps.',
-    features: [
-      'Sturdy solid birchwood inner frame',
-      'High-resilience foam padding for lasting shape',
-      'Stain-resistant luxury velvet upholstery',
-      'Gold-tipped tapered wooden legs'
-    ],
-    specifications: {
-      material: 'Velvet, Solid Wood, High-Density Foam',
-      dimensions: 'W 210cm x D 90cm x H 85cm',
-      warranty: '3 Years Warranty',
-      assembly: 'Professional Assembly Provided'
-    },
-    colors: [
-      { name: 'Emerald Green', hex: '#0f5257' },
-      { name: 'Royal Blue', hex: '#1d3557' },
-      { name: 'Charcoal Grey', hex: '#2b2d42' }
-    ]
-  },
-  {
-    id: 'sofa-2',
-    name: 'Bespoke Chesterfield L-Shape Sectional',
-    category: 'sofa',
-    price: 89999,
-    originalPrice: 119999,
-    rating: 4.9,
-    reviews: 86,
-    description: 'A classic design reimagined for modern spaces. The Bespoke Chesterfield features premium top-grain leatherette, rolled arms, and deep-tufted backrest to create a stunning focal point in your living room.',
-    features: [
-      'Generous seating capacity for up to 6 people',
-      'Durable zig-zag spring suspension system',
-      'Premium leatherette upholstery that is easy to clean',
-      'Classic English Chesterfield tufted details'
-    ],
-    specifications: {
-      material: 'Premium Leatherette, Meranti Wood Frame',
-      dimensions: 'W 280cm x L 180cm x H 78cm',
-      warranty: '5 Years Warranty',
-      assembly: 'Professional Assembly Provided'
-    },
-    colors: [
-      { name: 'Tan Brown', hex: '#a0522d' },
-      { name: 'Chocolate Brown', hex: '#4a2c2a' },
-      { name: 'Classic Black', hex: '#121212' }
-    ]
-  },
-  {
-    id: 'sofa-3',
-    name: 'Hygge Fabric Loveseat',
-    category: 'sofa',
-    price: 24999,
-    originalPrice: 32999,
-    rating: 4.6,
-    reviews: 57,
-    description: 'Perfect for cozy corners or compact living spaces, the Hygge Loveseat blends Scandinavian minimalism with premium fabric comfort.',
-    features: [
-      'Removable and washable cushion covers',
-      'Soft weave linen-blend fabric',
-      'Light natural oak wood frame and legs',
-      'Comfortable dual-cushion design'
-    ],
-    specifications: {
-      material: 'Linen Blend, Natural Oak Wood',
-      dimensions: 'W 150cm x D 85cm x H 82cm',
-      warranty: '2 Years Warranty',
-      assembly: 'Easy Self Assembly (Manual Included)'
-    },
-    colors: [
-      { name: 'Oatmeal Beige', hex: '#d7ccc8' },
-      { name: 'Mist Grey', hex: '#cfd8dc' },
-      { name: 'Blush Pink', hex: '#f8bbd0' }
-    ]
-  },
-
   // --- BEDS ---
   {
     id: 'beds-1',
     name: 'Somnus King Size Hydraulic Storage Bed',
+    images: ['/images/beds/Beds/WABY/view-1.jpg', '/images/beds/Beds/WABY/view-2.jpg', '/images/beds/Beds/WABY/view-3.jpg', '/images/beds/Beds/WABY/view-4.jpg'],
     category: 'beds',
-    price: 64999,
-    originalPrice: 84999,
+    price: 14999,
+    originalPrice: 19999,
     rating: 4.9,
     reviews: 142,
     description: 'Maximize space and style with the Somnus Bed. Features an elegant tufted headboard upholstered in premium fabric, and an easy-lift German hydraulic mechanism for abundant under-bed storage.',
@@ -122,14 +32,14 @@ export const products = [
       assembly: 'Professional Assembly Provided'
     },
     colors: [
-      { name: 'Charcoal Tweed', hex: '#455a64' },
-      { name: 'Ivory Bouclé', hex: '#f5f5f4' },
-      { name: 'Sage Green Velvet', hex: '#6b7a67' }
+      { name: 'Luxury Bronze', hex: '#C5A880' },
+      { name: 'Champagne Gold', hex: '#E8DCC4' }
     ]
   },
   {
     id: 'beds-2',
     name: 'Mesa Solid Teak Canopy Bed',
+    images: ['/images/beds/Beds/WABY/view-5.jpg', '/images/beds/Beds/WABY/view-1.jpg'],
     category: 'beds',
     price: 79999,
     originalPrice: 99999,
@@ -287,169 +197,6 @@ export const products = [
     ]
   },
 
-  // --- KITCHEN & APPLIANCES ---
-  {
-    id: 'kitchen-1',
-    name: 'Osteria Cast Iron Cookware Set',
-    category: 'kitchen',
-    price: 12999,
-    originalPrice: 16999,
-    rating: 4.9,
-    reviews: 215,
-    description: 'Experience professional-grade heat distribution. The Osteria set features a 5-quart Dutch Oven, a 10-inch Skillet, and a Grill Pan, all pre-seasoned with organic vegetable oil.',
-    features: [
-      'Superior heat retention and even cooking surface',
-      'Pre-seasoned and ready to use out of the box',
-      'Induction, oven, gas, and campfire safe',
-      'Sturdy loop handles for easy grip'
-    ],
-    specifications: {
-      material: '100% Cast Iron, Pre-seasoned',
-      dimensions: 'Skillet: 10 in, Dutch Oven: 5 Qt',
-      warranty: 'Lifetime Warranty',
-      assembly: 'No Assembly Required'
-    },
-    colors: [
-      { name: 'Classic Black', hex: '#212121' }
-    ]
-  },
-  {
-    id: 'kitchen-2',
-    name: 'Barista Pro Grind & Brew Coffee Station',
-    category: 'kitchen',
-    price: 29999,
-    originalPrice: 39999,
-    rating: 4.8,
-    reviews: 93,
-    description: 'Transform your mornings with Efive Studio\'s signature espresso machine. Features a built-in conical burr grinder, precise PID digital temperature control, and a commercial-grade steam wand.',
-    features: [
-      'Built-in grinder with 30 grind size settings',
-      '15-bar Italian pressure pump for rich crema',
-      'Powerful steam wand for silky microfoam latte art',
-      'Thermo-jet heating system (heats up in 3 seconds)'
-    ],
-    specifications: {
-      material: 'Stainless Steel, Food-grade ABS',
-      dimensions: 'W 32cm x D 30cm x H 40cm',
-      warranty: '2 Years Warranty',
-      assembly: 'No Assembly Required (Plug & Play)'
-    },
-    colors: [
-      { name: 'Brushed Steel', hex: '#b0bec5' },
-      { name: 'Matte Obsidian Black', hex: '#1a1a1a' }
-    ]
-  },
-
-  // --- WARDROBES ---
-  {
-    id: 'wardrobes-1',
-    name: 'Vogue 3-Door Sliding Mirror Wardrobe',
-    category: 'wardrobes',
-    price: 54999,
-    originalPrice: 69999,
-    rating: 4.7,
-    reviews: 81,
-    description: 'Optimize your dressing area with the Vogue Sliding Wardrobe. Features premium German sliding tracks, ample interior storage configurations, and integrated full-length high-clarity mirror panels.',
-    features: [
-      'Space-saving sliding doors with smooth-gliding tracks',
-      'Built-in full-length mirrors on double doors',
-      'Configurable shelf systems and 2 clothing hanging rods',
-      'Soft-closing mechanism prevents slamming'
-    ],
-    specifications: {
-      material: 'High-Grade Engineered Wood, Mirror Glass',
-      dimensions: 'W 200cm x D 62cm x H 220cm',
-      warranty: '5 Years Warranty',
-      assembly: 'Professional Assembly Provided'
-    },
-    colors: [
-      { name: 'Crisp White & Mirror', hex: '#fafafa' },
-      { name: 'Smoked Oak & Mirror', hex: '#4e342e' },
-      { name: 'Graphite Grey & Mirror', hex: '#37474f' }
-    ]
-  },
-  {
-    id: 'wardrobes-2',
-    name: 'Hampton Classic 4-Door Hinged Armoire',
-    category: 'wardrobes',
-    price: 49999,
-    originalPrice: 62999,
-    rating: 4.8,
-    reviews: 53,
-    description: 'Perfect for transitional and traditional homes. The Hampton features elegant shaker-style panel doors, solid brass handles, and rich internal drawers for jewelry and accessories.',
-    features: [
-      'Classic 4-Door hinged design with shaker panels',
-      'High-quality solid brass hardware pulls',
-      '4 internal soft-close drawers and 6 storage compartments',
-      'Ventilation vents on the back board'
-    ],
-    specifications: {
-      material: 'Premium MDF, Hettich Hinges, Brass Handles',
-      dimensions: 'W 180cm x D 58cm x H 210cm',
-      warranty: '3 Years Warranty',
-      assembly: 'Professional Assembly Provided'
-    },
-    colors: [
-      { name: 'Warm Off-White', hex: '#f5f5f0' },
-      { name: 'Navy Blue & Brass', hex: '#1a237e' }
-    ]
-  },
-
-  // --- RECLINERS ---
-  {
-    id: 'recliners-1',
-    name: 'CloudNine Motorized Leather Recliner',
-    category: 'recliners',
-    price: 34999,
-    originalPrice: 44999,
-    rating: 4.9,
-    reviews: 167,
-    description: 'Unwind at the touch of a button. Featuring a German OKIN motor for smooth, infinite reclining positions, integrated USB charging port, and full-grain leather contact areas.',
-    features: [
-      'Smooth, silent motorized recline mechanism',
-      'Infinite reclining angles up to 160 degrees',
-      'Built-in USB charging port inside the armrest',
-      'Overstuffed armrests and lumbar cushion support'
-    ],
-    specifications: {
-      material: 'Top-grain Leather Contact, Metal Frame',
-      dimensions: 'W 95cm x D 98cm x H 102cm',
-      warranty: '5 Years Motor Warranty, 3 Years Frame',
-      assembly: 'Easy 2-part click assembly'
-    },
-    colors: [
-      { name: 'Cappuccino Latte', hex: '#d7ccc8' },
-      { name: 'Dark Espresso', hex: '#3e2723' },
-      { name: 'Charcoal Grey', hex: '#37474f' }
-    ]
-  },
-  {
-    id: 'recliners-2',
-    name: 'Zenith Rocker & Swivel Recliner',
-    category: 'recliners',
-    price: 26999,
-    originalPrice: 34999,
-    rating: 4.6,
-    reviews: 82,
-    description: 'The ultimate reading chair. Zenith offers 360-degree swivel, a soothing rocking motion, and a manual pull-tab recliner mechanism covered in cloud-soft breathable fabric.',
-    features: [
-      'Full 360-degree swivel and gentle rocking motion',
-      'Easy manual pull-tab recline trigger',
-      'Breathable, wear-resistant chenille fabric',
-      'Ergonomic headrest and pocket-spring seating comfort'
-    ],
-    specifications: {
-      material: 'Chenille Fabric, Alloy Steel Base',
-      dimensions: 'W 90cm x D 95cm x H 100cm',
-      warranty: '2 Years Warranty',
-      assembly: 'Easy 2-part click assembly'
-    },
-    colors: [
-      { name: 'Mist Grey Chenille', hex: '#cfd8dc' },
-      { name: 'Olive Green Chenille', hex: '#556b2f' }
-    ]
-  },
-
   // --- STUDY TABLE ---
   {
     id: 'study-1',
@@ -532,41 +279,14 @@ export const products = [
     ]
   },
 
-  // --- DRESSERS ---
-  {
-    id: 'dressers-1',
-    name: 'Aurelia Dressing Vanity with Mirror',
-    category: 'dressers',
-    price: 28999,
-    originalPrice: 38999,
-    rating: 4.9,
-    reviews: 42,
-    description: 'Simplify your morning routine with this luxury dressing table. Equipped with a high-definition circular mirror, two spacious drawers with gold handles, and matching stool.',
-    features: [
-      'High-definition round dressing mirror',
-      'Two drawers with soft-close slide guides',
-      'Upholstered vanity stool included',
-      'Sleek faux-marble top layer'
-    ],
-    specifications: {
-      material: 'Engineered Wood, Metal, Marble Laminate',
-      dimensions: 'W 100cm x D 45cm x H 135cm',
-      warranty: '3 Years Warranty',
-      assembly: 'Professional Assembly Provided'
-    },
-    colors: [
-      { name: 'Warm White & Gold', hex: '#ffffff' },
-      { name: 'Charcoal & Gold', hex: '#424242' }
-    ]
-  },
-
   // --- TV UNITS ---
   {
     id: 'tvunits-1',
     name: 'Milan Floating Walnut TV Console',
+    images: ['/images/tvunits/view-1.png', '/images/tvunits/view-2.png', '/images/tvunits/view-3.png', '/images/tvunits/view-4.png'],
     category: 'tvunits',
-    price: 16999,
-    originalPrice: 22999,
+    price: 29499,
+    originalPrice: 38999,
     rating: 4.7,
     reviews: 78,
     description: 'Clean up your living room floor space with the Milan Floating TV Console. Crafted with beautiful walnut veneer, soft-closing doors, and cable entry slots.',
@@ -587,156 +307,90 @@ export const products = [
       { name: 'Ebony Ash', hex: '#212121' }
     ]
   },
-
-  // --- TABLES ---
   {
-    id: 'tables-1',
-    name: 'Verona Solid Marble Coffee Table',
-    category: 'tables',
-    price: 19999,
-    originalPrice: 26999,
-    rating: 4.9,
-    reviews: 110,
-    description: 'The centerpiece your living room deserves. The Verona Coffee Table features a stunning natural Calacatta marble slab top on a sculptural metal frame.',
+    id: 'tvunits-2',
+    name: 'Oslo Minimalist Media Unit',
+    images: ['/images/tvunits/view-2.png', '/images/tvunits/view-3.png', '/images/tvunits/view-4.png', '/images/tvunits/view-1.png'],
+    category: 'tvunits',
+    price: 29499,
+    originalPrice: 38999,
+    rating: 4.8,
+    reviews: 42,
+    description: 'A sleek and modern media console that perfectly balances open shelving with closed storage. Designed for modern entertainment systems.',
     features: [
-      '100% genuine Calacatta polished marble top',
-      'Brushed stainless steel sculptural base',
-      'Eco-friendly protective sealant layer',
-      'Rounded safe edges for family comfort'
+      'Sturdy industrial metal framing',
+      'Cable management system',
+      'Adjustable shelving',
+      'Scratch-resistant finish'
     ],
     specifications: {
-      material: 'Natural Marble, Stainless Steel',
-      dimensions: 'L 110cm x W 60cm x H 42cm',
-      warranty: '5 Years Warranty',
-      assembly: 'No Assembly Required'
+      material: 'Engineered Wood, Powder Coated Steel',
+      dimensions: 'W 180cm x D 40cm x H 45cm',
+      warranty: '3 Years Warranty',
+      assembly: 'Professional Assembly Provided'
     },
     colors: [
-      { name: 'Calacatta Gold', hex: '#fafafa' }
+      { name: 'Matte Black', hex: '#212121' }
     ]
   },
-
-  // --- DOORS ---
   {
-    id: 'door-1',
-    name: 'Premium Wooden Door 1',
-    category: 'doors',
-    price: 15999,
-    originalPrice: 19999,
-    rating: 4.8,
-    reviews: 45,
-    image: '/Door-1.webp',
-    description: 'High-quality wooden door with elegant design.',
-    features: ['Solid wood construction', 'Weather resistant', 'Includes hardware'],
-    specifications: { material: 'Wood', dimensions: 'W 90cm x H 210cm', warranty: '5 Years', assembly: 'Installation required' },
-    colors: [{ name: 'Brown', hex: '#654321' }]
-  },
-  // --- WINDOWS ---
-  {
-    id: 'window-1',
-    name: 'Modern Sliding Window',
-    category: 'windows',
-    price: 8999,
-    originalPrice: 11999,
-    rating: 4.7,
-    reviews: 28,
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400&q=80',
-    description: 'Sleek sliding window with tempered glass.',
-    features: ['Tempered glass', 'Smooth sliding track', 'Soundproof'],
-    specifications: { material: 'Aluminum', dimensions: 'W 120cm x H 100cm', warranty: '2 Years', assembly: 'Installation required' },
-    colors: [{ name: 'White', hex: '#FFFFFF' }]
-  },
-  {
-    id: 'window-2',
-    name: 'Classic Grid Window',
-    category: 'windows',
-    price: 9599,
-    originalPrice: 12999,
-    rating: 4.5,
-    reviews: 15,
-    image: 'https://images.unsplash.com/photo-1542385151-efd9000785a0?w=400&q=80',
-    description: 'Traditional grid window for a classic look.',
-    features: ['Classic grid design', 'Energy efficient', 'Easy clean'],
-    specifications: { material: 'UPVC', dimensions: 'W 100cm x H 120cm', warranty: '2 Years', assembly: 'Installation required' },
-    colors: [{ name: 'Brown', hex: '#3e2723' }]
-  },
-  {
-    id: 'door-2',
-    name: 'Classic Wooden Door 2',
-    category: 'doors',
-    price: 12499,
-    originalPrice: 15999,
-    rating: 4.6,
-    reviews: 32,
-    image: '/door-2.webp',
-    description: 'Classic interior wooden door.',
-    features: ['Durable finish', 'Noise reduction', 'Standard size'],
-    specifications: { material: 'Engineered Wood', dimensions: 'W 80cm x H 200cm', warranty: '3 Years', assembly: 'Installation required' },
-    colors: [{ name: 'Dark Oak', hex: '#3b2f2f' }]
-  },
-  {
-    id: 'door-3',
-    name: 'Modern Panel Door 3',
-    category: 'doors',
-    price: 18500,
-    originalPrice: 22000,
+    id: 'tvunits-3',
+    name: 'Stockholm Entertainment Center',
+    images: ['/images/tvunits/view-3.png', '/images/tvunits/view-4.png', '/images/tvunits/view-1.png', '/images/tvunits/view-2.png'],
+    category: 'tvunits',
+    price: 27999,
+    originalPrice: 36999,
     rating: 4.9,
-    reviews: 67,
-    image: '/door-3.webp',
-    description: 'Modern panel door suitable for main entrances.',
-    features: ['High security', 'Modern aesthetic', 'Premium polish'],
-    specifications: { material: 'Solid Wood', dimensions: 'W 100cm x H 220cm', warranty: '5 Years', assembly: 'Installation required' },
-    colors: [{ name: 'Walnut', hex: '#5c4033' }]
+    reviews: 115,
+    description: 'Transform your living space with this comprehensive entertainment center. Features extensive storage options and a bold, architectural design.',
+    features: [
+      'Full-wall modular configuration',
+      'Integrated LED backlighting support',
+      'Push-to-open cabinet doors',
+      'Heavy-duty load bearing capacity'
+    ],
+    specifications: {
+      material: 'Solid Wood Veneer, Metal Frame',
+      dimensions: 'W 240cm x D 45cm x H 200cm',
+      warranty: '5 Years Warranty',
+      assembly: 'Professional Installation Included'
+    },
+    colors: [
+      { name: 'Crimson Iron', hex: '#c62828' }
+    ]
   },
   {
-    id: 'door-4',
-    name: 'Contemporary Door 4',
-    category: 'doors',
-    price: 14200,
-    originalPrice: 17500,
-    rating: 4.7,
-    reviews: 28,
-    image: '/door-4.webp',
-    description: 'Contemporary style door for modern homes.',
-    features: ['Sleek design', 'Easy maintenance', 'Lightweight'],
-    specifications: { material: 'Wood & Glass', dimensions: 'W 90cm x H 210cm', warranty: '3 Years', assembly: 'Installation required' },
-    colors: [{ name: 'Natural', hex: '#d2b48c' }]
-  },
-
-  // --- WINDOWS ---
-  {
-    id: 'window-1',
-    name: 'Sliding Glass Window 1',
-    category: 'windows',
-    price: 8999,
-    originalPrice: 11999,
-    rating: 4.5,
-    reviews: 89,
-    image: '/window-1.webp',
-    description: 'Smooth sliding glass window for optimal ventilation.',
-    features: ['Toughened glass', 'Smooth sliding mechanism', 'Weatherproof'],
-    specifications: { material: 'Aluminum & Glass', dimensions: 'W 120cm x H 120cm', warranty: '5 Years', assembly: 'Installation required' },
-    colors: [{ name: 'White Frame', hex: '#ffffff' }]
-  },
-  {
-    id: 'window-2',
-    name: 'Casement Window 2',
-    category: 'windows',
-    price: 10500,
-    originalPrice: 13000,
-    rating: 4.8,
-    reviews: 54,
-    image: '/window-2.webp',
-    description: 'Elegant casement window offering a full breeze.',
-    features: ['Hinged design', 'Energy efficient', 'Secure locking'],
-    specifications: { material: 'UPVC & Glass', dimensions: 'W 100cm x H 140cm', warranty: '5 Years', assembly: 'Installation required' },
-    colors: [{ name: 'Wood Finish', hex: '#8b5a2b' }]
+    id: 'tvunits-4',
+    name: 'Copenhagen Low Profile Console',
+    images: ['/images/tvunits/view-4.png', '/images/tvunits/view-1.png', '/images/tvunits/view-2.png', '/images/tvunits/view-3.png'],
+    category: 'tvunits',
+    price: 27999,
+    originalPrice: 36999,
+    rating: 4.6,
+    reviews: 38,
+    description: 'Keep your sightlines clean with this ultra-low profile TV console. Perfect for modern, minimalist interiors and large screen setups.',
+    features: [
+      'Ultra-low profile design',
+      'Seamless drawer fronts',
+      'Vibration dampening feet',
+      'Matte easy-clean surface'
+    ],
+    specifications: {
+      material: 'High-Density MDF, Steel Base',
+      dimensions: 'W 150cm x D 40cm x H 35cm',
+      warranty: '2 Years Warranty',
+      assembly: 'Minimal Assembly Required'
+    },
+    colors: [
+      { name: 'Warm Oak', hex: '#8d6e63' }
+    ]
   }
 ];
 
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v2');
+      const stored = localStorage.getItem('efive_products_v7');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -749,7 +403,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v2', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v7', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -761,7 +415,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v2', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v7', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);

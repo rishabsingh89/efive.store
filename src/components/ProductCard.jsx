@@ -41,17 +41,22 @@ export default function ProductCard({ product, onQuickView }) {
   };
 
   return (
-    <div className="product-card" style={styles.card}>
+    <div className="product-card-enhanced">
       {/* Product Image Section */}
       <div 
-        style={{ ...styles.imageSection, cursor: 'pointer' }}
+        className="product-image-container"
+        style={{ cursor: 'pointer' }}
         onClick={() => onQuickView(product)}
       >
         {displayDiscountBadge && (
           <span style={styles.discountBadge}>-{discountPercent}%</span>
         )}
 
-        <ProductSVG category={category} colorHex={previewColor} />
+        {product.images && product.images.length > 0 ? (
+          <img src={product.images[0]} alt={name} />
+        ) : (
+          <ProductSVG category={category} colorHex={previewColor} />
+        )}
       </div>
 
       {/* Product Details */}
@@ -62,13 +67,13 @@ export default function ProductCard({ product, onQuickView }) {
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                size={12}
-                fill={i < Math.floor(rating) ? 'hsl(var(--primary-color))' : 'none'}
-                stroke={i < Math.floor(rating) ? 'hsl(var(--primary-color))' : '#bdbdbd'}
+                size={14}
+                fill={i < Math.floor(rating) ? '#C5A880' : 'none'}
+                stroke={i < Math.floor(rating) ? '#C5A880' : '#E6E2DA'}
               />
             ))}
           </div>
-          <span style={styles.ratingText}>({reviews})</span>
+          <span style={styles.ratingText}>({reviews} reviews)</span>
         </div>
 
         {/* Title */}
@@ -104,7 +109,7 @@ export default function ProductCard({ product, onQuickView }) {
             title="Connect on WhatsApp"
             aria-label={`Connect on WhatsApp for ${name}`}
           >
-            <WhatsAppIcon size={16} />
+            <WhatsAppIcon size={18} />
           </button>
         </div>
       </div>
@@ -113,26 +118,8 @@ export default function ProductCard({ product, onQuickView }) {
 }
 
 const styles = {
-  card: {
-    backgroundColor: '#fff',
-    border: '1px solid hsl(var(--border-color))',
-    borderRadius: 'var(--radius-md)',
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    transition: 'var(--transition-smooth)',
-    position: 'relative',
-    height: '100%',
-  },
-  imageSection: {
-    height: '200px',
-    position: 'relative',
-    overflow: 'hidden',
-    backgroundColor: 'hsl(var(--card-bg))',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // imageSection is now handled in CSS (.product-image-container)
+  // card is also handled in CSS (.product-card-enhanced)
   discountBadge: {
     position: 'absolute',
     top: '0.75rem',
@@ -164,22 +151,23 @@ const styles = {
     gap: '1px',
   },
   ratingText: {
-    fontSize: '0.7rem',
+    fontSize: '0.75rem',
     color: 'hsl(var(--muted-color))',
     fontWeight: 500,
+    marginTop: '2px',
   },
   title: {
-    fontSize: '1rem',
-    fontWeight: 500,
+    fontSize: '1.1rem',
+    fontWeight: 600,
     color: 'hsl(var(--text-color))',
-    marginBottom: '0.5rem',
+    marginBottom: '0.8rem',
     cursor: 'pointer',
     lineHeight: 1.4,
     display: '-webkit-box',
     WebkitLineClamp: 2,
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
-    height: '2.8rem',
+    height: '3.1rem',
     transition: 'color 0.2s ease',
   },
   swatches: {
@@ -188,11 +176,12 @@ const styles = {
     marginBottom: '0.75rem',
   },
   swatchDot: {
-    width: '10px',
-    height: '10px',
+    width: '12px',
+    height: '12px',
     borderRadius: '50%',
     display: 'inline-block',
-    border: '1px solid rgba(0,0,0,0.1)',
+    border: '1px solid rgba(0,0,0,0.15)',
+    boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.1)',
   },
   bottomRow: {
     display: 'flex',
@@ -217,8 +206,8 @@ const styles = {
   },
   // WhatsApp round button replaces cart button
   waBtn: {
-    width: '38px',
-    height: '38px',
+    width: '42px',
+    height: '42px',
     borderRadius: '50%',
     backgroundColor: '#25D366',
     border: 'none',
@@ -227,8 +216,8 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 0.25s ease',
-    boxShadow: '0 2px 10px rgba(37, 211, 102, 0.35)',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)',
     flexShrink: 0,
   },
 };

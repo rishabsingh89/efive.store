@@ -52,6 +52,7 @@ function buildRoomsForBHK(bhkId) {
           y: w.side === 'top' ? 0 : w.side === 'bottom' ? defaults.height : w.y,
           rotation: w.side === 'left' ? 90 : w.side === 'right' ? -90 : w.side === 'bottom' ? 180 : 0,
           color: 'white',
+          elevation: 1.2,
         });
       });
     }
@@ -173,6 +174,7 @@ function reducer(state, action) {
         rotation: rotation,
         roomId,
         color: product.colors?.[0]?.hex || '#d7ccc8',
+        elevation: product.category === 'windows' ? 1.2 : undefined,
       };
       return {
         ...state,

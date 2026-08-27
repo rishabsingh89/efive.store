@@ -24,7 +24,7 @@ function FurnitureModel({ category, w, d, color }) {
   // w = width (X axis), d = depth (Z axis)
   switch (category) {
     case 'doors': {
-      const doorH = 1.25;
+      const doorH = 2.1336; // 7 feet in meters
       const doorD = 0.12;
       let frameColor = '#ffffff';
       let panelColor = '#ffffff';
@@ -88,7 +88,7 @@ function FurnitureModel({ category, w, d, color }) {
       const frameColor = color === 'grid' ? '#3e2723' : '#ffffff';
       
       return (
-        <group position={[0, 0.1 + winH/2, 0]}>
+        <group position={[0, Math.max(w, 0.1)/2 + winH/2, 0]}>
           <mesh castShadow receiveShadow>
             <boxGeometry args={[w, winH, winD]} />
             <meshStandardMaterial color={frameColor} roughness={0.7} />

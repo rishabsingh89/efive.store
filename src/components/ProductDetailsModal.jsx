@@ -27,6 +27,7 @@ export default function ProductDetailsModal({ product, onClose }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isContentReady, setIsContentReady] = useState(false);
   const [activeTab, setActiveTab] = useState('features');
+  const [activeImageIdx, setActiveImageIdx] = useState(0);
 
   // Initialize selected color
   useEffect(() => {
@@ -124,12 +125,41 @@ export default function ProductDetailsModal({ product, onClose }) {
                   <div style={styles.discountBadge}>-{discountPercent}%</div>
                 )}
 
-                <div style={styles.svgShowcase}>
-                  <ProductSVG
-                    category={category}
-                    colorHex={selectedColor ? selectedColor.hex : null}
-                  />
-                </div>
+                {product.images && product.images.length > 0 ? (
+                  <>
+                    <div style={{ ...styles.imageShowcase, height: '400px', width: '100%', overflow: 'hidden' }}>
+                      <img 
+                        src={product.images[activeImageIdx]} 
+                        alt={name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    </div>
+                    {product.images.length > 1 && (
+                      <div style={styles.thumbnailGallery}>
+                        {product.images.map((img, idx) => (
+                          <img 
+                            key={idx}
+                            src={img}
+                            alt={`${name} thumbnail ${idx + 1}`}
+                            onClick={() => setActiveImageIdx(idx)}
+                            style={{
+                              ...styles.thumbnailImg,
+                              border: activeImageIdx === idx ? '2px solid #C5A880' : '1px solid transparent',
+                              opacity: activeImageIdx === idx ? 1 : 0.6,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div style={styles.svgShowcase}>
+                    <ProductSVG
+                      category={category}
+                      colorHex={selectedColor ? selectedColor.hex : null}
+                    />
+                  </div>
+                )}
 
                 {/* Color picker at bottom of visual */}
                 {colors?.length > 0 && (
@@ -145,9 +175,8 @@ export default function ProductDetailsModal({ product, onClose }) {
                             style={{
                               ...styles.colorDot,
                               backgroundColor: col.hex,
-                              outline: isSelected ? '2px solid #C5A880' : '2px solid transparent',
-                              outlineOffset: '3px',
-                              transform: isSelected ? 'scale(1.15)' : 'scale(1)',
+                              boxShadow: isSelected ? '0 0 0 2px #fff, 0 0 0 3px #C5A880' : '0 1px 3px rgba(0,0,0,0.1)',
+                              transform: isSelected ? 'scale(1.05)' : 'scale(1)',
                             }}
                             title={col.name}
                             aria-label={`Select color ${col.name}`}
@@ -418,6 +447,22 @@ const styles = {
     backgroundColor: 'hsl(40, 20%, 94%)',
     position: 'relative',
   },
+  thumbnailGallery: {
+    display: 'flex',
+    gap: '0.75rem',
+    padding: '1rem',
+    overflowX: 'auto',
+    borderTop: '1px solid #E6E2DA',
+    backgroundColor: '#fff',
+  },
+  thumbnailImg: {
+    width: '60px',
+    height: '60px',
+    objectFit: 'cover',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  },
   colorPreviewBar: {
     display: 'flex',
     alignItems: 'center',
@@ -514,9 +559,10 @@ const styles = {
   },
   currentPrice: {
     fontSize: '1.85rem',
-    fontWeight: 700,
-    color: '#1E1D1B',
+    fontWeight: 500, // Lighter, not bold
+    color: '#C5A880', // Primary color
     fontFamily: 'var(--font-heading)',
+    transition: 'color 0.25s ease',
   },
   originalPrice: {
     fontSize: '1.1rem',
