@@ -303,86 +303,10 @@ export const products = [
       assembly: 'Wall Mounting & Installation Included'
     },
     colors: [
-      { name: 'Natural Walnut', hex: '#5d4037' },
-      { name: 'Ebony Ash', hex: '#212121' }
-    ]
-  },
-  {
-    id: 'tvunits-2',
-    name: 'Oslo Minimalist Media Unit',
-    images: ['/images/tvunits/view-2.png', '/images/tvunits/view-3.png', '/images/tvunits/view-4.png', '/images/tvunits/view-1.png'],
-    category: 'tvunits',
-    price: 29499,
-    originalPrice: 38999,
-    rating: 4.8,
-    reviews: 42,
-    description: 'A sleek and modern media console that perfectly balances open shelving with closed storage. Designed for modern entertainment systems.',
-    features: [
-      'Sturdy industrial metal framing',
-      'Cable management system',
-      'Adjustable shelving',
-      'Scratch-resistant finish'
-    ],
-    specifications: {
-      material: 'Engineered Wood, Powder Coated Steel',
-      dimensions: 'W 180cm x D 40cm x H 45cm',
-      warranty: '3 Years Warranty',
-      assembly: 'Professional Assembly Provided'
-    },
-    colors: [
-      { name: 'Matte Black', hex: '#212121' }
-    ]
-  },
-  {
-    id: 'tvunits-3',
-    name: 'Stockholm Entertainment Center',
-    images: ['/images/tvunits/view-3.png', '/images/tvunits/view-4.png', '/images/tvunits/view-1.png', '/images/tvunits/view-2.png'],
-    category: 'tvunits',
-    price: 27999,
-    originalPrice: 36999,
-    rating: 4.9,
-    reviews: 115,
-    description: 'Transform your living space with this comprehensive entertainment center. Features extensive storage options and a bold, architectural design.',
-    features: [
-      'Full-wall modular configuration',
-      'Integrated LED backlighting support',
-      'Push-to-open cabinet doors',
-      'Heavy-duty load bearing capacity'
-    ],
-    specifications: {
-      material: 'Solid Wood Veneer, Metal Frame',
-      dimensions: 'W 240cm x D 45cm x H 200cm',
-      warranty: '5 Years Warranty',
-      assembly: 'Professional Installation Included'
-    },
-    colors: [
-      { name: 'Crimson Iron', hex: '#c62828' }
-    ]
-  },
-  {
-    id: 'tvunits-4',
-    name: 'Copenhagen Low Profile Console',
-    images: ['/images/tvunits/view-4.png', '/images/tvunits/view-1.png', '/images/tvunits/view-2.png', '/images/tvunits/view-3.png'],
-    category: 'tvunits',
-    price: 27999,
-    originalPrice: 36999,
-    rating: 4.6,
-    reviews: 38,
-    description: 'Keep your sightlines clean with this ultra-low profile TV console. Perfect for modern, minimalist interiors and large screen setups.',
-    features: [
-      'Ultra-low profile design',
-      'Seamless drawer fronts',
-      'Vibration dampening feet',
-      'Matte easy-clean surface'
-    ],
-    specifications: {
-      material: 'High-Density MDF, Steel Base',
-      dimensions: 'W 150cm x D 40cm x H 35cm',
-      warranty: '2 Years Warranty',
-      assembly: 'Minimal Assembly Required'
-    },
-    colors: [
-      { name: 'Warm Oak', hex: '#8d6e63' }
+      { name: 'Crimson Red', hex: '#c62828', imageIdx: 0, price: 29499, originalPrice: 38999 },
+      { name: 'Sage Green', hex: '#689f38', imageIdx: 1, price: 29499, originalPrice: 38999 },
+      { name: 'Matte Black', hex: '#212121', imageIdx: 2, price: 27999, originalPrice: 36999 },
+      { name: 'Pure White', hex: '#f5f5f5', imageIdx: 3, price: 27999, originalPrice: 36999 }
     ]
   }
 ];
@@ -390,7 +314,7 @@ export const products = [
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v7');
+      const stored = localStorage.getItem('efive_products_v10');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -403,7 +327,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v7', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v10', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -415,7 +339,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v7', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v10', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);

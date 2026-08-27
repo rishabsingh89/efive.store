@@ -61,8 +61,11 @@ export default function ProductDetailsModal({ product, onClose }) {
 
   const { name, id, category, price, originalPrice, rating, reviews, description, features, specifications, colors } = product;
 
-  const discountPercent = originalPrice
-    ? Math.round(((originalPrice - price) / originalPrice) * 100)
+  const displayPrice = selectedColor?.price || price;
+  const displayOriginalPrice = selectedColor?.originalPrice || originalPrice;
+
+  const discountPercent = displayOriginalPrice
+    ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100)
     : 0;
 
   const handleClose = () => {
@@ -75,7 +78,7 @@ export default function ProductDetailsModal({ product, onClose }) {
     openWhatsApp({
       productName: name,
       productId: id,
-      price,
+      price: displayPrice,
       colorName: selectedColor?.name,
     });
   };
@@ -171,7 +174,12 @@ export default function ProductDetailsModal({ product, onClose }) {
                         return (
                           <button
                             key={idx}
-                            onClick={() => setSelectedColor(col)}
+                            onClick={() => {
+                              setSelectedColor(col);
+                              if (typeof col.imageIdx === 'number') {
+                                setActiveImageIdx(col.imageIdx);
+                              }
+                            }}
                             style={{
                               ...styles.colorDot,
                               backgroundColor: col.hex,
@@ -220,9 +228,9 @@ export default function ProductDetailsModal({ product, onClose }) {
               {/* Price */}
               <div style={styles.priceSection}>
                 <div style={styles.priceRow}>
-                  <span style={styles.currentPrice}>₹{price.toLocaleString('en-IN')}</span>
-                  {originalPrice && (
-                    <span style={styles.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</span>
+                  <span style={styles.currentPrice}>₹{displayPrice.toLocaleString('en-IN')}</span>
+                  {displayOriginalPrice && (
+                    <span style={styles.originalPrice}>₹{displayOriginalPrice.toLocaleString('en-IN')}</span>
                   )}
                   {discountPercent > 0 && (
                     <span style={styles.saveBadge}>Save {discountPercent}%</span>
@@ -310,7 +318,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                   <div style={styles.waBtnContent}>
                     <span style={styles.waBtnTitle}>Connect on WhatsApp</span>
                     <span style={styles.waBtnSub}>
-                      ₹{price.toLocaleString('en-IN')} • Enquire Now
+                      ₹{displayPrice.toLocaleString('en-IN')} • Enquire Now
                     </span>
                   </div>
                 </button>

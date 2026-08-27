@@ -51,16 +51,9 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
         pointerEvents: isVisible ? 'all' : 'none',
       }}
     >
-      {/* Background Layer with Category Image */}
+      {/* Background Layer */}
       <div style={styles.bgLayer}>
-        <img
-          src={category.image.replace('w=400', 'w=1920').replace('q=80', 'q=40')}
-          alt=""
-          style={{
-            ...styles.bgImage,
-            transform: isVisible ? 'scale(1)' : 'scale(1.1)',
-          }}
-        />
+        <div style={styles.bgSolid} />
         <div style={styles.bgOverlayGradient} />
       </div>
 
@@ -235,13 +228,12 @@ const styles = {
     inset: 0,
     zIndex: 0,
     overflow: 'hidden',
+    backgroundColor: '#1E1D1B',
   },
-  bgImage: {
+  bgSolid: {
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
-    transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-    filter: 'blur(3px) brightness(0.55)',
+    background: 'radial-gradient(circle at top, #2C2A27 0%, #1E1D1B 80%)',
   },
   bgOverlayGradient: {
     position: 'absolute',
@@ -249,10 +241,8 @@ const styles = {
     background: `
       linear-gradient(
         180deg,
-        rgba(30, 29, 27, 0.85) 0%,
-        rgba(30, 29, 27, 0.75) 25%,
-        rgba(30, 29, 27, 0.65) 50%,
-        rgba(30, 29, 27, 0.85) 100%
+        rgba(30, 29, 27, 0.2) 0%,
+        rgba(30, 29, 27, 0.6) 100%
       )
     `,
   },
