@@ -628,7 +628,36 @@ export const products = [
     description: 'High-quality wooden door with elegant design.',
     features: ['Solid wood construction', 'Weather resistant', 'Includes hardware'],
     specifications: { material: 'Wood', dimensions: 'W 90cm x H 210cm', warranty: '5 Years', assembly: 'Installation required' },
-    colors: [{ name: 'Brown', hex: '#8B4513' }]
+    colors: [{ name: 'Brown', hex: '#654321' }]
+  },
+  // --- WINDOWS ---
+  {
+    id: 'window-1',
+    name: 'Modern Sliding Window',
+    category: 'windows',
+    price: 8999,
+    originalPrice: 11999,
+    rating: 4.7,
+    reviews: 28,
+    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400&q=80',
+    description: 'Sleek sliding window with tempered glass.',
+    features: ['Tempered glass', 'Smooth sliding track', 'Soundproof'],
+    specifications: { material: 'Aluminum', dimensions: 'W 120cm x H 100cm', warranty: '2 Years', assembly: 'Installation required' },
+    colors: [{ name: 'White', hex: '#FFFFFF' }]
+  },
+  {
+    id: 'window-2',
+    name: 'Classic Grid Window',
+    category: 'windows',
+    price: 9599,
+    originalPrice: 12999,
+    rating: 4.5,
+    reviews: 15,
+    image: 'https://images.unsplash.com/photo-1542385151-efd9000785a0?w=400&q=80',
+    description: 'Traditional grid window for a classic look.',
+    features: ['Classic grid design', 'Energy efficient', 'Easy clean'],
+    specifications: { material: 'UPVC', dimensions: 'W 100cm x H 120cm', warranty: '2 Years', assembly: 'Installation required' },
+    colors: [{ name: 'Brown', hex: '#3e2723' }]
   },
   {
     id: 'door-2',

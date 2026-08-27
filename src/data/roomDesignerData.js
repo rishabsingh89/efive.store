@@ -185,11 +185,11 @@ export const WALL_COLORS = [
 
 // ── Floor Types ──────────────────────────────────────────────────────────────
 export const FLOOR_TYPES = [
-  { id: 'wooden',  label: 'Wooden',     color: '#C4A882', pattern: 'repeating-linear-gradient(90deg, #C4A882 0px, #C4A882 30px, #B89970 30px, #B89970 32px)' },
-  { id: 'marble',  label: 'Marble',     color: '#E8E4DE', pattern: 'linear-gradient(135deg, #E8E4DE 25%, #D8D4CE 25%, #D8D4CE 50%, #E8E4DE 50%, #E8E4DE 75%, #D8D4CE 75%)' },
-  { id: 'tiles',   label: 'Tiles',      color: '#E0DDD5', pattern: 'repeating-conic-gradient(#E0DDD5 0% 25%, #D5D2CA 0% 50%) 0 0 / 40px 40px' },
-  { id: 'carpet',  label: 'Carpet',     color: '#B8AFA0', pattern: 'none' },
-  { id: 'concrete', label: 'Concrete',  color: '#CFCBC3', pattern: 'none' },
+  { id: 'wooden',  label: 'Wooden',     color: '#C4A882', pattern: 'repeating-linear-gradient(90deg, #C4A882 0px, #C4A882 30px, #B89970 30px, #B89970 32px)', textureUrl: '/textures/wood.jpg', textureScale: [3.0, 3.0] },
+  { id: 'marble',  label: 'Marble',     color: '#E8E4DE', pattern: 'linear-gradient(135deg, #E8E4DE 25%, #D8D4CE 25%, #D8D4CE 50%, #E8E4DE 50%, #E8E4DE 75%, #D8D4CE 75%)', textureUrl: '/textures/marble.jpg', textureScale: [3.0, 3.0] },
+  { id: 'tiles',   label: 'Tiles',      color: '#E0DDD5', pattern: 'repeating-conic-gradient(#E0DDD5 0% 25%, #D5D2CA 0% 50%) 0 0 / 40px 40px', textureUrl: '/textures/tiles.jpg', textureScale: [3.0, 3.0] },
+  { id: 'carpet',  label: 'Carpet',     color: '#B8AFA0', pattern: 'none', textureUrl: '/textures/carpet.jpg', textureScale: [3.0, 3.0] },
+  { id: 'concrete', label: 'Concrete',  color: '#CFCBC3', pattern: 'none', textureUrl: '/textures/concrete.jpg', textureScale: [3.0, 3.0] },
 ];
 
 // ── Ceiling Colors ───────────────────────────────────────────────────────────

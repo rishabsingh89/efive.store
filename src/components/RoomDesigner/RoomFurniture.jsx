@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import * as THREE from 'three';
 import { Html, PivotControls } from '@react-three/drei';
+import { Select } from '@react-three/postprocessing';
 import { useThree } from '@react-three/fiber';
 import { useRoomDesigner } from './RoomDesignerContext';
-import * as THREE from 'three';
 
 const MODEL_HEIGHTS = {
   beds: 1.0,
@@ -22,6 +23,100 @@ const MODEL_HEIGHTS = {
 function FurnitureModel({ category, w, d, color }) {
   // w = width (X axis), d = depth (Z axis)
   switch (category) {
+    case 'doors': {
+      const doorH = 1.25;
+      const doorD = 0.12;
+      let frameColor = '#ffffff';
+      let panelColor = '#ffffff';
+      let handleColor = '#b0bec5'; 
+      let isGlassPanel = false;
+      
+      if (color === 'wooden' || color === '#4e342e') {
+        frameColor = '#4e342e'; 
+        panelColor = '#5d4037';
+        handleColor = '#ffd54f'; 
+      } else if (color === 'glass' || color === '#212121') {
+        frameColor = '#212121'; 
+        panelColor = '#212121';
+        isGlassPanel = true;
+      }
+      
+      return (
+        <group>
+          {/* Door Casing / Frame */}
+          <mesh position={[0, doorH / 2, 0]} castShadow receiveShadow>
+            <boxGeometry args={[w, doorH, doorD]} />
+            <meshStandardMaterial color={frameColor} roughness={0.7} />
+          </mesh>
+          
+          {/* Door Leaf / Panel */}
+          {isGlassPanel ? (
+            <group>
+              <mesh position={[0, doorH / 2, 0]} castShadow>
+                <boxGeometry args={[w - 0.08, doorH - 0.08, 0.03]} />
+                <meshStandardMaterial color={panelColor} roughness={0.8} />
+              </mesh>
+              <mesh position={[0, doorH / 2, 0.005]}>
+                <boxGeometry args={[w - 0.16, doorH - 0.16, 0.02]} />
+                <meshStandardMaterial color="#80deea" transparent opacity={0.3} roughness={0.1} metalness={0.9} />
+              </mesh>
+            </group>
+          ) : (
+            <mesh position={[0, doorH / 2, 0]} castShadow receiveShadow>
+              <boxGeometry args={[w - 0.04, doorH - 0.02, 0.04]} />
+              <meshStandardMaterial color={panelColor} roughness={0.6} />
+            </mesh>
+          )}
+
+          {/* Door Handle */}
+          <group position={[w / 2 - 0.09, doorH / 2, 0.03]}>
+            <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
+              <cylinderGeometry args={[0.015, 0.015, 0.01, 8]} />
+              <meshStandardMaterial color={handleColor} metalness={0.9} roughness={0.1} />
+            </mesh>
+            <mesh position={[0.035, 0, 0.01]} castShadow>
+              <boxGeometry args={[0.07, 0.015, 0.015]} />
+              <meshStandardMaterial color={handleColor} metalness={0.9} roughness={0.1} />
+            </mesh>
+          </group>
+        </group>
+      );
+    }
+    case 'windows': {
+      const winH = 0.6;
+      const winD = 0.12;
+      const frameColor = color === 'grid' ? '#3e2723' : '#ffffff';
+      
+      return (
+        <group position={[0, 0.1 + winH/2, 0]}>
+          <mesh castShadow receiveShadow>
+            <boxGeometry args={[w, winH, winD]} />
+            <meshStandardMaterial color={frameColor} roughness={0.7} />
+          </mesh>
+          <mesh>
+            <boxGeometry args={[w - 0.1, winH - 0.1, 0.02]} />
+            <meshStandardMaterial color="#80deea" transparent opacity={0.35} roughness={0.1} metalness={0.9} />
+          </mesh>
+          {color === 'grid' ? (
+            <group>
+              <mesh position={[0, 0, 0.01]}>
+                <boxGeometry args={[0.02, winH - 0.1, 0.02]} />
+                <meshBasicMaterial color={frameColor} />
+              </mesh>
+              <mesh position={[0, 0, 0.01]}>
+                <boxGeometry args={[w - 0.1, 0.02, 0.02]} />
+                <meshBasicMaterial color={frameColor} />
+              </mesh>
+            </group>
+          ) : (
+            <mesh position={[0, 0, 0.01]}>
+              <boxGeometry args={[0.04, winH - 0.1, 0.02]} />
+              <meshBasicMaterial color={frameColor} />
+            </mesh>
+          )}
+        </group>
+      );
+    }
     case 'beds': {
       const baseH = 0.25;
       const headH = 1.0;
@@ -317,9 +412,15 @@ function FurnitureModel({ category, w, d, color }) {
   }
 }
 
-export default function RoomFurniture({ item, roomW, roomD }) {
+export default function RoomFurniture({ item, roomW, roomD, setOrbitEnabled }) {
   const { state, dispatch } = useRoomDesigner();
   const isSelected = state.selectedFurnitureId === item.id;
+  const { camera, pointer } = useThree();
+  const [active, setActive] = React.useState(false);
+  const raycaster = React.useMemo(() => new THREE.Raycaster(), []);
+  
+  // Ref for stable drag plane
+  const dragPlaneRef = React.useRef(new THREE.Plane());
 
   // Coordinates
   const x3 = (item.x / 100) - (roomW / 2);
@@ -332,62 +433,119 @@ export default function RoomFurniture({ item, roomW, roomD }) {
   
   const modelH = MODEL_HEIGHTS[item.category] || 0.7;
 
+  const y3 = item.elevation !== undefined ? item.elevation : cutOutHeight / 2;
+
+  // Helper to find intersection with the inside of the room box
+  const getInteriorIntersection = (ray, boxMin, boxMax) => {
+    let tmin = -Infinity;
+    let tmax = Infinity;
+    const invDir = new THREE.Vector3(1 / ray.direction.x, 1 / ray.direction.y, 1 / ray.direction.z);
+    
+    for (let i = 0; i < 3; i++) {
+      const axis = i === 0 ? 'x' : i === 1 ? 'y' : 'z';
+      let t1 = (boxMin[axis] - ray.origin[axis]) * invDir[axis];
+      let t2 = (boxMax[axis] - ray.origin[axis]) * invDir[axis];
+      if (t1 > t2) {
+        const temp = t1; t1 = t2; t2 = temp;
+      }
+      tmin = Math.max(tmin, t1);
+      tmax = Math.min(tmax, t2);
+    }
+    if (tmax >= Math.max(0, tmin)) {
+      return ray.origin.clone().add(ray.direction.clone().multiplyScalar(tmax));
+    }
+    return null;
+  };
+
   return (
-    <PivotControls
-      activeAxes={[true, false, true]}
-      translationLimits={[
-        [-(roomW / 2) + w3 / 2, (roomW / 2) - w3 / 2],
-        [0, 0],
-        [-(roomD / 2) + h3 / 2, (roomD / 2) - h3 / 2]
-      ]}
-      onDrag={(local) => {
-        const position = new THREE.Vector3();
-        position.setFromMatrixPosition(local);
-        
-        const newX = (position.x + roomW / 2) * 100;
-        const newY = (position.z + roomD / 2) * 100;
-
-        dispatch({ type: 'MOVE_FURNITURE', payload: { id: item.id, x: newX, y: newY } });
+    <group 
+      position={[x3, y3, z3]} 
+      rotation={[0, -rotationY, 0]}
+      onClick={(e) => {
+        e.stopPropagation();
+        dispatch({ type: 'SELECT_FURNITURE', payload: item.id });
       }}
-      visible={isSelected}
-      disableAxes={!isSelected}
-      disableSliders={!isSelected}
-      depthTest={false}
-      lineWidth={2}
-      axisColors={['#ff4b4b', '#4CAF50', '#2196F3']}
-    >
-      <group 
-        position={[x3, cutOutHeight / 2, z3]} 
-        rotation={[0, -rotationY, 0]}
-        onClick={(e) => {
+      onPointerDown={(e) => {
+        e.stopPropagation();
+        setActive(true);
+        if (setOrbitEnabled) setOrbitEnabled(false);
+        e.target.setPointerCapture(e.pointerId);
+        dispatch({ type: 'SELECT_FURNITURE', payload: item.id });
+      }}
+      onPointerMove={(e) => {
+        if (active) {
           e.stopPropagation();
-          dispatch({ type: 'SELECT_FURNITURE', payload: item.id });
-        }}
-      >
-        <group position={[0, -cutOutHeight / 2, 0]}>
-          {/* Custom 3D Model */}
-          <FurnitureModel category={item.category} w={w3} d={h3} color={item.color || '#d7ccc8'} />
+          raycaster.setFromCamera(pointer, camera);
           
-          {isSelected && (
-            <>
-              {/* Outline Highlight Box */}
-              <mesh position={[0, modelH / 2, 0]}>
-                <boxGeometry args={[w3 + 0.04, modelH + 0.04, h3 + 0.04]} />
-                <meshBasicMaterial color="#FFD700" wireframe transparent opacity={0.7} />
-              </mesh>
+          const hw = roomW / 2;
+          const hd = roomD / 2;
+          const boxMin = new THREE.Vector3(-hw + w3 / 2, cutOutHeight / 2, -hd + h3 / 2);
+          const boxMax = new THREE.Vector3(hw - w3 / 2, 3.048 - cutOutHeight / 2, hd - h3 / 2);
+          
+          const target = getInteriorIntersection(raycaster.ray, boxMin, boxMax);
+          
+          if (target) {
+            const newX = target.x;
+            const newY = target.y;
+            const newZ = target.z;
+            
+            // Clamp X/Z/Y to bounds so the center never leaves the shrunk box
+            const clampedX = Math.max(boxMin.x, Math.min(boxMax.x, newX));
+            let clampedY = Math.max(boxMin.y, Math.min(boxMax.y, newY));
+            const clampedZ = Math.max(boxMin.z, Math.min(boxMax.z, newZ));
 
-              {/* Clean Minimal Floating Tooltip above the item */}
-              <Html position={[0, modelH + 0.25, 0]} distanceFactor={4} style={{ pointerEvents: 'none' }}>
-                <div style={styles.floatingTooltip}>
-                  <span style={styles.floatingName}>{item.name.slice(0, 16)}</span>
-                  <span style={styles.floatingPrice}>₹{item.price.toLocaleString('en-IN')}</span>
-                </div>
-              </Html>
-            </>
-          )}
-        </group>
+            // Lock floor items to the floor
+            const floorItems = ['doors', 'beds', 'sofa', 'recliners', 'tables', 'dining', 'study', 'chairs', 'wardrobes', 'dressers', 'kitchen'];
+            if (floorItems.includes(item.category)) {
+              clampedY = boxMin.y;
+            }
+
+            dispatch({ 
+              type: 'MOVE_FURNITURE', 
+              payload: { 
+                id: item.id, 
+                x: (clampedX + hw) * 100, 
+                y: (clampedZ + hd) * 100,
+                elevation: clampedY
+              } 
+            });
+          }
+        }
+      }}
+      onPointerUp={(e) => {
+        setActive(false);
+        if (setOrbitEnabled) setOrbitEnabled(true);
+        e.target.releasePointerCapture(e.pointerId);
+      }}
+      onPointerOver={(e) => {
+        e.stopPropagation();
+        document.body.style.cursor = active ? 'grabbing' : 'grab';
+      }}
+      onPointerOut={(e) => {
+        if (!active) {
+          document.body.style.cursor = 'auto';
+        }
+      }}
+    >
+      <group position={[0, -cutOutHeight / 2, 0]}>
+        {/* Custom 3D Model */}
+        <Select enabled={isSelected}>
+          <FurnitureModel category={item.category} w={w3} d={h3} color={item.color || '#d7ccc8'} />
+        </Select>
+        
+        {isSelected && (
+          <>
+            {/* Clean Minimal Floating Tooltip above the item */}
+            <Html position={[0, modelH + 0.25, 0]} distanceFactor={4} style={{ pointerEvents: 'none' }}>
+              <div style={styles.floatingTooltip}>
+                <span style={styles.floatingName}>{item.name.slice(0, 16)}</span>
+                <span style={styles.floatingPrice}>₹{item.price.toLocaleString('en-IN')}</span>
+              </div>
+            </Html>
+          </>
+        )}
       </group>
-    </PivotControls>
+    </group>
   );
 }
 

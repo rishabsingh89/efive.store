@@ -1,7 +1,8 @@
 import React, { Suspense, useState, useRef, useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { OrbitControls, Grid, Environment, Html } from '@react-three/drei';
+import { OrbitControls, Grid, Environment, Html, useTexture, ContactShadows } from '@react-three/drei';
+import { Selection, EffectComposer, Outline } from '@react-three/postprocessing';
 import { useRoomDesigner } from './RoomDesignerContext';
 import { ROOM_TYPE_DEFAULTS, FLOOR_TYPES } from '../../data/roomDesignerData';
 import { getProducts } from '../../data/products';
@@ -27,118 +28,10 @@ const MODEL_HEIGHTS = {
   decor: 0.7,
 };
 
-const WALL_H = 1.4;
+const WALL_H = 3.048;
 const WALL_T = 0.1;
 
-// 3D Window Component
-function Window3D({ w, style }) {
-  const winH = 0.6;
-  const winD = 0.12;
-  const frameColor = style === 'grid' ? '#3e2723' : '#ffffff';
-  
-  return (
-    <group>
-      {/* Outer Window Frame */}
-      <mesh castShadow receiveShadow>
-        <boxGeometry args={[w, winH, winD]} />
-        <meshStandardMaterial color={frameColor} roughness={0.7} />
-      </mesh>
-      {/* Glass Pane */}
-      <mesh>
-        <boxGeometry args={[w - 0.1, winH - 0.1, 0.02]} />
-        <meshStandardMaterial color="#80deea" transparent opacity={0.35} roughness={0.1} metalness={0.9} />
-      </mesh>
-      {/* Frame Grids */}
-      {style === 'grid' ? (
-        <group>
-          {/* Vertical Grid Bar */}
-          <mesh position={[0, 0, 0.01]}>
-            <boxGeometry args={[0.02, winH - 0.1, 0.02]} />
-            <meshBasicMaterial color={frameColor} />
-          </mesh>
-          {/* Horizontal Grid Bar */}
-          <mesh position={[0, 0, 0.01]}>
-            <boxGeometry args={[w - 0.1, 0.02, 0.02]} />
-            <meshBasicMaterial color={frameColor} />
-          </mesh>
-        </group>
-      ) : (
-        /* Sliding center bar */
-        <mesh position={[0, 0, 0.01]}>
-          <boxGeometry args={[0.04, winH - 0.1, 0.02]} />
-          <meshBasicMaterial color={frameColor} />
-        </mesh>
-      )}
-    </group>
-  );
-}
 
-// 3D Door Component
-function Door3D({ w, style }) {
-  const doorH = 1.25;
-  const doorD = 0.12;
-  
-  let frameColor = '#ffffff';
-  let panelColor = '#ffffff';
-  let handleColor = '#b0bec5'; 
-  let isGlassPanel = false;
-  
-  if (style === 'wooden') {
-    frameColor = '#4e342e'; 
-    panelColor = '#5d4037';
-    handleColor = '#ffd54f'; 
-  } else if (style === 'glass') {
-    frameColor = '#212121'; 
-    panelColor = '#212121';
-    isGlassPanel = true;
-  }
-  
-  return (
-    <group>
-      {/* Door Casing / Frame */}
-      <mesh position={[0, doorH / 2, 0]} castShadow receiveShadow>
-        <boxGeometry args={[w, doorH, doorD]} />
-        <meshStandardMaterial color={frameColor} roughness={0.7} />
-      </mesh>
-      
-      {/* Door Leaf / Panel */}
-      {isGlassPanel ? (
-        <group>
-          {/* Metal rim */}
-          <mesh position={[0, doorH / 2, 0]} castShadow>
-            <boxGeometry args={[w - 0.08, doorH - 0.08, 0.03]} />
-            <meshStandardMaterial color={panelColor} roughness={0.8} />
-          </mesh>
-          {/* Glass Pane */}
-          <mesh position={[0, doorH / 2, 0.005]}>
-            <boxGeometry args={[w - 0.16, doorH - 0.16, 0.02]} />
-            <meshStandardMaterial color="#80deea" transparent opacity={0.3} roughness={0.1} metalness={0.9} />
-          </mesh>
-        </group>
-      ) : (
-        /* Solid Panel */
-        <mesh position={[0, doorH / 2, 0]} castShadow receiveShadow>
-          <boxGeometry args={[w - 0.04, doorH - 0.02, 0.04]} />
-          <meshStandardMaterial color={panelColor} roughness={0.6} />
-        </mesh>
-      )}
-
-      {/* Door Handle */}
-      <group position={[w / 2 - 0.09, doorH / 2, 0.03]}>
-        {/* Handle Knob Lock */}
-        <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
-          <cylinderGeometry args={[0.015, 0.015, 0.01, 8]} />
-          <meshStandardMaterial color={handleColor} metalness={0.9} roughness={0.1} />
-        </mesh>
-        {/* Handle Lever */}
-        <mesh position={[0.035, 0, 0.01]} castShadow>
-          <boxGeometry args={[0.07, 0.015, 0.015]} />
-          <meshStandardMaterial color={handleColor} metalness={0.9} roughness={0.1} />
-        </mesh>
-      </group>
-    </group>
-  );
-}
 
 // Camera Controller inside Canvas
 function CameraController({ mode, controlsRef }) {
@@ -264,43 +157,12 @@ function DynamicWall({ p1, p2, tag, color, defaults, doorStyle, windowStyle }) {
     const dot = normal.dot(toCamera);
     meshRef.current.visible = dot > -0.15; 
   });
-
-  // Windows and Doors assigned to this segment
-  // Find items whose side matches the tag, or if tag contains the side (fallback)
-  const sideWindows = defaults?.windows?.filter(w => tag === w.side || (tag.includes(w.side) && !tag.includes('inner') && !tag.includes('notch'))) || [];
-  const sideDoors = defaults?.doors?.filter(d => tag === d.side || (tag.includes(d.side) && !tag.includes('inner') && !tag.includes('notch'))) || [];
-
   return (
     <group ref={meshRef} position={[cx, WALL_H / 2, cz]} rotation={[0, angle, 0]}>
       <mesh receiveShadow>
         <boxGeometry args={[length + WALL_T, WALL_H, WALL_T]} />
-        <meshStandardMaterial color={color} roughness={0.8} />
+        <meshStandardMaterial color={color} roughness={1.0} />
       </mesh>
-
-      {/* Windows */}
-      {sideWindows.map((win, idx) => {
-        const w3 = win.w / 100;
-        // Distribute them evenly along the wall if there are multiple
-        const spacing = length / (sideWindows.length + 1);
-        const localX = -length / 2 + spacing * (idx + 1);
-        return (
-          <group key={`win-${idx}`} position={[localX, 0.1, 0]}>
-            <Window3D w={w3} style={windowStyle} />
-          </group>
-        );
-      })}
-
-      {/* Doors */}
-      {sideDoors.map((dr, idx) => {
-        const w3 = dr.w / 100;
-        const spacing = length / (sideDoors.length + 1);
-        const localX = -length / 2 + spacing * (idx + 1);
-        return (
-          <group key={`dr-${idx}`} position={[localX, -WALL_H / 2, 0]}>
-            <Door3D w={w3} style={doorStyle} />
-          </group>
-        );
-      })}
     </group>
   );
 }
@@ -424,6 +286,51 @@ const ftInToM = (ft, inc) => {
   const totalInches = (ft * 12) + inc;
   return totalInches / 39.3701;
 };
+
+function Floor3D({ shape, floorInfo, roomW, roomD }) {
+  const texture = useTexture(floorInfo.textureUrl);
+  
+  useMemo(() => {
+    if (texture) {
+      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      const repeatX = (roomW || 1) / (floorInfo.textureScale[0] || 1);
+      const repeatY = (roomD || 1) / (floorInfo.textureScale[1] || 1);
+      texture.repeat.set(repeatX, repeatY);
+      texture.needsUpdate = true;
+    }
+  }, [texture, floorInfo.textureScale, roomW, roomD]);
+
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.005, 0]} receiveShadow>
+      <shapeGeometry args={[shape]} />
+      <meshStandardMaterial 
+        color={floorInfo.color} 
+        roughness={0.7}
+        map={texture}
+      />
+    </mesh>
+  );
+}
+
+function FloorWrapper({ shape, floorInfo, roomW, roomD }) {
+  return (
+    <Suspense fallback={
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.005, 0]} receiveShadow>
+        <shapeGeometry args={[shape]} />
+        <meshStandardMaterial color={floorInfo.color} roughness={0.5} />
+      </mesh>
+    }>
+      {floorInfo.textureUrl ? (
+        <Floor3D shape={shape} floorInfo={floorInfo} roomW={roomW} roomD={roomD} />
+      ) : (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.005, 0]} receiveShadow>
+          <shapeGeometry args={[shape]} />
+          <meshStandardMaterial color={floorInfo.color} roughness={0.5} />
+        </mesh>
+      )}
+    </Suspense>
+  );
+}
 
 function DimInput({ value, onChange, min, max, style }) {
   const [localVal, setLocalVal] = useState(value.toString());
@@ -598,178 +505,176 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
   return (
     <div style={styles.canvasOuter} onDragOver={handleDragOver} onDrop={handleDrop} ref={canvasRef}>
       <Canvas shadows camera={{ position: [0, 4, 6], fov: 45 }} onPointerMissed={handlePointerMissed}>
-        <ambientLight intensity={spotlightsEnabled ? 0.4 : 0.65} />
-        <directionalLight position={[6, 12, 6]} intensity={spotlightsEnabled ? 0.6 : 1.0} castShadow shadow-mapSize={[1024, 1024]} />
-        <Environment preset="city" />
+        <ambientLight intensity={spotlightsEnabled ? 0.4 : 0.8} />
+        <directionalLight position={[10, 15, 10]} intensity={spotlightsEnabled ? 0.6 : 1.2} castShadow shadow-mapSize={[2048, 2048]} shadow-bias={-0.0005} />
+        <Environment preset="apartment" />
+        <ContactShadows resolution={1024} scale={20} blur={2} opacity={0.4} far={10} color="#000000" />
 
-        {/* Camera management */}
-        <CameraController mode={viewMode} controlsRef={controlsRef} />
+        <Selection>
+          <EffectComposer autoClear={false}>
+            <Outline blur visibleEdgeColor="#FFD700" edgeStrength={10} width={1000} />
+          </EffectComposer>
 
-        {/* Floor */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.005, 0]} receiveShadow>
-          <shapeGeometry args={[floorShape]} />
-          <meshStandardMaterial color={floorInfo.color} roughness={0.5} />
-        </mesh>
-        
-        {/* Floor Grid */}
-        <Grid 
-          infiniteGrid 
-          fadeDistance={18} 
-          sectionColor="#B89970"
-          cellColor="#D6CEC2"
-          position={[0, 0, 0]} 
-        />
+          {/* Camera management */}
+          <CameraController mode={viewMode} controlsRef={controlsRef} />
 
-        {/* Dimension Lines (only show in top view) */}
-        {viewMode === 'top' && (
-          <group position={[0, 0.02, 0]}>
-          {segments.map((seg, i) => {
-            const dx = seg.p2[0] - seg.p1[0];
-            const dz = seg.p2[1] - seg.p1[1];
-            const length = Math.sqrt(dx * dx + dz * dz);
-            const cx = (seg.p1[0] + seg.p2[0]) / 2;
-            const cz = (seg.p1[1] + seg.p2[1]) / 2;
-            const angle = Math.atan2(-dz, dx);
-            
-            const totalInches = length * 39.3701;
-            const feet = Math.floor(totalInches / 12);
-            const inches = Math.round(totalInches % 12);
-            const dimText = `${feet}' ${inches}"`;
+          {/* Floor */}
+          <FloorWrapper shape={floorShape} floorInfo={floorInfo} roomW={ROOM_W} roomD={ROOM_D} />
 
-            // Outward normal
-            const nx = dz / length;
-            const nz = -dx / length;
-            const offset = (WALL_T / 2) + 0.15; // slightly outside the wall
-            
-            const lx = cx + nx * offset;
-            const lz = cz + nz * offset;
+          {/* Floor Grid (Removed for seamless background) */}
+          {/* Dimension Lines (only show in top view) */}
+          {viewMode === 'top' && (
+            <group position={[0, 0.02, 0]}>
+            {segments.map((seg, i) => {
+              const dx = seg.p2[0] - seg.p1[0];
+              const dz = seg.p2[1] - seg.p1[1];
+              const length = Math.sqrt(dx * dx + dz * dz);
+              const cx = (seg.p1[0] + seg.p2[0]) / 2;
+              const cz = (seg.p1[1] + seg.p2[1]) / 2;
+              const angle = Math.atan2(-dz, dx);
+              
+              const totalInches = length * 39.3701;
+              const feet = Math.floor(totalInches / 12);
+              const inches = Math.round(totalInches % 12);
+              const dimText = `${feet}' ${inches}"`;
 
-            return (
-              <group key={`dim-${i}`} position={[lx, 0, lz]} rotation={[0, angle, 0]}>
-                <mesh receiveShadow>
-                  <boxGeometry args={[length, 0.01, 0.01]} />
-                  <meshBasicMaterial color="#555" />
-                </mesh>
-                <mesh position={[-length/2, 0, 0]} receiveShadow>
-                  <boxGeometry args={[0.01, 0.01, 0.1]} />
-                  <meshBasicMaterial color="#555" />
-                </mesh>
-                <mesh position={[length/2, 0, 0]} receiveShadow>
-                  <boxGeometry args={[0.01, 0.01, 0.1]} />
-                  <meshBasicMaterial color="#555" />
-                </mesh>
-                <Html center>
-                  <div style={{
-                    color: '#555',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    backgroundColor: 'rgba(245,242,236,0.85)',
-                    padding: '2px 4px',
-                    borderRadius: '4px',
-                    pointerEvents: 'none',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {dimText}
+              // Outward normal
+              const nx = dz / length;
+              const nz = -dx / length;
+              const offset = (WALL_T / 2) + 0.15; // slightly outside the wall
+              
+              const lx = cx + nx * offset;
+              const lz = cz + nz * offset;
+
+              return (
+                <group key={`dim-${i}`} position={[lx, 0, lz]} rotation={[0, angle, 0]}>
+                  <mesh receiveShadow>
+                    <boxGeometry args={[length, 0.01, 0.01]} />
+                    <meshBasicMaterial color="#555" />
+                  </mesh>
+                  <mesh position={[-length/2, 0, 0]} receiveShadow>
+                    <boxGeometry args={[0.01, 0.01, 0.1]} />
+                    <meshBasicMaterial color="#555" />
+                  </mesh>
+                  <mesh position={[length/2, 0, 0]} receiveShadow>
+                    <boxGeometry args={[0.01, 0.01, 0.1]} />
+                    <meshBasicMaterial color="#555" />
+                  </mesh>
+                  <Html center>
+                    <div style={{
+                      color: '#555',
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      backgroundColor: 'rgba(245,242,236,0.85)',
+                      padding: '2px 4px',
+                      borderRadius: '4px',
+                      pointerEvents: 'none',
+                      whiteSpace: 'nowrap'
+                    }}>
+                      {dimText}
+                    </div>
+                  </Html>
+                </group>
+              )
+            })}
+          </group>
+          )}
+
+          {/* Dynamic Ceiling with Spotlights */}
+          <Ceiling w={ROOM_W} d={ROOM_D} color={room.ceilingColor} lightsEnabled={spotlightsEnabled} shape={floorShape} />
+
+          {/* Dynamic Auto-hiding walls containing doors/windows */}
+          <group>
+            {segments.map((seg, i) => (
+              <DynamicWall 
+                key={i}
+                p1={seg.p1}
+                p2={seg.p2}
+                tag={seg.tag}
+                color={room.wallColor}
+                defaults={defaults}
+                doorStyle={doorStyle}
+                windowStyle={windowStyle}
+              />
+            ))}
+          </group>
+
+          {/* Drag handles for dimension editing */}
+          {isDimensionEditing && segments.map((seg, i) => (
+            <DragHandle3D 
+              key={`handle-${i}`} 
+              tag={seg.tag} 
+              w={ROOM_W} 
+              d={ROOM_D} 
+              onResize={handleResize}
+              setOrbitEnabled={setOrbitEnabled}
+            />
+          ))}
+
+          {/* Furniture objects */}
+          <Suspense fallback={null}>
+            {room.furniture.map((item) => (
+              <RoomFurniture
+                key={item.id}
+                item={item}
+                roomW={ROOM_W}
+                roomD={ROOM_D}
+                setOrbitEnabled={setOrbitEnabled}
+              />
+            ))}
+          </Suspense>
+
+          {/* 3D Floating Popup controls above selected item */}
+          {activeItem && (
+            <Html position={toolbarPos} center distanceFactor={4.5}>
+              <div style={styles.popupToolbar}>
+                {productColors.length > 0 && (
+                  <div style={styles.colorRow}>
+                    {productColors.map((c) => (
+                      <button
+                        key={c.name}
+                        onClick={() => dispatch({
+                          type: 'UPDATE_FURNITURE_PROPERTIES',
+                          payload: { id: activeItem.id, properties: { color: c.hex } }
+                        })}
+                        style={{
+                          ...styles.colorCircle,
+                          backgroundColor: c.hex,
+                          outline: activeItem.color === c.hex ? '2px solid #fff' : 'none',
+                          boxShadow: activeItem.color === c.hex ? '0 0 4px #000' : 'none',
+                        }}
+                        title={c.name}
+                      />
+                      
+                    ))}
                   </div>
-                </Html>
-              </group>
-            )
-          })}
-        </group>
-        )}
-
-        {/* Dynamic Ceiling with Spotlights */}
-        <Ceiling w={ROOM_W} d={ROOM_D} color={room.ceilingColor} lightsEnabled={spotlightsEnabled} shape={floorShape} />
-
-        {/* Dynamic Auto-hiding walls containing doors/windows */}
-        <group>
-          {segments.map((seg, i) => (
-            <DynamicWall 
-              key={i}
-              p1={seg.p1}
-              p2={seg.p2}
-              tag={seg.tag}
-              color={room.wallColor}
-              defaults={defaults}
-              doorStyle={doorStyle}
-              windowStyle={windowStyle}
-            />
-          ))}
-        </group>
-
-        {/* Drag handles for dimension editing */}
-        {isDimensionEditing && segments.map((seg, i) => (
-          <DragHandle3D 
-            key={`handle-${i}`} 
-            tag={seg.tag} 
-            w={ROOM_W} 
-            d={ROOM_D} 
-            onResize={handleResize}
-            setOrbitEnabled={setOrbitEnabled}
-          />
-        ))}
-
-        {/* Furniture objects */}
-        <Suspense fallback={null}>
-          {room.furniture.map((item) => (
-            <RoomFurniture
-              key={item.id}
-              item={item}
-              roomW={ROOM_W}
-              roomD={ROOM_D}
-            />
-          ))}
-        </Suspense>
-
-        {/* 3D Floating Popup controls above selected item */}
-        {activeItem && (
-          <Html position={toolbarPos} center distanceFactor={4.5}>
-            <div style={styles.popupToolbar}>
-              {productColors.length > 0 && (
-                <div style={styles.colorRow}>
-                  {productColors.map((c) => (
-                    <button
-                      key={c.name}
-                      onClick={() => dispatch({
-                        type: 'UPDATE_FURNITURE_PROPERTIES',
-                        payload: { id: activeItem.id, properties: { color: c.hex } }
-                      })}
-                      style={{
-                        ...styles.colorCircle,
-                        backgroundColor: c.hex,
-                        outline: activeItem.color === c.hex ? '2px solid #fff' : 'none',
-                        boxShadow: activeItem.color === c.hex ? '0 0 4px #000' : 'none',
-                      }}
-                      title={c.name}
-                    />
-                  ))}
+                )}
+                <div style={styles.actionBar}>
+                  <button onClick={() => alert(`${activeItem.name} added to cart!`)} style={styles.actionBtn}>
+                    <ShoppingBag size={14} />
+                    <span style={styles.btnLabel}>Add to Bag</span>
+                  </button>
+                  <button onClick={handleRotateActive} style={styles.actionBtn}>
+                    <RotateCw size={14} />
+                    <span style={styles.btnLabel}>Rotate</span>
+                  </button>
+                  <button onClick={handleReplaceActive} style={styles.actionBtn}>
+                    <RefreshCw size={14} />
+                    <span style={styles.btnLabel}>Replace</span>
+                  </button>
+                  <button onClick={handleDuplicateActive} style={styles.actionBtn}>
+                    <Copy size={14} />
+                    <span style={styles.btnLabel}>Make copy</span>
+                  </button>
+                  <button onClick={handleRemoveActive} style={{ ...styles.actionBtn, color: '#ff5252' }}>
+                    <Trash2 size={14} />
+                    <span style={styles.btnLabel}>Remove</span>
+                  </button>
                 </div>
-              )}
-              <div style={styles.actionBar}>
-                <button onClick={() => alert(`${activeItem.name} added to cart!`)} style={styles.actionBtn}>
-                  <ShoppingBag size={14} />
-                  <span style={styles.btnLabel}>Add to Bag</span>
-                </button>
-                <button onClick={handleRotateActive} style={styles.actionBtn}>
-                  <RotateCw size={14} />
-                  <span style={styles.btnLabel}>Rotate</span>
-                </button>
-                <button onClick={handleReplaceActive} style={styles.actionBtn}>
-                  <RefreshCw size={14} />
-                  <span style={styles.btnLabel}>Replace</span>
-                </button>
-                <button onClick={handleDuplicateActive} style={styles.actionBtn}>
-                  <Copy size={14} />
-                  <span style={styles.btnLabel}>Make copy</span>
-                </button>
-                <button onClick={handleRemoveActive} style={{ ...styles.actionBtn, color: '#ff5252' }}>
-                  <Trash2 size={14} />
-                  <span style={styles.btnLabel}>Remove</span>
-                </button>
               </div>
-            </div>
-          </Html>
-        )}
+            </Html>
+          )}
+        </Selection>
 
         <OrbitControls 
           ref={controlsRef}
@@ -936,7 +841,7 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
 const styles = {
   canvasOuter: {
     flex: 1,
-    backgroundColor: '#F5F2EC',
+    backgroundColor: '#e0e0e0',
     display: 'flex',
     overflow: 'hidden',
     position: 'relative',

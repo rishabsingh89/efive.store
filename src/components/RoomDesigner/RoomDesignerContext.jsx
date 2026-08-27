@@ -21,10 +21,45 @@ function buildRoomsForBHK(bhkId) {
   const rooms = {};
   config.rooms.forEach((room) => {
     const defaults = ROOM_TYPE_DEFAULTS[room.type] || ROOM_TYPE_DEFAULTS.living;
+    
+    const initialFurniture = [];
+    if (defaults.doors) {
+      defaults.doors.forEach(d => {
+        initialFurniture.push({
+          id: nextFurnitureId(),
+          category: 'doors',
+          name: 'Door',
+          price: 3500,
+          width: d.w,
+          height: 12,
+          x: d.side === 'left' ? 0 : d.side === 'right' ? defaults.width : d.x,
+          y: d.side === 'top' ? 0 : d.side === 'bottom' ? defaults.height : d.y,
+          rotation: d.side === 'left' ? 90 : d.side === 'right' ? -90 : d.side === 'bottom' ? 180 : 0,
+          color: 'wooden',
+        });
+      });
+    }
+    if (defaults.windows) {
+      defaults.windows.forEach(w => {
+        initialFurniture.push({
+          id: nextFurnitureId(),
+          category: 'windows',
+          name: 'Window',
+          price: 4500,
+          width: w.w,
+          height: 12,
+          x: w.side === 'left' ? 0 : w.side === 'right' ? defaults.width : w.x,
+          y: w.side === 'top' ? 0 : w.side === 'bottom' ? defaults.height : w.y,
+          rotation: w.side === 'left' ? 90 : w.side === 'right' ? -90 : w.side === 'bottom' ? 180 : 0,
+          color: 'white',
+        });
+      });
+    }
+
     rooms[room.id] = {
       label: room.label,
       type: room.type,
-      furniture: [],
+      furniture: initialFurniture,
       wallColor: defaults.wallColor,
       floorType: defaults.floorType,
       ceilingColor: defaults.ceilingColor,
@@ -112,10 +147,18 @@ function reducer(state, action) {
       const halfW = defaults.w / 2;
       const halfH = defaults.h / 2;
       
-      const dropXVal = dropX !== undefined ? dropX : 100 + Math.random() * 200;
-      const dropYVal = dropY !== undefined ? dropY : 100 + Math.random() * 150;
-      const clampedX = Math.max(halfW, Math.min(roomW - halfW, dropXVal));
-      const clampedY = Math.max(halfH, Math.min(roomH - halfH, dropYVal));
+      let dropXVal = dropX !== undefined ? dropX : 100 + Math.random() * 200;
+      let dropYVal = dropY !== undefined ? dropY : 100 + Math.random() * 150;
+      let clampedX = Math.max(halfW, Math.min(roomW - halfW, dropXVal));
+      let clampedY = Math.max(halfH, Math.min(roomH - halfH, dropYVal));
+      
+      let rotation = 0;
+
+      // If it's a fixture (door/window), snap it to the top wall by default
+      if (product.category === 'doors' || product.category === 'windows') {
+        clampedY = 0;
+        rotation = 0; // flat against top wall
+      }
 
       const newItem = {
         id: nextFurnitureId(),
@@ -127,7 +170,7 @@ function reducer(state, action) {
         y: clampedY,
         width: defaults.w,
         height: defaults.h,
-        rotation: 0,
+        rotation: rotation,
         roomId,
         color: product.colors?.[0]?.hex || '#d7ccc8',
       };
