@@ -32,8 +32,7 @@ export const products = [
       assembly: 'Professional Assembly Provided'
     },
     colors: [
-      { name: 'Luxury Bronze', hex: '#C5A880' },
-      { name: 'Champagne Gold', hex: '#E8DCC4' }
+      { name: 'Luxury Bronze', hex: '#C5A880' }
     ]
   },
   {
@@ -308,13 +307,42 @@ export const products = [
       { name: 'Matte Black', hex: '#212121', imageIdx: 2, price: 27999, originalPrice: 36999 },
       { name: 'Pure White', hex: '#f5f5f5', imageIdx: 3, price: 27999, originalPrice: 36999 }
     ]
+  },
+  {
+    id: 'tvunits-3',
+    name: 'Modular Display TV Console',
+    images: ['/view-1 (1).png', '/view-2 (1).png', '/view-3 (1).png', '/view-4 (2).png'],
+    category: 'tvunits',
+    price: 34999,
+    originalPrice: 45999,
+    rating: 4.8,
+    reviews: 42,
+    description: 'An elegant modular TV console featuring multiple distinct finish options, spacious shelving, and modern minimalist design.',
+    features: [
+      'Four elegant finish options to match any decor',
+      'Integrated wire grommets for cable management',
+      'Soft-closing hydraulic door hinges',
+      'Scratch-resistant premium finish'
+    ],
+    specifications: {
+      material: 'Premium MDF, Engineered Wood',
+      dimensions: 'W 180cm x D 40cm x H 35cm',
+      warranty: '3 Years Warranty',
+      assembly: 'Wall Mounting & Installation Included'
+    },
+    colors: [
+      { name: 'White Design', hex: '#f5f5f5', imageIdx: 0, price: 34999, originalPrice: 45999 },
+      { name: 'Natural Design', hex: '#d7ccc8', imageIdx: 1, price: 34999, originalPrice: 45999 },
+      { name: 'Grey Design', hex: '#616161', imageIdx: 2, price: 34999, originalPrice: 45999 },
+      { name: 'Walnut Design', hex: '#5d4037', imageIdx: 3, price: 34999, originalPrice: 45999 }
+    ]
   }
 ];
 
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v10');
+      const stored = localStorage.getItem('efive_products_v19');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -327,7 +355,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v10', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v19', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -339,7 +367,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v10', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v19', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Star } from 'lucide-react';
 import ProductSVG from './ProductSVG';
 import { openWhatsApp } from '../whatsapp';
@@ -22,22 +22,34 @@ function WhatsAppIcon({ size = 16 }) {
 export default function ProductCard({ product, onQuickView }) {
   const { name, id, category, price, originalPrice, rating, reviews, colors } = product;
 
-  const discountPercent = product.discountPercentage || (originalPrice && originalPrice > price
-    ? Math.round(((originalPrice - price) / originalPrice) * 100)
+  const [activeImageIdx, setActiveImageIdx] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(colors && colors.length > 0 ? colors[0] : null);
+
+  const displayPrice = selectedColor?.price || price;
+  const displayOriginalPrice = selectedColor?.originalPrice || originalPrice;
+
+  const discountPercent = product.discountPercentage || (displayOriginalPrice && displayOriginalPrice > displayPrice
+    ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100)
     : 0);
 
   const displayDiscountBadge = product.showDiscountBadge !== false && discountPercent > 0;
-
-  const previewColor = colors && colors.length > 0 ? colors[0].hex : null;
 
   const handleWhatsApp = (e) => {
     e.stopPropagation();
     openWhatsApp({
       productName: name,
       productId: id,
-      price,
-      colorName: colors && colors.length > 0 ? colors[0].name : undefined,
+      price: displayPrice,
+      colorName: selectedColor ? selectedColor.name : undefined,
     });
+  };
+
+  const handleColorClick = (e, col) => {
+    e.stopPropagation();
+    setSelectedColor(col);
+    if (typeof col.imageIdx === 'number' && product.images && product.images.length > col.imageIdx) {
+      setActiveImageIdx(col.imageIdx);
+    }
   };
 
   return (
@@ -53,9 +65,9 @@ export default function ProductCard({ product, onQuickView }) {
         )}
 
         {product.images && product.images.length > 0 ? (
-          <img src={product.images[0]} alt={name} />
+          <img src={product.images[activeImageIdx] || product.images[0]} alt={name} />
         ) : (
-          <ProductSVG category={category} colorHex={previewColor} />
+          <ProductSVG category={category} colorHex={selectedColor ? selectedColor.hex : null} />
         )}
       </div>
 
@@ -84,22 +96,35 @@ export default function ProductCard({ product, onQuickView }) {
         {/* Color Swatches */}
         {colors && colors.length > 0 && (
           <div style={styles.swatches}>
-            {colors.map((col, idx) => (
-              <span
-                key={idx}
-                style={{ ...styles.swatchDot, backgroundColor: col.hex }}
-                title={col.name}
-              />
-            ))}
+            {colors.map((col, idx) => {
+              const isSelected = selectedColor?.name === col.name;
+              return (
+                <button
+                  key={idx}
+                  onClick={(e) => handleColorClick(e, col)}
+                  style={{
+                    ...styles.swatchDot,
+                    backgroundColor: col.hex,
+                    border: isSelected ? '2px solid #fff' : '1px solid rgba(0,0,0,0.15)',
+                    boxShadow: isSelected ? '0 0 0 2px #C5A880' : 'inset 0 1px 2px rgba(0,0,0,0.1)',
+                    transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+                    cursor: 'pointer',
+                    padding: 0
+                  }}
+                  title={col.name}
+                  aria-label={`Select ${col.name}`}
+                />
+              );
+            })}
           </div>
         )}
 
         {/* Price + WhatsApp button */}
         <div style={styles.bottomRow}>
           <div style={styles.priceContainer}>
-            <span style={styles.price}>₹{price.toLocaleString('en-IN')}</span>
-            {originalPrice && (
-              <span style={styles.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</span>
+            <span style={styles.price}>₹{displayPrice.toLocaleString('en-IN')}</span>
+            {displayOriginalPrice && (
+              <span style={styles.originalPrice}>₹{displayOriginalPrice.toLocaleString('en-IN')}</span>
             )}
           </div>
 

@@ -134,7 +134,12 @@ export default function ProductDetailsModal({ product, onClose }) {
                       <img 
                         src={product.images[activeImageIdx]} 
                         alt={name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          objectFit: 'cover', 
+                          display: 'block'
+                        }}
                       />
                     </div>
                     {product.images.length > 1 && (
