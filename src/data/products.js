@@ -397,13 +397,42 @@ export const products = [
       { name: 'White Frame', hex: '#f5f5f5', imageIdx: 2, price: 15999, originalPrice: 22999 },
       { name: 'Green Frame', hex: '#2e7d32', imageIdx: 3, price: 15999, originalPrice: 22999 }
     ]
+  },
+  {
+    id: 'tables-2',
+    name: 'Executive Office Desk',
+    images: ['/view-1 (5).png', '/view-2 (6).png', '/view-3 (6).png', '/view-4 (4).png'],
+    category: 'tables',
+    price: 18999,
+    originalPrice: 25999,
+    rating: 4.9,
+    reviews: 58,
+    description: 'Elevate your workspace with the Executive Office Desk. Featuring a spacious surface, built-in cable management, and a durable colorful metal frame to suit your office aesthetics.',
+    features: [
+      'Sturdy colored metal frame with reinforced joints',
+      'Wide desktop space for multiple monitors',
+      'Anti-scratch, easy-to-clean premium surface',
+      'Adjustable foot pads for uneven floors'
+    ],
+    specifications: {
+      material: 'Engineered Wood, High-Strength Metal',
+      dimensions: 'W 140cm x D 70cm x H 75cm',
+      warranty: '2 Years Warranty',
+      assembly: 'Quick Self-Assembly (Manual Included)'
+    },
+    colors: [
+      { name: 'Red Frame', hex: '#c62828', imageIdx: 0, price: 18999, originalPrice: 25999 },
+      { name: 'White Frame', hex: '#f5f5f5', imageIdx: 3, price: 18999, originalPrice: 25999 },
+      { name: 'Green Frame', hex: '#2e7d32', imageIdx: 2, price: 18999, originalPrice: 25999 },
+      { name: 'Black Frame', hex: '#212121', imageIdx: 1, price: 18999, originalPrice: 25999 }
+    ]
   }
 ];
 
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v22');
+      const stored = localStorage.getItem('efive_products_v25');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -416,7 +445,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v22', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v25', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -428,7 +457,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v22', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v25', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);
