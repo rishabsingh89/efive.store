@@ -89,7 +89,7 @@ export default function Storefront() {
 
           {/* Product Grid */}
           {filteredProducts.length > 0 ? (
-            <div style={styles.productGrid}>
+            <div className="catalog-product-grid">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}

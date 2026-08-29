@@ -295,7 +295,17 @@ button[aria-label="Next slide"]:hover {
 
 @media (max-width: 640px) {
   .category-grid {
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1.5rem;
+    gap: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .category-card {
+    min-width: 70vw;
+    scroll-snap-align: center;
+    flex-shrink: 0;
   }
 }
 
@@ -558,4 +568,45 @@ svg text {
 
 .product-card-enhanced:hover .product-image-container img {
   transform: scale(1.08);
+}
+
+/* ─── Mobile Horizontal Scroll for Product Grid ─── */
+.catalog-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .catalog-product-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1.5rem;
+    gap: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .catalog-product-grid > * {
+    min-width: 80vw;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+  }
+}
+
+/* ─── RoomDesigner Mobile Fix ─── */
+@media (max-width: 768px) {
+  .rd-main-layout {
+    flex-direction: column !important;
+  }
+  .rd-main-layout > div:first-child {
+    width: 100% !important;
+    height: 45vh !important;
+    flex-shrink: 0 !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .rd-main-layout > div:nth-child(2) {
+    height: 55vh !important;
+    flex: none !important;
+  }
 }

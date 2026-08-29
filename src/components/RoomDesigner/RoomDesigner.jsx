@@ -280,7 +280,7 @@ function DesignerContent({ initialBhkId, onClose }) {
         </div>
 
         {/* Main Split Layout */}
-        <div style={styles.mainLayout}>
+        <div style={styles.mainLayout} className="rd-main-layout">
           {state.wizardMode ? (
             <RoomBuilderWizard />
           ) : (

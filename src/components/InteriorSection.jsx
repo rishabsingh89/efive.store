@@ -128,8 +128,17 @@ export default function InteriorSection() {
 
         @media (max-width: 768px) {
           .interior-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 1.5rem;
+            gap: 1rem;
+            -webkit-overflow-scrolling: touch;
+          }
+          .interior-card {
+            min-width: 85vw;
+            scroll-snap-align: center;
+            flex-shrink: 0;
           }
         }
 
