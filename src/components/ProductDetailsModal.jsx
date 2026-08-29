@@ -113,14 +113,14 @@ export default function ProductDetailsModal({ product, onClose }) {
         </div>
 
         {/* Product Content */}
-        <div style={styles.contentWrapper}>
-          <div style={styles.productGrid}>
+        <div className="pdp-content-wrapper">
+          <div className="pdp-grid">
 
             {/* LEFT: Product Visual */}
             <div
               style={{
                 ...styles.visualSection,
-                animation: isContentReady ? 'pdpSlideInLeft 0.6s cubic-bezier(0.16,1,0.3,1) 0.1s both' : 'none',
+                animation: isContentReady ? 'pdpSlideInLeft 0.35s cubic-bezier(0.16,1,0.3,1) 0.05s both' : 'none',
               }}
             >
               <div style={styles.visualCard}>
@@ -130,7 +130,7 @@ export default function ProductDetailsModal({ product, onClose }) {
 
                 {product.images && product.images.length > 0 ? (
                   <>
-                    <div style={{ ...styles.imageShowcase, height: '400px', width: '100%', overflow: 'hidden' }}>
+                    <div className="pdp-image-showcase">
                       <img 
                         src={product.images[activeImageIdx]} 
                         alt={name}
@@ -207,7 +207,7 @@ export default function ProductDetailsModal({ product, onClose }) {
             <div
               style={{
                 ...styles.detailsSection,
-                animation: isContentReady ? 'pdpSlideInRight 0.6s cubic-bezier(0.16,1,0.3,1) 0.2s both' : 'none',
+                animation: isContentReady ? 'pdpSlideInRight 0.35s cubic-bezier(0.16,1,0.3,1) 0.1s both' : 'none',
               }}
             >
               <span style={styles.categoryTag}>{category.toUpperCase()}</span>
@@ -333,7 +333,7 @@ export default function ProductDetailsModal({ product, onClose }) {
         </div>
       </div>
 
-      {/* Animations */}
+      {/* Animations & Responsive Styles */}
       <style>{`
         @keyframes pdpSlideInLeft {
           from { opacity: 0; transform: translateX(-30px); }
@@ -342,6 +342,43 @@ export default function ProductDetailsModal({ product, onClose }) {
         @keyframes pdpSlideInRight {
           from { opacity: 0; transform: translateX(30px); }
           to   { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Responsive Grid & Layout */
+        .pdp-content-wrapper {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 2.5rem 2rem 4rem;
+        }
+        .pdp-grid {
+          display: grid;
+          grid-template-columns: 1.1fr 1fr;
+          gap: 3rem;
+          align-items: start;
+        }
+        .pdp-image-showcase {
+          width: 100%;
+          height: 480px;
+          overflow: hidden;
+        }
+        
+        @media (max-width: 992px) {
+          .pdp-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+          }
+          .pdp-content-wrapper {
+            padding: 1.5rem 1rem 4rem;
+          }
+          .pdp-image-showcase {
+            height: 350px;
+          }
+        }
+        
+        @media (max-width: 576px) {
+          .pdp-image-showcase {
+            height: 280px;
+          }
         }
       `}</style>
     </div>
@@ -421,17 +458,6 @@ const styles = {
     justifyContent: 'center',
     transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
     boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
-  },
-  contentWrapper: {
-    maxWidth: '1400px',
-    margin: '0 auto',
-    padding: '2.5rem 2rem 4rem',
-  },
-  productGrid: {
-    display: 'grid',
-    gridTemplateColumns: '1.1fr 1fr',
-    gap: '3rem',
-    alignItems: 'start',
   },
   visualSection: {
     position: 'sticky',
