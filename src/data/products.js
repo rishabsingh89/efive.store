@@ -401,7 +401,7 @@ export const products = [
   {
     id: 'tables-2',
     name: 'Executive Office Desk',
-    images: ['/view-1 (5).png', '/view-4 (4).png', '/view-3 (6).png', '/view-2 (6).png'],
+    images: ['/view-1 (5).png', '/view-2 (6).png', '/view-3 (6).png', '/view-4 (4).png'],
     category: 'tables',
     price: 18999,
     originalPrice: 25999,
@@ -422,9 +422,9 @@ export const products = [
     },
     colors: [
       { name: 'Red Frame', hex: '#c62828', imageIdx: 0, price: 18999, originalPrice: 25999 },
-      { name: 'White Frame', hex: '#f5f5f5', imageIdx: 1, price: 18999, originalPrice: 25999 },
+      { name: 'Black Frame', hex: '#212121', imageIdx: 1, price: 18999, originalPrice: 25999 },
       { name: 'Green Frame', hex: '#2e7d32', imageIdx: 2, price: 18999, originalPrice: 25999 },
-      { name: 'Black Frame', hex: '#212121', imageIdx: 3, price: 18999, originalPrice: 25999 }
+      { name: 'White Frame', hex: '#f5f5f5', imageIdx: 3, price: 18999, originalPrice: 25999 }
     ]
   }
 ];
@@ -432,7 +432,7 @@ export const products = [
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v27');
+      const stored = localStorage.getItem('efive_products_v28');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -445,7 +445,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v27', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v28', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -457,7 +457,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v27', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v28', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);
