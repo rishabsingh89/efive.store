@@ -5,7 +5,7 @@
   --font-body: 'Inter', sans-serif;
 
   /* HSL Colors */
-  --bg-color: 36, 33%, 97%;       /* #FAF7F2 (Ivory Cream) */
+  --bg-color: 140, 45%, 85%;       /* Modern Lighter Green (Bolder & Attractive) */
   --text-color: 40, 9%, 11%;      /* #1E1D1B (Warm Dark Charcoal) */
   --primary-color: 34, 40%, 64%;   /* #C5A880 (Luxury Bronze) */
   --primary-hover: 34, 40%, 52%;   /* #A98B60 (Darker Bronze) */
@@ -13,7 +13,7 @@
   --surface-color: 0, 0%, 100%;    /* #FFFFFF (Pure White) */
   --muted-color: 40, 4%, 43%;      /* #706D67 (Muted Grey) */
   --border-color: 40, 13%, 88%;    /* #E6E2DA (Soft Beige Border) */
-  --card-bg: 40, 20%, 94%;         /* #F5F2EA (Light Cream Card) */
+  --card-bg: 0, 0%, 100%;          /* Changed to pure white for better contrast with green */
 
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow-sm: 0 2px 8px rgba(30, 29, 27, 0.04);

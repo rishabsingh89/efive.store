@@ -336,13 +336,42 @@ export const products = [
       { name: 'Grey Design', hex: '#616161', imageIdx: 2, price: 34999, originalPrice: 45999 },
       { name: 'Walnut Design', hex: '#5d4037', imageIdx: 3, price: 34999, originalPrice: 45999 }
     ]
+  },
+  {
+    id: 'tvunits-2',
+    name: 'Contemporary Color-Choice TV Console',
+    images: ['/view-1 (4).png', '/view-2 (3).png', '/view-2 (4).png', '/view-3 (4).png'],
+    category: 'tvunits',
+    price: 31999,
+    originalPrice: 41999,
+    rating: 4.9,
+    reviews: 56,
+    description: 'Elevate your entertainment space with this contemporary TV console. Available in multiple bold colors, it features sleek lines and ample storage space for a modern living room.',
+    features: [
+      'Bold and vibrant color options',
+      'Smooth sliding drawers for storage',
+      'Cable management system',
+      'Durable and easy-to-clean surface'
+    ],
+    specifications: {
+      material: 'Engineered Wood, Premium Finish',
+      dimensions: 'W 170cm x D 40cm x H 45cm',
+      warranty: '3 Years Warranty',
+      assembly: 'Professional Assembly Provided'
+    },
+    colors: [
+      { name: 'Pure White', hex: '#f5f5f5', imageIdx: 0, price: 31999, originalPrice: 41999 },
+      { name: 'Forest Green', hex: '#2e7d32', imageIdx: 1, price: 31999, originalPrice: 41999 },
+      { name: 'Ruby Red', hex: '#c62828', imageIdx: 3, price: 31999, originalPrice: 41999 },
+      { name: 'Matte Black', hex: '#212121', imageIdx: 2, price: 31999, originalPrice: 41999 }
+    ]
   }
 ];
 
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v19');
+      const stored = localStorage.getItem('efive_products_v21');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -355,7 +384,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v19', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v21', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -367,7 +396,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v19', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v21', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);

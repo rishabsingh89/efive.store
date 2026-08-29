@@ -68,7 +68,7 @@ export default function CategoryGrid({ activeCategory, onCategorySelect }) {
 const styles = {
   section: {
     padding: '3rem 0',
-    backgroundColor: '#FAF7F2', // Ivory background matching index.css
+    backgroundColor: 'transparent', // Match the lighter green from index.css by inheriting
   },
   header: {
     display: 'flex',

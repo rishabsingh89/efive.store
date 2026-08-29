@@ -170,7 +170,7 @@ export default function InteriorSection() {
 const styles = {
   section: {
     padding: '5rem 0 3rem 0',
-    backgroundColor: '#FAF7F2', // Matches CategoryGrid ivory background
+    backgroundColor: 'transparent', // Inherit lighter green background
     borderBottom: '1px solid rgba(197, 168, 128, 0.15)',
   },
   header: {

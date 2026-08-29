@@ -35,18 +35,24 @@ export function buildWhatsAppUrl({ productName, productId, price, colorName }) {
   const pageUrl = window.location.href;
 
   const lines = [
-    `Hello Efive Studio! 👋`,
+    `*✨ EFIVE STUDIO INQUIRY ✨*`,
+    `━━━━━━━━━━━━━━━━━━━━`,
     ``,
-    `I'm interested in the following product:`,
+    `Hello Efive Studio Team! 👋`,
+    `I am highly interested in purchasing the following item from your store:`,
     ``,
-    `*${productName}*`,
-    `Product ID: ${productId}`,
-    `Price: ₹${price.toLocaleString('en-IN')}`,
-    colorName ? `Color: ${colorName}` : null,
+    `🛍️ *PRODUCT DETAILS*`,
+    `• *Name:* ${productName}`,
+    `• *Product ID:* ${productId}`,
+    `• *Price:* ₹${price.toLocaleString('en-IN')}`,
+    colorName ? `• *Selected Color:* ${colorName}` : null,
     ``,
-    `Page: ${pageUrl}`,
+    `🔗 *STORE PAGE LINK*`,
+    `${pageUrl}`,
     ``,
-    `Could you please share more details and availability?`,
+    `Could you please share some more details, availability, and delivery options for this product?`,
+    ``,
+    `Thank you! 😊`
   ]
     .filter((l) => l !== null)
     .join('\n');
@@ -67,12 +73,18 @@ export function openWhatsApp(params) {
  */
 export function openWhatsAppInteriorInquiry(serviceName) {
   const lines = [
-    `Hello Efive Studio! 👋`,
+    `*✨ EFIVE STUDIO INQUIRY ✨*`,
+    `━━━━━━━━━━━━━━━━━━━━`,
     ``,
-    `I am interested in your luxury interior design services:`,
-    `*${serviceName}*`,
+    `Hello Efive Studio Team! 👋`,
+    `I am highly interested in your luxury interior design services:`,
     ``,
-    `Could you please share some recent projects, pricing packages, and how we can schedule a consultation?`,
+    `🏛️ *SERVICE DETAILS*`,
+    `• *Inquiry for:* ${serviceName}`,
+    ``,
+    `Could you please share some of your recent portfolios, pricing structures, and guide me on how to book a design consultation?`,
+    ``,
+    `Thank you! 😊`
   ].join('\n');
 
   const encoded = encodeURIComponent(lines);
