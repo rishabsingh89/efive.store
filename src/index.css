@@ -255,7 +255,7 @@ button[aria-label="Next slide"]:hover {
 
 @media (max-width: 768px) {
   .hero-container {
-    height: 520px; /* Slightly taller on mobile for stacked look */
+    height: 380px; /* Reduced from 520px to prevent images from looking too zoomed/large */
   }
   .hero-offer-banner {
     width: 100%;
@@ -271,6 +271,21 @@ button[aria-label="Next slide"]:hover {
   }
   .hero-offer-banner .discountVal {
     font-size: 1.3rem !important;
+  }
+
+  /* Reduce CTA button size on mobile */
+  .calc-hero-cta {
+    padding: 0.65rem 1.25rem !important;
+    font-size: 0.9rem !important;
+    bottom: 1rem !important;
+    border-width: 1px !important;
+  }
+  .calc-hero-cta span {
+    font-size: 0.9rem !important;
+  }
+  .calc-hero-cta svg {
+    width: 16px !important;
+    height: 16px !important;
   }
 }
 
