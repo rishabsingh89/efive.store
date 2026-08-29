@@ -426,13 +426,39 @@ export const products = [
       { name: 'Green Frame', hex: '#2e7d32', imageIdx: 2, price: 18999, originalPrice: 25999 },
       { name: 'Black Frame', hex: '#212121', imageIdx: 3, price: 18999, originalPrice: 25999 }
     ]
+  },
+  {
+    id: 'tables-3',
+    name: 'Premium Wooden Office Desk',
+    images: ['/view-1 (6).png', '/view-2 (7).png', '/view-3 (7).png'],
+    category: 'tables',
+    price: 19999,
+    originalPrice: 28999,
+    rating: 4.8,
+    reviews: 42,
+    description: 'A classic premium wooden office desk featuring sturdy legs, ample workspace, and a beautiful natural wood finish that complements any modern or classic office space.',
+    features: [
+      'Premium solid wood finish',
+      'Sturdy industrial metal legs',
+      'Wide desktop space for all your essentials',
+      'Anti-scratch, easy-to-clean surface'
+    ],
+    specifications: {
+      material: 'Engineered Wood, High-Strength Metal',
+      dimensions: 'W 150cm x D 75cm x H 75cm',
+      warranty: '3 Years Warranty',
+      assembly: 'Quick Self-Assembly (Manual Included)'
+    },
+    colors: [
+      { name: 'Natural Wood', hex: '#8d6e63', imageIdx: 0, price: 19999, originalPrice: 28999 }
+    ]
   }
 ];
 
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v30');
+      const stored = localStorage.getItem('efive_products_v31');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -445,7 +471,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v30', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v31', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -457,7 +483,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v30', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v31', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);
