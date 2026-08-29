@@ -302,17 +302,12 @@ button[aria-label="Next slide"]:hover {
 
 @media (max-width: 640px) {
   .category-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    -webkit-overflow-scrolling: touch;
   }
   .category-card {
-    min-width: 70vw;
-    scroll-snap-align: center;
-    flex-shrink: 0;
+    min-width: auto;
   }
 }
 
@@ -577,6 +572,12 @@ svg text {
   transform: scale(1.08);
 }
 
+@media (max-width: 768px) {
+  .product-image-container {
+    height: 140px;
+  }
+}
+
 /* ─── Mobile Horizontal Scroll for Product Grid ─── */
 .catalog-product-grid {
   display: grid;
@@ -586,17 +587,12 @@ svg text {
 
 @media (max-width: 768px) {
   .catalog-product-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    -webkit-overflow-scrolling: touch;
   }
   .catalog-product-grid > * {
-    min-width: 80vw;
-    scroll-snap-align: center;
-    flex-shrink: 0;
+    min-width: auto;
   }
 }
 
