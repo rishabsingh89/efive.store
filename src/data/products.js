@@ -4,7 +4,8 @@ export const categories = [
   { id: 'chairs', name: 'Chairs', image: 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=400&q=80' },
   { id: 'decor', name: 'Decor', image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80' },
   { id: 'tvunits', name: 'TV Units', image: '/images/tvunits/view-1.png' },
-  { id: 'study', name: 'Study Table', image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=400&q=80' }
+  { id: 'study', name: 'Study Table', image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=400&q=80' },
+  { id: 'tables', name: 'Tables', image: '/View-1 (3).png' }
 ];
 
 export const products = [
@@ -364,6 +365,37 @@ export const products = [
       { name: 'Forest Green', hex: '#2e7d32', imageIdx: 1, price: 31999, originalPrice: 41999 },
       { name: 'Ruby Red', hex: '#c62828', imageIdx: 3, price: 31999, originalPrice: 41999 },
       { name: 'Matte Black', hex: '#212121', imageIdx: 2, price: 31999, originalPrice: 41999 }
+    ]
+  },
+  
+  // --- TABLES ---
+  {
+    id: 'tables-1',
+    name: 'Modern Frame Table',
+    images: ['/View-1 (3).png', '/view-3 (5).png', '/view-4 (1).png', '/view-5.png', '/view-2 (5).png'],
+    category: 'tables',
+    price: 15999,
+    originalPrice: 22999,
+    rating: 4.8,
+    reviews: 42,
+    description: 'A versatile and modern table perfect for any contemporary space. Features a sleek design with ample storage and customizable frame colors to match your interior styling.',
+    features: [
+      'Minimalist modern design with durable metal frame',
+      'Spacious storage compartments with smooth sliders',
+      'Scratch-resistant premium tabletop finish',
+      'Integrated cable management system'
+    ],
+    specifications: {
+      material: 'Engineered Wood, Carbon Steel Frame',
+      dimensions: 'Check summary image for detailed dimensions',
+      warranty: '2 Years Warranty',
+      assembly: 'Quick Self-Assembly (Manual Included)'
+    },
+    colors: [
+      { name: 'White Frame', hex: '#f5f5f5', imageIdx: 0, price: 15999, originalPrice: 22999 },
+      { name: 'Red Frame', hex: '#c62828', imageIdx: 1, price: 15999, originalPrice: 22999 },
+      { name: 'Black Frame', hex: '#212121', imageIdx: 2, price: 15999, originalPrice: 22999 },
+      { name: 'Green Frame', hex: '#2e7d32', imageIdx: 3, price: 15999, originalPrice: 22999 }
     ]
   }
 ];
