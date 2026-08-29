@@ -432,7 +432,7 @@ export const products = [
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v26');
+      const stored = localStorage.getItem('efive_products_v27');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -445,7 +445,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v26', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v27', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -457,7 +457,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v26', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v27', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);
