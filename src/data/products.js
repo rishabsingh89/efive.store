@@ -5,7 +5,7 @@ export const categories = [
   { id: 'decor', name: 'Decor', image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80' },
   { id: 'tvunits', name: 'TV Units', image: '/images/tvunits/view-1.png' },
   { id: 'study', name: 'Study Table', image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=400&q=80' },
-  { id: 'tables', name: 'Tables', image: '/View-1 (3).png' }
+  { id: 'tables', name: 'Office Table', image: '/View-1 (3).png' }
 ];
 
 export const products = [
@@ -392,9 +392,9 @@ export const products = [
       assembly: 'Quick Self-Assembly (Manual Included)'
     },
     colors: [
-      { name: 'White Frame', hex: '#f5f5f5', imageIdx: 0, price: 15999, originalPrice: 22999 },
+      { name: 'Black Frame', hex: '#212121', imageIdx: 0, price: 15999, originalPrice: 22999 },
       { name: 'Red Frame', hex: '#c62828', imageIdx: 1, price: 15999, originalPrice: 22999 },
-      { name: 'Black Frame', hex: '#212121', imageIdx: 2, price: 15999, originalPrice: 22999 },
+      { name: 'White Frame', hex: '#f5f5f5', imageIdx: 2, price: 15999, originalPrice: 22999 },
       { name: 'Green Frame', hex: '#2e7d32', imageIdx: 3, price: 15999, originalPrice: 22999 }
     ]
   }
@@ -403,7 +403,7 @@ export const products = [
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v21');
+      const stored = localStorage.getItem('efive_products_v22');
       if (stored) {
         return JSON.parse(stored);
       }
@@ -416,7 +416,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v21', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v22', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -428,7 +428,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_products_v21', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v22', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);
