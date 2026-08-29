@@ -164,7 +164,7 @@ export default function CostCalculator() {
 
       {/* ── View Step 1: Category Selection ── */}
       {viewStep === 1 ? (
-        <div style={styles.catGridLarge}>
+        <div className="calc-cat-large-grid">
           {CATEGORIES.map((cat) => {
             const Icon = ICON_MAP[cat.icon];
             return (
@@ -172,17 +172,16 @@ export default function CostCalculator() {
                 key={cat.id}
                 onClick={() => switchCategory(cat.id)}
                 style={{
-                  ...styles.catCardLarge,
                   backgroundImage: `linear-gradient(to top, rgba(15,15,15,0.95) 0%, rgba(15,15,15,0.6) 45%, rgba(15,15,15,0.1) 100%), url("${cat.image}")`,
                 }}
                 className="calc-cat-large"
               >
                 <div style={styles.catCardContent}>
-                  <div style={styles.catCardIconWrapper}>
-                    <Icon size={36} color="#C5A880" />
+                  <div style={styles.catCardIconWrapper} className="calc-cat-icon-wrapper">
+                    <Icon size={36} color="#C5A880" className="calc-cat-icon" />
                   </div>
-                  <h3 style={styles.catCardTitleLarge}>{cat.label}</h3>
-                  <p style={styles.catCardDescLarge}>{cat.description}</p>
+                  <h3 className="calc-cat-title-large">{cat.label}</h3>
+                  <p className="calc-cat-desc-large">{cat.description}</p>
                 </div>
               </button>
             );
@@ -607,30 +606,9 @@ const styles = {
     lineHeight: 1.6,
   },
 
-  /* Category Grid Large (Step 1) */
-  catGridLarge: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '2rem',
-    marginTop: '3rem',
-  },
-  catCardLarge: {
-    position: 'relative',
-    height: '400px',
-    borderRadius: '16px',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    padding: '2rem',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-    overflow: 'hidden',
-    textAlign: 'left',
-  },
+  /* Category Grid Large (Step 1) - Managed in CSS */
+  catGridLarge: {},
+  catCardLarge: {},
   catCardContent: {
     position: 'relative',
     zIndex: 10,
@@ -649,21 +627,8 @@ const styles = {
     border: '1px solid rgba(197, 168, 128, 0.3)',
     marginBottom: '1.25rem',
   },
-  catCardTitleLarge: {
-    fontSize: '2.4rem',
-    fontWeight: 800,
-    fontFamily: 'var(--font-heading)',
-    marginBottom: '0.5rem',
-    color: '#fff',
-    letterSpacing: '-0.02em',
-    textShadow: '0 2px 10px rgba(0,0,0,0.5)',
-  },
-  catCardDescLarge: {
-    fontSize: '1.05rem',
-    color: 'rgba(255,255,255,0.9)',
-    lineHeight: 1.6,
-    textShadow: '0 1px 4px rgba(0,0,0,0.8)',
-  },
+  catCardTitleLarge: {},
+  catCardDescLarge: {},
 
   /* Main grid */
   mainGrid: {
