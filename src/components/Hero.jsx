@@ -100,7 +100,7 @@ export default function Hero({ onExploreClick }) {
 
   return (
     <div
-      style={styles.heroContainer}
+      className="hero-container"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -132,7 +132,7 @@ export default function Hero({ onExploreClick }) {
             />
 
             {/* HomeTown Style Left Side Offer Banner Box */}
-            <div style={styles.offerBannerWrapper}>
+            <div className="hero-offer-banner">
               <div
                 style={{
                   ...styles.offerCard,
@@ -226,14 +226,7 @@ export default function Hero({ onExploreClick }) {
 }
 
 const styles = {
-  heroContainer: {
-    position: 'relative',
-    width: '100%',
-    height: '480px',
-    overflow: 'hidden',
-    backgroundColor: '#141210',
-    userSelect: 'none',
-  },
+  // heroContainer and offerBannerWrapper moved to index.css for responsiveness
 
   progressBarTrack: {
     position: 'absolute',
@@ -278,15 +271,7 @@ const styles = {
   },
 
   /* HomeTown style left-side diagonal offer banner card */
-  offerBannerWrapper: {
-    position: 'relative',
-    zIndex: 10,
-    height: '100%',
-    width: '420px',
-    maxWidth: '48%',
-    display: 'flex',
-    alignItems: 'stretch',
-  },
+  // offerBannerWrapper moved to index.css
 
   offerCard: {
     position: 'relative',

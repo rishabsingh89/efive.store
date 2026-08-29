@@ -63,9 +63,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Base Utility Classes */
 .container {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 4%;
 }
 
 .btn {
@@ -224,6 +224,60 @@ button[aria-label="Next slide"]:hover {
   background-color: rgba(255, 255, 255, 0.25) !important;
   border-color: rgba(255, 255, 255, 0.5) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── Hero Responsive Styles ─── */
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow: hidden;
+  background-color: #141210;
+  user-select: none;
+}
+
+.hero-offer-banner {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  width: 420px;
+  max-width: 48%;
+  display: flex;
+  align-items: stretch;
+}
+
+@media (max-width: 768px) {
+  .hero-container {
+    height: 520px; /* Slightly taller on mobile for stacked look */
+  }
+  .hero-offer-banner {
+    width: 100%;
+    max-width: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+  }
+  /* Scale down text in banner on mobile */
+  .hero-offer-banner .titleMain {
+    font-size: 1.6rem !important;
+  }
+  .hero-offer-banner .titleSub {
+    font-size: 1.4rem !important;
+  }
+  .hero-offer-banner .discountVal {
+    font-size: 1.3rem !important;
+  }
+}
+
+/* ─── Navbar Responsive ─── */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-wrap: wrap;
+    gap: 0.75rem !important;
+  }
+  .navbar-search {
+    order: 3;
+    flex: 1 1 100% !important;
+    margin-top: 0.5rem;
+  }
 }
 
 /* ─── Responsive Category Grid ─── */

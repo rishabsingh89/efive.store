@@ -25,7 +25,7 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit }) 
 
   return (
     <nav style={styles.nav}>
-      <div className="container" style={styles.container}>
+      <div className="container navbar-container" style={styles.container}>
         {/* Logo */}
         <div style={styles.logoContainer}>
           <span style={styles.logoText}>EFIVE STUDIO</span>
@@ -33,7 +33,7 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit }) 
         </div>
 
         {/* Search Bar */}
-        <div style={styles.searchContainer}>
+        <div className="navbar-search" style={styles.searchContainer}>
           <Search 
             size={18} 
             style={{ ...styles.searchIcon, pointerEvents: 'auto', cursor: 'pointer' }} 
