@@ -613,3 +613,135 @@ svg text {
     flex: none !important;
   }
 }
+
+/* ─── Product Details CSS ─── */
+.product-details-content {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.product-rating-container {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+.product-stars {
+  display: flex;
+  gap: 1px;
+}
+.product-rating-text {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-color));
+  font-weight: 500;
+  margin-top: 2px;
+}
+.product-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: hsl(var(--text-color));
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 3.1rem;
+  transition: color 0.2s ease;
+}
+.product-swatches {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+.product-swatch-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0;
+}
+.product-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+.product-price-container {
+  display: flex;
+  flex-direction: column;
+}
+.product-price {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: hsl(var(--text-color));
+}
+.product-original-price {
+  font-size: 0.8rem;
+  text-decoration: line-through;
+  color: hsl(var(--muted-color));
+  margin-top: 0.1rem;
+}
+.product-wa-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #25D366;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .product-details-content {
+    padding: 0.6rem;
+  }
+  .product-rating-container {
+    margin-bottom: 0.25rem;
+    gap: 0.2rem;
+  }
+  .product-rating-text {
+    font-size: 0.65rem;
+  }
+  .product-title {
+    font-size: 0.85rem;
+    line-height: 1.25;
+    height: 2.15rem;
+    margin-bottom: 0.4rem;
+  }
+  .product-swatches {
+    margin-bottom: 0.4rem;
+    gap: 0.3rem;
+  }
+  .product-swatch-dot {
+    width: 10px;
+    height: 10px;
+  }
+  .product-price {
+    font-size: 0.95rem;
+  }
+  .product-original-price {
+    font-size: 0.7rem;
+  }
+  .product-wa-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .wa-icon {
+    width: 16px;
+    height: 16px;
+  }
+  .star-icon {
+    width: 10px;
+    height: 10px;
+  }
+}

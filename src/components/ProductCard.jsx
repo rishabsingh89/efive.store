@@ -4,9 +4,10 @@ import ProductSVG from './ProductSVG';
 import { openWhatsApp } from '../whatsapp';
 
 // Inline WhatsApp icon
-function WhatsAppIcon({ size = 16 }) {
+function WhatsAppIcon({ size = 16, className }) {
   return (
     <svg
+      className={className}
       width={size}
       height={size}
       viewBox="0 0 24 24"
@@ -72,30 +73,31 @@ export default function ProductCard({ product, onQuickView }) {
       </div>
 
       {/* Product Details */}
-      <div style={styles.details}>
+      <div className="product-details-content">
         {/* Rating */}
-        <div style={styles.ratingContainer}>
-          <div style={styles.stars}>
+        <div className="product-rating-container">
+          <div className="product-stars">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                size={14}
+                size={12}
                 fill={i < Math.floor(rating) ? '#C5A880' : 'none'}
                 stroke={i < Math.floor(rating) ? '#C5A880' : '#E6E2DA'}
+                className="star-icon"
               />
             ))}
           </div>
-          <span style={styles.ratingText}>({reviews} reviews)</span>
+          <span className="product-rating-text">({reviews} reviews)</span>
         </div>
 
         {/* Title */}
-        <h3 onClick={() => onQuickView(product)} style={styles.title}>
+        <h3 onClick={() => onQuickView(product)} className="product-title">
           {name}
         </h3>
 
         {/* Color Swatches */}
         {colors && colors.length > 0 && (
-          <div style={styles.swatches}>
+          <div className="product-swatches">
             {colors.map((col, idx) => {
               const isSelected = selectedColor?.name === col.name;
               return (
@@ -103,14 +105,12 @@ export default function ProductCard({ product, onQuickView }) {
                   key={idx}
                   onClick={(e) => handleColorClick(e, col)}
                   style={{
-                    ...styles.swatchDot,
                     backgroundColor: col.hex,
                     border: isSelected ? '2px solid #fff' : '1px solid rgba(0,0,0,0.15)',
                     boxShadow: isSelected ? '0 0 0 2px #C5A880' : 'inset 0 1px 2px rgba(0,0,0,0.1)',
-                    transform: isSelected ? 'scale(1.1)' : 'scale(1)',
-                    cursor: 'pointer',
-                    padding: 0
+                    transform: isSelected ? 'scale(1.1)' : 'scale(1)'
                   }}
+                  className="product-swatch-dot"
                   title={col.name}
                   aria-label={`Select ${col.name}`}
                 />
@@ -120,21 +120,21 @@ export default function ProductCard({ product, onQuickView }) {
         )}
 
         {/* Price + WhatsApp button */}
-        <div style={styles.bottomRow}>
-          <div style={styles.priceContainer}>
-            <span style={styles.price}>₹{displayPrice.toLocaleString('en-IN')}</span>
+        <div className="product-bottom-row">
+          <div className="product-price-container">
+            <span className="product-price">₹{displayPrice.toLocaleString('en-IN')}</span>
             {displayOriginalPrice && (
-              <span style={styles.originalPrice}>₹{displayOriginalPrice.toLocaleString('en-IN')}</span>
+              <span className="product-original-price">₹{displayOriginalPrice.toLocaleString('en-IN')}</span>
             )}
           </div>
 
           <button
             onClick={handleWhatsApp}
-            style={styles.waBtn}
+            className="product-wa-btn"
             title="Connect on WhatsApp"
             aria-label={`Connect on WhatsApp for ${name}`}
           >
-            <WhatsAppIcon size={18} />
+            <WhatsAppIcon className="wa-icon" size={18} />
           </button>
         </div>
       </div>
