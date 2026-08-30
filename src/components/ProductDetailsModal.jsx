@@ -116,14 +116,15 @@ export default function ProductDetailsModal({ product, onClose }) {
         <div className="pdp-content-wrapper">
           <div className="pdp-grid">
 
-            {/* LEFT: Product Visual */}
+            {/* LEFT: Product Visual — 3D Card */}
             <div
+              className="pdp-3d-perspective"
               style={{
                 ...styles.visualSection,
                 animation: isContentReady ? 'pdpSlideInLeft 0.35s cubic-bezier(0.16,1,0.3,1) 0.05s both' : 'none',
               }}
             >
-              <div style={styles.visualCard}>
+              <div className="pdp-3d-card" style={styles.visualCard}>
                 {discountPercent > 0 && (
                   <div style={styles.discountBadge}>-{discountPercent}%</div>
                 )}
@@ -137,7 +138,8 @@ export default function ProductDetailsModal({ product, onClose }) {
                         style={{ 
                           width: '100%', 
                           height: '100%', 
-                          objectFit: 'cover', 
+                          objectFit: 'contain',
+                          padding: '2rem',
                           display: 'block'
                         }}
                       />
@@ -150,9 +152,10 @@ export default function ProductDetailsModal({ product, onClose }) {
                             src={img}
                             alt={`${name} thumbnail ${idx + 1}`}
                             onClick={() => setActiveImageIdx(idx)}
+                            className="pdp-thumb"
                             style={{
                               ...styles.thumbnailImg,
-                              border: activeImageIdx === idx ? '2px solid #C5A880' : '1px solid transparent',
+                              border: activeImageIdx === idx ? '2px solid #C5A880' : '1px solid rgba(0,0,0,0.06)',
                               opacity: activeImageIdx === idx ? 1 : 0.6,
                             }}
                           />
@@ -169,9 +172,9 @@ export default function ProductDetailsModal({ product, onClose }) {
                   </div>
                 )}
 
-                {/* Color picker at bottom of visual */}
+                {/* Color picker at bottom of visual — 3D Glassmorphism */}
                 {colors?.length > 0 && (
-                  <div style={styles.colorPreviewBar}>
+                  <div className="pdp-color-bar-3d" style={styles.colorPreviewBar}>
                     <span style={styles.colorPreviewLabel}>Color:</span>
                     <div style={styles.colorDots}>
                       {colors.map((col, idx) => {
@@ -179,6 +182,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                         return (
                           <button
                             key={idx}
+                            className="pdp-color-dot-3d"
                             onClick={() => {
                               setSelectedColor(col);
                               if (typeof col.imageIdx === 'number') {
@@ -188,8 +192,10 @@ export default function ProductDetailsModal({ product, onClose }) {
                             style={{
                               ...styles.colorDot,
                               backgroundColor: col.hex,
-                              boxShadow: isSelected ? '0 0 0 2px #fff, 0 0 0 3px #C5A880' : '0 1px 3px rgba(0,0,0,0.1)',
-                              transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+                              boxShadow: isSelected
+                                ? `0 0 0 2.5px #fff, 0 0 0 4px #C5A880, 0 4px 15px rgba(197,168,128,0.35), inset 0 -2px 4px rgba(0,0,0,0.15)`
+                                : `0 3px 8px rgba(0,0,0,0.18), inset 0 -2px 4px rgba(0,0,0,0.12), inset 0 1px 2px rgba(255,255,255,0.25)`,
+                              transform: isSelected ? 'scale(1.15) translateY(-2px)' : 'scale(1)',
                             }}
                             title={col.name}
                             aria-label={`Select color ${col.name}`}
@@ -343,7 +349,120 @@ export default function ProductDetailsModal({ product, onClose }) {
           from { opacity: 0; transform: translateX(30px); }
           to   { opacity: 1; transform: translateX(0); }
         }
-        
+
+        /* ── 3D Perspective Wrapper ── */
+        .pdp-3d-perspective {
+          perspective: 1200px;
+        }
+
+        .pdp-3d-card {
+          transform-style: preserve-3d;
+          transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                      box-shadow 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          will-change: transform, box-shadow;
+        }
+
+        .pdp-3d-card:hover {
+          transform: rotateY(-2deg) rotateX(1.5deg) translateZ(8px) scale(1.01);
+          box-shadow:
+            0 30px 60px rgba(0, 0, 0, 0.08),
+            0 15px 30px rgba(0, 0, 0, 0.06),
+            0 5px 12px rgba(0, 0, 0, 0.04),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+        }
+
+        /* Side edge illusion — left edge */
+        .pdp-3d-card::before {
+          content: '';
+          position: absolute;
+          top: 8px;
+          bottom: 8px;
+          left: -4px;
+          width: 6px;
+          background: linear-gradient(to right, #d1cdc5, #e8e4dc, #f0ece4);
+          border-radius: 4px 0 0 4px;
+          opacity: 0;
+          transition: opacity 0.45s ease;
+          transform: rotateY(90deg);
+          transform-origin: right center;
+          z-index: -1;
+        }
+
+        .pdp-3d-card:hover::before {
+          opacity: 1;
+        }
+
+        /* Bottom edge illusion */
+        .pdp-3d-card::after {
+          content: '';
+          position: absolute;
+          left: 8px;
+          right: 8px;
+          bottom: -4px;
+          height: 6px;
+          background: linear-gradient(to bottom, #d8d4cc, #e8e4dc, #ece8e0);
+          border-radius: 0 0 4px 4px;
+          opacity: 0;
+          transition: opacity 0.45s ease;
+          transform: rotateX(90deg);
+          transform-origin: top center;
+          z-index: -1;
+        }
+
+        .pdp-3d-card:hover::after {
+          opacity: 1;
+        }
+
+        /* ── Color bar glassmorphism ── */
+        .pdp-color-bar-3d {
+          background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(248,250,252,0.9)) !important;
+          backdrop-filter: blur(12px) saturate(1.5);
+          border-top: 1px solid rgba(197,168,128,0.15) !important;
+          position: relative;
+        }
+
+        .pdp-color-bar-3d::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+          pointer-events: none;
+          border-radius: inherit;
+        }
+
+        /* ── Color dot 3D effects ── */
+        .pdp-color-dot-3d {
+          position: relative;
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+
+        .pdp-color-dot-3d:hover {
+          transform: scale(1.2) translateY(-3px) !important;
+          box-shadow:
+            0 0 0 2px #fff,
+            0 6px 20px rgba(0, 0, 0, 0.25),
+            inset 0 -3px 6px rgba(0, 0, 0, 0.2),
+            inset 0 2px 3px rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .pdp-color-dot-3d:active {
+          transform: scale(0.95) translateY(0px) !important;
+          box-shadow:
+            0 0 0 2px #fff,
+            0 2px 6px rgba(0, 0, 0, 0.15),
+            inset 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        /* ── Thumbnail 3D hover ── */
+        .pdp-thumb {
+          transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+        }
+        .pdp-thumb:hover {
+          transform: translateY(-3px) scale(1.08);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06) !important;
+          opacity: 1 !important;
+        }
+
         /* Responsive Grid & Layout */
         .pdp-content-wrapper {
           max-width: 1400px;
@@ -467,9 +586,11 @@ const styles = {
   visualCard: {
     backgroundColor: '#ffffff',
     borderRadius: '20px',
-    border: '1px solid rgba(0,0,0,0.04)',
+    border: '1px solid rgba(0,0,0,0.06)',
     overflow: 'hidden',
-    boxShadow: '0 20px 40px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02)',
+    position: 'relative',
+    boxShadow:
+      '0 25px 50px rgba(0, 0, 0, 0.06), 0 12px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
   },
   discountBadge: {
     position: 'absolute',
@@ -505,7 +626,9 @@ const styles = {
   thumbnailImg: {
     width: '64px',
     height: '64px',
-    objectFit: 'cover',
+    objectFit: 'contain',
+    padding: '4px',
+    backgroundColor: '#ffffff',
     borderRadius: '10px',
     cursor: 'pointer',
     transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
@@ -516,8 +639,8 @@ const styles = {
     alignItems: 'center',
     gap: '1rem',
     padding: '1.25rem 1.5rem',
-    borderTop: '1px solid rgba(0,0,0,0.04)',
-    backgroundColor: '#ffffff',
+    borderTop: '1px solid rgba(197,168,128,0.15)',
+    backgroundColor: 'rgba(255,255,255,0.85)',
   },
   colorPreviewLabel: {
     fontSize: '0.85rem',
@@ -530,12 +653,12 @@ const styles = {
     gap: '0.75rem',
   },
   colorDot: {
-    width: '32px',
-    height: '32px',
+    width: '34px',
+    height: '34px',
     borderRadius: '50%',
-    border: '2px solid transparent',
+    border: 'none',
     cursor: 'pointer',
-    transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
+    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
     padding: 0,
     position: 'relative',
   },
