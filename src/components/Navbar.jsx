@@ -88,11 +88,11 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
 
   return (
     <nav style={styles.nav}>
-      <div className="container navbar-container" style={styles.container}>
+      {/* Removed the generic .container class so the navbar stretches full width, putting logo on the left edge */}
+      <div className="navbar-container" style={styles.container}>
         {/* Logo */}
         <div style={styles.logoContainer}>
-          <span style={styles.logoText}>EFIVE STUDIO</span>
-          <span style={styles.logoSubtext}>HOME</span>
+          <img src="/logo.jpg" alt="Efive Studio" style={styles.logoImage} />
         </div>
 
         {/* Search Bar */}
@@ -177,29 +177,22 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: '1.5rem',
+    padding: '0 2rem', // Adds spacing from the screen edges
   },
   logoContainer: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    lineHeight: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     cursor: 'pointer',
     flexShrink: 0,
+    width: '120px',
+    height: '45px',
+    overflow: 'hidden',
   },
-  logoText: {
-    fontFamily: 'var(--font-heading)',
-    fontSize: '1.4rem',
-    fontWeight: 700,
-    letterSpacing: '0.08em',
-    color: 'hsl(var(--text-color))',
-  },
-  logoSubtext: {
-    fontSize: '0.6rem',
-    textTransform: 'uppercase',
-    letterSpacing: '0.4em',
-    color: 'hsl(var(--primary-color))',
-    fontWeight: 600,
-    marginTop: '0.15rem',
+  logoImage: {
+    height: '180px', // Large enough so the text fills the 120x45 box
+    width: 'auto',
+    objectFit: 'contain',
   },
   searchContainer: {
     position: 'relative',
