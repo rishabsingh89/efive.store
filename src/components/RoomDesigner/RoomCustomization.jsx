@@ -178,8 +178,8 @@ export default function RoomCustomization() {
 const styles = {
   container: {
     position: 'absolute',
-    top: '1rem',
-    left: '1rem',
+    top: '0.5rem',
+    left: '0.5rem',
     zIndex: 10,
     width: '280px',
     backgroundColor: '#fff',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { useRoomDesigner } from './RoomDesignerContext';
 import { ROOM_SHAPES } from '../../data/roomDesignerData';
 
@@ -44,22 +44,111 @@ export default function RoomShapeSelector() {
   const roomId = state.activeRoomId;
   const room = state.rooms[roomId];
 
+  const containerRef = useRef(null);
+  const [position, setPosition] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragRef = useRef({ startX: 0, startY: 0, initialLeft: 0, initialTop: 0, wasDragging: false });
+
   if (!room) return null;
 
   const currentShape = room.roomShape || 'rectangle';
 
-  const handleShapeSelect = (shapeId) => {
+  const handleShapeSelect = (shapeId, e) => {
+    if (dragRef.current && dragRef.current.wasDragging) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     dispatch({ type: 'UPDATE_ROOM_STYLE', payload: { roomId, key: 'roomShape', value: shapeId } });
   };
 
+  const onPointerDown = (e) => {
+    if (e.button !== 0) return; // Only left click
+    
+    let centerX, centerY;
+    if (position) {
+      centerX = position.x;
+      centerY = position.y;
+    } else {
+      const rect = containerRef.current.getBoundingClientRect();
+      const parentRect = containerRef.current.offsetParent.getBoundingClientRect();
+      centerX = rect.left + rect.width / 2 - parentRect.left;
+      centerY = rect.top + rect.height / 2 - parentRect.top;
+    }
+
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      initialLeft: centerX,
+      initialTop: centerY,
+      wasDragging: false
+    };
+    setIsDragging(true);
+
+    const onMove = (ev) => {
+      const dx = ev.clientX - dragRef.current.startX;
+      const dy = ev.clientY - dragRef.current.startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+        dragRef.current.wasDragging = true;
+      }
+      setPosition({
+        x: dragRef.current.initialLeft + dx,
+        y: dragRef.current.initialTop + dy
+      });
+    };
+
+    const onUp = () => {
+      setIsDragging(false);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      
+      // Delay resetting wasDragging so onClick handlers can read it
+      setTimeout(() => {
+        if (dragRef.current) dragRef.current.wasDragging = false;
+      }, 50);
+    };
+
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  };
+
+  // Determine orientation
+  let orientation = 'row';
+  if (position && containerRef.current && containerRef.current.offsetParent) {
+    const parentWidth = containerRef.current.offsetParent.clientWidth;
+    const isLeft = position.x < 150;
+    const isRight = position.x > parentWidth - 150;
+    if (isLeft || isRight) orientation = 'column';
+  }
+
+  const defaultStyles = position ? {
+    top: `${position.y}px`,
+    left: `${position.x}px`,
+    transform: 'translate(-50%, -50%)',
+    flexDirection: orientation,
+  } : {
+    top: '0.5rem',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    flexDirection: 'row',
+  };
+
   return (
-    <div style={styles.container}>
+    <div 
+      ref={containerRef}
+      onPointerDown={onPointerDown}
+      style={{
+        ...styles.container,
+        ...defaultStyles,
+        cursor: isDragging ? 'grabbing' : 'grab',
+      }}
+    >
       {ROOM_SHAPES.map((shape) => {
         const isSelected = currentShape === shape.id;
         return (
           <button
             key={shape.id}
-            onClick={() => handleShapeSelect(shape.id)}
+            onClick={(e) => handleShapeSelect(shape.id, e)}
             style={{
               ...styles.shapeBtn,
               borderColor: isSelected ? '#C5A880' : 'transparent',
@@ -85,8 +174,6 @@ export default function RoomShapeSelector() {
 const styles = {
   container: {
     position: 'absolute',
-    top: '1.25rem',
-    left: '320px',
     zIndex: 10,
     display: 'flex',
     gap: '0.75rem',
@@ -98,6 +185,7 @@ const styles = {
     boxShadow: '0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,1)',
     border: '1px solid rgba(220, 215, 205, 0.5)',
     alignItems: 'center',
+    touchAction: 'none' // Prevent scrolling when dragging on touch devices
   },
   shapeBtn: {
     display: 'flex',
@@ -108,7 +196,7 @@ const styles = {
     padding: '0.5rem 0.75rem',
     borderRadius: '12px',
     border: '2px solid transparent',
-    cursor: 'pointer',
+    cursor: 'pointer', // this gets overridden by container but remains useful
     transition: 'all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
     minWidth: '70px',
     background: 'transparent',
@@ -121,3 +209,4 @@ const styles = {
     letterSpacing: '0.04em',
   }
 };
+

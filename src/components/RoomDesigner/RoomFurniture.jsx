@@ -20,100 +20,96 @@ const MODEL_HEIGHTS = {
   decor: 0.7,
 };
 
+function ControlDot({ position }) {
+  return (
+    <Html position={position} center zIndexRange={[100, 0]}>
+      <div style={{
+        width: '14px',
+        height: '14px',
+        borderRadius: '50%',
+        backgroundColor: '#ffffff',
+        border: '3px solid rgba(136, 136, 136, 0.9)',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.5)',
+        pointerEvents: 'none'
+      }} />
+    </Html>
+  );
+}
+
 function FurnitureModel({ category, w, d, color }) {
   // w = width (X axis), d = depth (Z axis)
   switch (category) {
     case 'doors': {
       const doorH = 2.1336; // 7 feet in meters
       const doorD = 0.12;
-      let frameColor = '#ffffff';
-      let panelColor = '#ffffff';
-      let handleColor = '#b0bec5'; 
-      let isGlassPanel = false;
-      
-      if (color === 'wooden' || color === '#4e342e') {
-        frameColor = '#4e342e'; 
-        panelColor = '#5d4037';
-        handleColor = '#ffd54f'; 
-      } else if (color === 'glass' || color === '#212121') {
-        frameColor = '#212121'; 
-        panelColor = '#212121';
-        isGlassPanel = true;
-      }
-      
       return (
         <group>
-          {/* Door Casing / Frame */}
+          {/* Frame */}
           <mesh position={[0, doorH / 2, 0]} castShadow receiveShadow>
             <boxGeometry args={[w, doorH, doorD]} />
-            <meshStandardMaterial color={frameColor} roughness={0.7} />
+            <meshStandardMaterial color="#ffffff" roughness={0.7} />
+          </mesh>
+          {/* Flush Panel */}
+          <mesh position={[0, doorH / 2, 0]} castShadow receiveShadow>
+            <boxGeometry args={[w - 0.04, doorH - 0.04, doorD + 0.02]} />
+            <meshStandardMaterial color="#ffffff" roughness={0.6} />
+          </mesh>
+          {/* Subtle panel grooves/trim for depth */}
+          <mesh position={[0, doorH / 2, 0]}>
+            <boxGeometry args={[w - 0.1, doorH - 0.1, doorD + 0.025]} />
+            <meshStandardMaterial color="#f5f5f5" roughness={0.7} />
           </mesh>
           
-          {/* Door Leaf / Panel */}
-          {isGlassPanel ? (
-            <group>
-              <mesh position={[0, doorH / 2, 0]} castShadow>
-                <boxGeometry args={[w - 0.08, doorH - 0.08, 0.03]} />
-                <meshStandardMaterial color={panelColor} roughness={0.8} />
-              </mesh>
-              <mesh position={[0, doorH / 2, 0.005]}>
-                <boxGeometry args={[w - 0.16, doorH - 0.16, 0.02]} />
-                <meshStandardMaterial color="#80deea" transparent opacity={0.3} roughness={0.1} metalness={0.9} />
-              </mesh>
-            </group>
-          ) : (
-            <mesh position={[0, doorH / 2, 0]} castShadow receiveShadow>
-              <boxGeometry args={[w - 0.04, doorH - 0.02, 0.04]} />
-              <meshStandardMaterial color={panelColor} roughness={0.6} />
+          {/* Modern Horizontal Lever Handle */}
+          <group position={[w / 2 - 0.1, doorH / 2, doorD / 2 + 0.02]}>
+            <mesh castShadow rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[0.02, 0.02, 0.01, 16]} />
+              <meshStandardMaterial color="#b0bec5" metalness={0.8} roughness={0.2} />
             </mesh>
-          )}
-
-          {/* Door Handle */}
-          <group position={[w / 2 - 0.09, doorH / 2, 0.03]}>
-            <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
-              <cylinderGeometry args={[0.015, 0.015, 0.01, 8]} />
-              <meshStandardMaterial color={handleColor} metalness={0.9} roughness={0.1} />
+            <mesh position={[0, 0, 0.02]} castShadow rotation={[Math.PI / 2, 0, 0]}>
+              <cylinderGeometry args={[0.01, 0.01, 0.04, 8]} />
+              <meshStandardMaterial color="#b0bec5" metalness={0.8} roughness={0.2} />
             </mesh>
-            <mesh position={[0.035, 0, 0.01]} castShadow>
-              <boxGeometry args={[0.07, 0.015, 0.015]} />
-              <meshStandardMaterial color={handleColor} metalness={0.9} roughness={0.1} />
+            <mesh position={[-0.04, 0, 0.04]} castShadow>
+              <boxGeometry args={[0.1, 0.015, 0.01]} />
+              <meshStandardMaterial color="#b0bec5" metalness={0.8} roughness={0.2} />
             </mesh>
           </group>
         </group>
       );
     }
     case 'windows': {
-      const winH = 0.6;
+      const winH = 1.0;
       const winD = 0.12;
-      const frameColor = color === 'grid' ? '#3e2723' : '#ffffff';
-      
       return (
         <group position={[0, Math.max(w, 0.1)/2 + winH/2, 0]}>
+          {/* Main Frame */}
           <mesh castShadow receiveShadow>
             <boxGeometry args={[w, winH, winD]} />
-            <meshStandardMaterial color={frameColor} roughness={0.7} />
+            <meshStandardMaterial color="#ffffff" roughness={0.7} />
           </mesh>
-          <mesh>
-            <boxGeometry args={[w - 0.1, winH - 0.1, 0.02]} />
-            <meshStandardMaterial color="#80deea" transparent opacity={0.35} roughness={0.1} metalness={0.9} />
-          </mesh>
-          {color === 'grid' ? (
-            <group>
-              <mesh position={[0, 0, 0.01]}>
-                <boxGeometry args={[0.02, winH - 0.1, 0.02]} />
-                <meshBasicMaterial color={frameColor} />
-              </mesh>
-              <mesh position={[0, 0, 0.01]}>
-                <boxGeometry args={[w - 0.1, 0.02, 0.02]} />
-                <meshBasicMaterial color={frameColor} />
-              </mesh>
-            </group>
-          ) : (
-            <mesh position={[0, 0, 0.01]}>
-              <boxGeometry args={[0.04, winH - 0.1, 0.02]} />
-              <meshBasicMaterial color={frameColor} />
+          {/* Left Sliding Panel */}
+          <group position={[-w / 4, 0, 0.02]}>
+            <mesh>
+              <boxGeometry args={[w / 2 - 0.02, winH - 0.08, 0.04]} />
+              <meshStandardMaterial color="#ffffff" roughness={0.8} />
             </mesh>
-          )}
+            <mesh position={[0, 0, 0.01]}>
+              <boxGeometry args={[w / 2 - 0.06, winH - 0.12, 0.04]} />
+              <meshStandardMaterial color="#80deea" transparent opacity={0.35} roughness={0.1} metalness={0.9} />
+            </mesh>
+          </group>
+          {/* Right Sliding Panel */}
+          <group position={[w / 4, 0, -0.02]}>
+            <mesh>
+              <boxGeometry args={[w / 2 - 0.02, winH - 0.08, 0.04]} />
+              <meshStandardMaterial color="#ffffff" roughness={0.8} />
+            </mesh>
+            <mesh position={[0, 0, 0.01]}>
+              <boxGeometry args={[w / 2 - 0.06, winH - 0.12, 0.04]} />
+              <meshStandardMaterial color="#80deea" transparent opacity={0.35} roughness={0.1} metalness={0.9} />
+            </mesh>
+          </group>
         </group>
       );
     }
@@ -535,6 +531,11 @@ export default function RoomFurniture({ item, roomW, roomD, setOrbitEnabled }) {
         
         {isSelected && (
           <>
+            {/* Control Dots directly on the model */}
+            <ControlDot position={[0, modelH / 2, 0]} />
+            <ControlDot position={[0, modelH / 2, h3 / 3]} />
+            <ControlDot position={[0, modelH / 2, -h3 / 3]} />
+            
             {/* Clean Minimal Floating Tooltip above the item */}
             <Html position={[0, modelH + 0.25, 0]} distanceFactor={4} style={{ pointerEvents: 'none' }}>
               <div style={styles.floatingTooltip}>

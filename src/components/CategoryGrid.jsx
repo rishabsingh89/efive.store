@@ -42,6 +42,8 @@ export default function CategoryGrid({ activeCategory, onCategorySelect }) {
                     alt={cat.name}
                     style={{
                       ...styles.image,
+                      objectFit: cat.id === 'tables' ? 'contain' : 'cover',
+                      backgroundColor: cat.id === 'tables' ? '#f5f5f5' : 'transparent',
                       ...(isActive ? styles.activeImage : {})
                     }}
                   />

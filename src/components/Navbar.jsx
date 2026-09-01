@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search, Sparkles } from 'lucide-react';
 import { openWhatsAppChannel } from '../whatsapp';
 
@@ -18,9 +18,72 @@ function WhatsAppIcon({ size = 18 }) {
   );
 }
 
-export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit }) {
+export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, products = [] }) {
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const searchContainerRef = useRef(null);
+
   const handleNavWhatsApp = () => {
     openWhatsAppChannel();
+  };
+
+  // Generate suggestions based on search query
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    const searchLower = searchQuery.trim().toLowerCase();
+    const newSuggestions = [];
+    const addedText = new Set();
+
+    // 1. Check for matching categories
+    const categories = ['beds', 'dining', 'chairs', 'decor', 'tvunits', 'study', 'tables'];
+    categories.forEach(cat => {
+      if (cat.toLowerCase().includes(searchLower)) {
+        const text = cat.charAt(0).toUpperCase() + cat.slice(1);
+        if (!addedText.has(text)) {
+          newSuggestions.push({ type: 'category', text, value: cat });
+          addedText.add(text);
+        }
+      }
+    });
+
+    // 2. Check for matching products
+    products.forEach(product => {
+      if (product.name.toLowerCase().includes(searchLower)) {
+        if (!addedText.has(product.name)) {
+          newSuggestions.push({ type: 'product', text: product.name, value: product.name });
+          addedText.add(product.name);
+        }
+      }
+    });
+
+    // Limit to top 6 suggestions to keep the dropdown manageable
+    setSuggestions(newSuggestions.slice(0, 6));
+  }, [searchQuery, products]);
+
+  // Handle clicking outside the search container to close dropdown
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        setIsSearchFocused(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleSuggestionClick = (suggestion) => {
+    onSearchChange(suggestion.text);
+    setIsSearchFocused(false);
+    if (onSearchSubmit) {
+      // Small delay to ensure state update before submit
+      setTimeout(() => onSearchSubmit(), 0);
+    }
   };
 
   return (
@@ -33,25 +96,48 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit }) 
         </div>
 
         {/* Search Bar */}
-        <div className="navbar-search" style={styles.searchContainer}>
+        <div className="navbar-search" style={styles.searchContainer} ref={searchContainerRef}>
           <Search 
             size={18} 
             style={{ ...styles.searchIcon, pointerEvents: 'auto', cursor: 'pointer' }} 
-            onClick={onSearchSubmit}
+            onClick={() => {
+              if (onSearchSubmit) onSearchSubmit();
+              setIsSearchFocused(false);
+            }}
           />
           <input
             type="text"
             placeholder="Search luxury furniture, rugs, decor..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && onSearchSubmit) {
-                onSearchSubmit();
+              if (e.key === 'Enter') {
+                if (onSearchSubmit) onSearchSubmit();
+                setIsSearchFocused(false);
               }
             }}
             style={styles.searchInput}
             aria-label="Search products"
           />
+          
+          {/* Autocomplete Dropdown */}
+          {isSearchFocused && searchQuery && suggestions.length > 0 && (
+            <div style={styles.dropdown}>
+              {suggestions.map((suggestion, index) => (
+                <div 
+                  key={index} 
+                  style={styles.dropdownItem}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(197, 168, 128, 0.08)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <Search size={14} style={styles.dropdownIcon} />
+                  <span style={styles.dropdownText}>{suggestion.text}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Navigation Actions */}
@@ -138,6 +224,39 @@ const styles = {
     fontSize: '0.9rem',
     outline: 'none',
     transition: 'var(--transition-smooth)',
+  },
+  dropdown: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    marginTop: '0.5rem',
+    backgroundColor: '#fff',
+    borderRadius: '12px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+    border: '1px solid hsl(var(--border-color))',
+    overflow: 'hidden',
+    zIndex: 1000,
+  },
+  dropdownItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '0.75rem 1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s',
+  },
+  dropdownIcon: {
+    color: 'hsl(var(--muted-color))',
+    flexShrink: 0,
+  },
+  dropdownText: {
+    fontSize: '0.9rem',
+    color: 'hsl(var(--text-color))',
+    fontFamily: 'var(--font-body)',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   actions: {
     display: 'flex',

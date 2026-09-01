@@ -43,6 +43,7 @@ export default function Storefront() {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onSearchSubmit={scrollToCatalog}
+        products={products}
       />
 
       {/* Hero Banner */}

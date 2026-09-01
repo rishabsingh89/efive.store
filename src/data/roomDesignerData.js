@@ -103,8 +103,8 @@ export const ROOM_TYPE_DEFAULTS = {
     doors: [{ x: 0, y: 175, w: 100, side: 'left' }],
   },
   bedroom: {
-    width: 400, height: 350,
-    wallColor: '#D6BCA1', floorType: 'tiles', ceilingColor: '#FFFFFF',
+    width: 487, height: 470,
+    wallColor: '#FFFFFF', floorType: 'wooden', ceilingColor: '#FFFFFF',
     windows: [{ x: 200, y: 0, w: 100, side: 'top' }],
     doors: [{ x: 0, y: 100, w: 100, side: 'left' }, { x: 0, y: 250, w: 100, side: 'left' }],
   },
