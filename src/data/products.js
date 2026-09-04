@@ -119,81 +119,161 @@ export const products = [
   },
 
   // --- DECOR ---
+
   {
     id: 'decor-1',
-    name: 'Antara Hand-Knotted Woolen Rug',
+    name: 'Handwoven Macrame Sun & Rainbow Wall Decor',
+    images: ['/1778757701815.jpg.jpeg'],
     category: 'decor',
-    price: 18999,
-    originalPrice: 24999,
-    rating: 4.8,
-    reviews: 79,
-    description: 'Add warmth and texture underfoot. The Antara Rug is meticulously hand-knotted by artisans in India using premium New Zealand wool in a modern abstract design.',
+    price: 1299,
+    originalPrice: 1999,
+    rating: 4.9,
+    reviews: 42,
+    description: 'A beautiful handcrafted macrame rainbow wall hanging to add a bohemian and cheerful touch to any room. Made with natural cotton cords and pastel shades.',
     features: [
-      '100% Premium New Zealand Wool',
-      'Plush, dense pile (12mm thickness) for ultimate comfort',
-      'Shed-resistant and highly durable weave',
-      'Eco-friendly and natural dyes'
+      '100% Natural Cotton Cords',
+      'Handwoven by expert artisans',
+      'Bohemian and cheerful pastel shades',
+      'Ready to hang instantly'
     ],
     specifications: {
-      material: 'New Zealand Wool, Cotton Backing',
-      dimensions: 'W 150cm x L 240cm (5ft x 8ft)',
-      warranty: '1 Year Warranty',
-      assembly: 'No Assembly Required'
+      material: 'Cotton, Wood',
+      dimensions: 'W 25cm x H 20cm',
+      warranty: 'No Warranty',
+      assembly: 'Ready to Hang'
     },
     colors: [
-      { name: 'Ivory & Grey Abstract', hex: '#eceff1' },
-      { name: 'Terracotta Rust Abstract', hex: '#bf360c' }
+      { name: 'Multicolor Pastel', hex: '#E5D3C8' }
     ]
   },
   {
     id: 'decor-2',
-    name: 'Aurelius Ribbed Ceramic Vase Set (3-Piece)',
+    name: 'Boho Macrame Rainbow Feather Wall Hanging',
+    images: ['/InShot_20260613_145926359.jpg.jpeg'],
     category: 'decor',
-    price: 4999,
-    originalPrice: 6999,
-    rating: 4.5,
-    reviews: 110,
-    description: 'A curated set of three hand-finished ribbed ceramic vases in graduating sizes. Their matte textured finish brings an organic, modern feel to shelves, consoles, or mantels.',
+    price: 1499,
+    originalPrice: 2199,
+    rating: 4.8,
+    reviews: 29,
+    description: 'Handcrafted bohemian macrame wall hanging featuring pastel feather accents and intricate knotting techniques.',
     features: [
-      'High-fired stoneware ceramic',
-      'Ribbed modern textures and earth-toned matte glazes',
-      'Waterproof interiors for fresh floral arrangements',
-      'Packaged in a secure gift box'
+      '100% Natural Cotton Cords',
+      'Handwoven by expert artisans',
+      'Feather and leaf accents',
+      'Ready to hang instantly'
     ],
     specifications: {
-      material: 'Glazed Stoneware Ceramic',
-      dimensions: 'Small: 15cm H, Medium: 22cm H, Large: 30cm H',
-      warranty: 'Damaged Transit Replacement',
-      assembly: 'No Assembly Required'
+      material: 'Cotton, Wood',
+      dimensions: 'W 30cm x H 25cm',
+      warranty: 'No Warranty',
+      assembly: 'Ready to Hang'
     },
     colors: [
-      { name: 'Earthy Matte Tones', hex: '#d7ccc8' }
+      { name: 'Warm Cream & Sage', hex: '#D8E2DC' }
     ]
   },
   {
     id: 'decor-3',
-    name: 'Helios Brass Sunburst Wall Mirror',
+    name: 'Custom Name Macrame Nursery Wall Decor',
+    images: ['/InShot_20260815_195530665.jpg.jpeg'],
     category: 'decor',
-    price: 8999,
-    originalPrice: 11999,
-    rating: 4.7,
-    reviews: 64,
-    description: 'Make a statement on your wall with the Helios Mirror. Hand-welded metal spikes finished in antique gold finish radiate from a high-clarity central bevelled mirror.',
+    price: 1599,
+    originalPrice: 2399,
+    rating: 5.0,
+    reviews: 38,
+    description: 'Personalized handcrafted macrame wall decor ideal for nursery and kids rooms, featuring custom nameplate integration.',
     features: [
-      'High-definition reflection with bevelled edge',
-      'Intricate, hand-welded iron sunburst frame',
-      'Antique gold powder coat finish resists rust',
-      'Pre-installed heavy duty mounting brackets'
+      'Customizable Nameplate',
+      '100% Eco-friendly Cotton Cords',
+      'Delicate pastels and soft textures',
+      'Ready to hang instantly'
     ],
     specifications: {
-      material: 'Iron, High-Definition Mirror Glass',
-      dimensions: 'Outer Diameter: 90cm, Mirror: 35cm',
-      warranty: '2 Years Warranty',
-      assembly: 'Wall Hanging (Hardware Included)'
+      material: 'Cotton, Birch Wood',
+      dimensions: 'W 35cm x H 25cm',
+      warranty: 'No Warranty',
+      assembly: 'Ready to Hang'
     },
     colors: [
-      { name: 'Brushed Antique Gold', hex: '#dfb15b' },
-      { name: 'Sleek Obsidian Black', hex: '#212121' }
+      { name: 'Dusty Pink & Gold', hex: '#F4ACB7' }
+    ]
+  },
+  {
+    id: 'decor-4',
+    name: 'Pastel Dreams Macrame Rainbow Hanging',
+    images: ['/InShot_20260815_195719426.jpg.jpeg'],
+    category: 'decor',
+    price: 1399,
+    originalPrice: 1999,
+    rating: 4.7,
+    reviews: 19,
+    description: 'Soothing pastel macrame arch with pom-pom detailing and soft fringes, perfect for modern cozy interiors.',
+    features: [
+      'Soft Pom-Pom Accents',
+      'Hand-finished Cotton Tapestry',
+      'Calming Pastel Tones',
+      'Ready to hang instantly'
+    ],
+    specifications: {
+      material: 'Cotton, Wood',
+      dimensions: 'W 28cm x H 22cm',
+      warranty: 'No Warranty',
+      assembly: 'Ready to Hang'
+    },
+    colors: [
+      { name: 'Sky Blue & Mustard', hex: '#A8DADC' }
+    ]
+  },
+  {
+    id: 'decor-5',
+    name: 'Chic Macrame Leaf & Tassel Wall Art',
+    images: ['/InShot_20260815_195735818.jpg (1).jpeg'],
+    category: 'decor',
+    price: 1699,
+    originalPrice: 2499,
+    rating: 4.9,
+    reviews: 54,
+    description: 'Statement macrame tapestry with layered leaf tassels and natural wooden ring focal point.',
+    features: [
+      'Layered Tassel Design',
+      'Natural Wooden Ring Holder',
+      'Artisanal Craftsmanship',
+      'Ready to hang instantly'
+    ],
+    specifications: {
+      material: 'Cotton, Natural Wood',
+      dimensions: 'W 40cm x H 30cm',
+      warranty: 'No Warranty',
+      assembly: 'Ready to Hang'
+    },
+    colors: [
+      { name: 'Terracotta & Ivory', hex: '#E07A5F' }
+    ]
+  },
+  {
+    id: 'decor-6',
+    name: 'Artisan Woven Macrame Banner',
+    images: ['/InShot_20260904_191033802.jpg.jpeg'],
+    category: 'decor',
+    price: 1199,
+    originalPrice: 1799,
+    rating: 4.8,
+    reviews: 31,
+    description: 'Minimalist macrame wall banner with clean geometric weave and elegant fringed bottom.',
+    features: [
+      'Minimalist Geometric Weave',
+      'Compact & Lightweight',
+      'Neutral Scandinavian Style',
+      'Ready to hang instantly'
+    ],
+    specifications: {
+      material: 'Cotton, Dowel Wood',
+      dimensions: 'W 20cm x H 18cm',
+      warranty: 'No Warranty',
+      assembly: 'Ready to Hang'
+    },
+    colors: [
+      { name: 'Natural Oatmeal', hex: '#F5EBE0' }
     ]
   },
 

@@ -1,0 +1,264 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+ * DESIGN SLIDER — Premium full-width section
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+.ds-section {
+  padding: 5rem 0 6rem;
+  background: #FAF7F2;
+}
+
+/* ─── Header ─── */
+.ds-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.ds-eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #9C7A4F;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.ds-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #1E1D1B;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6rem 0;
+}
+
+.ds-title-line {
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(to right, #C5A880, transparent);
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+/* ─── Slider Wrapper ─── */
+.ds-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(30, 29, 27, 0.12);
+  aspect-ratio: 16 / 7;
+  cursor: default;
+  /* Contain the children */
+  contain: layout;
+}
+
+/* ─── Progress Bar ─── */
+.ds-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 20;
+}
+
+.ds-progress-fill {
+  height: 100%;
+  width: 0;
+  background: #C5A880;
+  animation: ds-progress linear forwards;
+}
+
+@keyframes ds-progress {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* ─── Track ─── */
+.ds-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+/* ─── Slide ─── */
+.ds-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ds-slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 8s ease;
+}
+
+/* Very subtle Ken Burns on active slide */
+.ds-slide-img:hover {
+  transform: scale(1.03);
+}
+
+.ds-slide-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.2) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ─── Slide Content ─── */
+.ds-slide-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.5rem 3.5rem;
+  z-index: 5;
+}
+
+.ds-slide-label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: #C5A880;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  background: rgba(197, 168, 128, 0.15);
+  border: 1px solid rgba(197, 168, 128, 0.35);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.ds-slide-text {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+  max-width: 700px;
+}
+
+/* ─── Arrows ─── */
+.ds-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.ds-arrow:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.ds-arrow--prev { left: 1.5rem; }
+.ds-arrow--next { right: 1.5rem; }
+
+/* ─── Dots ─── */
+.ds-dots {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 3rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 15;
+}
+
+.ds-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.ds-dot:hover {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.ds-dot--active {
+  width: 24px;
+  border-radius: 4px;
+  background: #C5A880;
+}
+
+/* ─── Pause Badge ─── */
+.ds-paused-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  opacity: 0.7;
+  pointer-events: none;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1280px) {
+  .ds-wrapper { border-radius: 0; max-width: 100%; }
+}
+
+@media (max-width: 1024px) {
+  .ds-wrapper { aspect-ratio: 16 / 8; }
+  .ds-slide-content { padding: 2rem 2.5rem; }
+}
+
+@media (max-width: 768px) {
+  .ds-section { padding: 4rem 0; }
+  .ds-wrapper { aspect-ratio: 4 / 3; }
+  .ds-arrow { width: 40px; height: 40px; }
+  .ds-arrow--prev { left: 0.75rem; }
+  .ds-arrow--next { right: 0.75rem; }
+  .ds-slide-content { padding: 1.5rem; }
+  .ds-dots { right: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .ds-wrapper { aspect-ratio: 1 / 1; }
+  .ds-slide-text { font-size: 1.3rem; }
+  .ds-arrow { display: none; } /* Swipe-friendly on mobile */
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
+import DesignSlider from './DesignSlider';
 import CategoryGrid from './CategoryGrid';
 import InteriorSection from './InteriorSection';
 import CategorySection from './CategorySection';
@@ -48,6 +49,9 @@ export default function Storefront() {
 
       {/* Hero Banner */}
       <Hero onExploreClick={scrollToCatalog} />
+
+      {/* Design Journey Slider */}
+      <DesignSlider />
 
       {/* Luxury Interior Solutions */}
       <InteriorSection />

@@ -95,11 +95,17 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
           <img src="/logo.jpg" alt="Efive Studio" style={styles.logoImage} />
         </div>
 
+        {/* Tagline */}
+        <div style={styles.navTagline} className="nav-tagline-desktop">
+          We Curate Spaces,&nbsp;
+          <span style={styles.navTaglineItalic}>Not Just Furniture.</span>
+        </div>
+
         {/* Search Bar */}
         <div className="navbar-search" style={styles.searchContainer} ref={searchContainerRef}>
-          <Search 
-            size={18} 
-            style={{ ...styles.searchIcon, pointerEvents: 'auto', cursor: 'pointer' }} 
+          <Search
+            size={18}
+            style={{ ...styles.searchIcon, pointerEvents: 'auto', cursor: 'pointer' }}
             onClick={() => {
               if (onSearchSubmit) onSearchSubmit();
               setIsSearchFocused(false);
@@ -120,13 +126,13 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
             style={styles.searchInput}
             aria-label="Search products"
           />
-          
+
           {/* Autocomplete Dropdown */}
           {isSearchFocused && searchQuery && suggestions.length > 0 && (
             <div style={styles.dropdown}>
               {suggestions.map((suggestion, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   style={styles.dropdownItem}
                   onClick={() => handleSuggestionClick(suggestion)}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(197, 168, 128, 0.08)'}
@@ -177,7 +183,45 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: '1.5rem',
-    padding: '0 2rem', // Adds spacing from the screen edges
+    padding: '0 2rem',
+  },
+  navTagline: {
+    fontFamily: 'var(--font-heading)',
+    fontSize: '1rem',
+    fontWeight: 500,
+    color: 'rgba(44, 43, 41, 0.45)',
+    letterSpacing: '0.01em',
+    whiteSpace: 'nowrap',
+    flexShrink: 0,
+  },
+  navTaglineItalic: {
+    fontStyle: 'italic',
+    fontWeight: 600,
+    color: 'rgba(156, 122, 79, 0.7)',
+  },
+  leftGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '2rem',
+  },
+  rightGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1.5rem',
+    flex: '1',
+    justifyContent: 'flex-end',
+  },
+  navTagline: {
+    fontFamily: 'var(--font-heading)',
+    fontSize: '1.05rem',
+    fontWeight: '800',
+    color: '#2C2B29',
+    letterSpacing: '0.02em',
+    whiteSpace: 'nowrap',
+  },
+  navTaglineHighlight: {
+    fontStyle: 'italic',
+    color: '#9C7A4F',
   },
   logoContainer: {
     display: 'flex',
@@ -199,6 +243,7 @@ const styles = {
     flex: '0 1 500px',
     display: 'flex',
     alignItems: 'center',
+    marginLeft: 'auto',
   },
   searchIcon: {
     position: 'absolute',
