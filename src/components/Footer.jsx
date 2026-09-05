@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, ArrowRight, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -114,6 +115,7 @@ export default function Footer() {
             <span style={styles.bottomLink}>Privacy Policy</span>
             <span style={styles.bottomLink}>Terms of Service</span>
             <span style={styles.bottomLink}>Care Instructions</span>
+            <Link to="/admin" style={{...styles.bottomLink, textDecoration: 'none'}}>Admin</Link>
           </div>
         </div>
       </div>
