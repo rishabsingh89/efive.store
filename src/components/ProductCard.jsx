@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Star } from 'lucide-react';
+import { Star, ShoppingCart, Heart, Plus, Minus } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
 import ProductSVG from './ProductSVG';
 import { openWhatsApp } from '../whatsapp';
 
@@ -22,9 +23,14 @@ function WhatsAppIcon({ size = 16, className }) {
 
 export default function ProductCard({ product, onQuickView }) {
   const { name, id, category, price, originalPrice, rating, reviews, colors } = product;
-
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [selectedColor, setSelectedColor] = useState(colors && colors.length > 0 ? colors[0] : null);
+  
+  const { cartItems, addToCart, removeFromCart, toggleWishlist, isInWishlist } = useCart();
+  
+  const cartItem = cartItems.find(i => i.id === id);
+  const quantityInCart = cartItem ? cartItem.quantity : 0;
+  const isWishlisted = isInWishlist(id);
 
   const displayPrice = selectedColor?.price || price;
   const displayOriginalPrice = selectedColor?.originalPrice || originalPrice;
@@ -64,6 +70,29 @@ export default function ProductCard({ product, onQuickView }) {
         {displayDiscountBadge && (
           <span style={styles.discountBadge}>-{discountPercent}%</span>
         )}
+        {/* Wishlist Button Overlay */}
+        <button 
+          className="wishlist-btn-overlay"
+          onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}
+          style={{
+            position: 'absolute',
+            top: '0.75rem',
+            right: '0.75rem',
+            backgroundColor: '#fff',
+            border: 'none',
+            borderRadius: '50%',
+            width: '32px',
+            height: '32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            zIndex: 10,
+            cursor: 'pointer'
+          }}
+        >
+          <Heart size={16} fill={isWishlisted ? '#ff4757' : 'none'} color={isWishlisted ? '#ff4757' : '#706D67'} />
+        </button>
 
         {product.images && product.images.length > 0 ? (
           <img src={product.images[activeImageIdx] || product.images[0]} alt={name} />
@@ -119,8 +148,8 @@ export default function ProductCard({ product, onQuickView }) {
           </div>
         )}
 
-        {/* Price + WhatsApp button */}
-        <div className="product-bottom-row">
+        {/* Price + Actions button */}
+        <div className="product-bottom-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
           <div className="product-price-container">
             <span className="product-price">₹{displayPrice.toLocaleString('en-IN')}</span>
             {displayOriginalPrice && (
@@ -128,14 +157,39 @@ export default function ProductCard({ product, onQuickView }) {
             )}
           </div>
 
-          <button
-            onClick={handleWhatsApp}
-            className="product-wa-btn"
-            title="Connect on WhatsApp"
-            aria-label={`Connect on WhatsApp for ${name}`}
-          >
-            <WhatsAppIcon className="wa-icon" size={18} />
-          </button>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            {quantityInCart > 0 ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: '#f5f5f5', borderRadius: '20px', padding: '0.2rem 0.5rem', border: '1px solid #ddd' }}>
+                <button onClick={(e) => { e.stopPropagation(); removeFromCart(id); }} style={{ border: 'none', background: 'transparent', cursor: 'pointer', padding: '0.2rem' }}>
+                  <Minus size={14} />
+                </button>
+                <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{quantityInCart}</span>
+                <button onClick={(e) => { e.stopPropagation(); addToCart(product); }} style={{ border: 'none', background: 'transparent', cursor: 'pointer', padding: '0.2rem' }}>
+                  <Plus size={14} />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={(e) => { e.stopPropagation(); addToCart(product); }}
+                style={{
+                  width: '38px', height: '38px', borderRadius: '50%', backgroundColor: '#f0f0f0', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s'
+                }}
+                title="Add to Cart"
+              >
+                <ShoppingCart size={18} color="#2C2B29" />
+              </button>
+            )}
+            
+            <button
+              onClick={handleWhatsApp}
+              className="product-wa-btn"
+              title="Connect on WhatsApp"
+              aria-label={`Connect on WhatsApp for ${name}`}
+              style={{ width: '38px', height: '38px', borderRadius: '50%', backgroundColor: '#25D366', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}
+            >
+              <WhatsAppIcon className="wa-icon" size={18} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

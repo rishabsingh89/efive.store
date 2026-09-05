@@ -6,17 +6,21 @@ import RoomDesigner from './components/RoomDesigner/RoomDesigner';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/AdminDashboard';
 
+import { CartProvider } from './contexts/CartContext';
+
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Storefront />} />
-        <Route path="/calculate-cost" element={<CostCalculator />} />
-        <Route path="/room-designer" element={<RoomDesigner />} />
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} />
-        </Route>
-      </Routes>
-    </Router>
+    <CartProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Storefront />} />
+          <Route path="/calculate-cost" element={<CostCalculator />} />
+          <Route path="/room-designer" element={<RoomDesigner />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+          </Route>
+        </Routes>
+      </Router>
+    </CartProvider>
   );
 }

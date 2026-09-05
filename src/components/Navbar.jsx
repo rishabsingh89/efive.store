@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Sparkles } from 'lucide-react';
+import { Search, Sparkles, ShoppingCart, Heart } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
 import { openWhatsAppChannel } from '../whatsapp';
 
 // WhatsApp SVG Icon (inline so Navbar stays self-contained)
@@ -22,6 +23,7 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const searchContainerRef = useRef(null);
+  const { cartCount, wishlistItems } = useCart();
 
   const handleNavWhatsApp = () => {
     openWhatsAppChannel();
@@ -148,9 +150,18 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
 
         {/* Navigation Actions */}
         <div style={styles.actions}>
-          <div style={styles.premiumTag} className="premium-tag-desktop">
-            <Sparkles size={14} style={{ color: 'hsl(var(--primary-color))' }} />
-            <span style={styles.tagText}>Curated Collection</span>
+          {/* Wishlist Icon */}
+          <div style={styles.iconContainer} title="Wishlist">
+            <Heart size={20} style={{ color: 'hsl(var(--text-color))' }} />
+            {wishlistItems.length > 0 && (
+              <span style={styles.badge}>{wishlistItems.length}</span>
+            )}
+          </div>
+
+          {/* Cart Icon */}
+          <div style={styles.iconContainer} title="Cart">
+            <ShoppingCart size={20} style={{ color: 'hsl(var(--text-color))' }} />
+            <span style={styles.badge}>{cartCount}</span>
           </div>
 
           {/* WhatsApp CTA button in Navbar */}
@@ -302,20 +313,34 @@ const styles = {
     gap: '1rem',
     flexShrink: 0,
   },
-  premiumTag: {
-    display: 'inline-flex',
+  iconContainer: {
+    position: 'relative',
+    display: 'flex',
     alignItems: 'center',
-    gap: '0.4rem',
-    padding: '0.4rem 0.8rem',
-    backgroundColor: 'rgba(197, 168, 128, 0.08)',
-    borderRadius: '16px',
-    border: '1px solid rgba(197, 168, 128, 0.15)',
+    justifyContent: 'center',
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    backgroundColor: '#fff',
+    border: '1px solid hsl(var(--border-color))',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
   },
-  tagText: {
-    fontSize: '0.75rem',
-    fontWeight: 500,
-    color: 'hsl(var(--primary-color))',
-    letterSpacing: '0.02em',
+  badge: {
+    position: 'absolute',
+    top: '-4px',
+    right: '-4px',
+    backgroundColor: 'hsl(var(--primary-color))',
+    color: '#fff',
+    fontSize: '0.65rem',
+    fontWeight: 'bold',
+    width: '18px',
+    height: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    border: '2px solid #fff',
   },
   // WhatsApp button in navbar
   waBtn: {
