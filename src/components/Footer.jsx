@@ -53,7 +53,7 @@ export default function Footer() {
               Designing spaces, shaping comfort. Efive Studio curates high-end modular furniture and aesthetic home decor tailored for modern living.
             </p>
             <p style={styles.contactInfo}>
-              <strong>Email:</strong> bespoke@efivestudio.com <br />
+              <strong>Email:</strong> efivestudio.me@gmail.com <br />
               <strong>Phone:</strong> 1800 209 5555
             </p>
           </div>

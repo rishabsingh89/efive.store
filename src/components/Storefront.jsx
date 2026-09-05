@@ -8,6 +8,7 @@ import ProductCard from './ProductCard';
 import ProductDetailsModal from './ProductDetailsModal';
 import WhatsAppFloat from './WhatsAppFloat';
 import Footer from './Footer';
+import WhyChooseUs from './WhyChooseUs';
 import { getProducts } from '../data/products';
 import { Sparkles, ChevronRight } from 'lucide-react';
 import '../App.css';
@@ -117,36 +118,8 @@ export default function Storefront() {
         </div>
       </main>
 
-      {/* Editorial Brand Banner */}
-      <section style={styles.editorialBanner}>
-        <div className="container" style={styles.editorialGrid}>
-          <div style={styles.editorialText}>
-            <span style={styles.editorialTag}>THE ART OF LIVING</span>
-            <h2 style={styles.editorialTitle}>Crafted with Passion. Built for Longevity.</h2>
-            <p style={styles.editorialDesc}>
-              At Efive Studio, we believe furniture is more than just utilitarian. Every piece is an
-              artistic expression of form and function. We work closely with master woodworkers and
-              skilled metal weavers to ensure your investment stands the test of time.
-            </p>
-            <button onClick={scrollToCatalog} style={styles.editorialLink}>
-              <span>Discover the Craft</span>
-              <ChevronRight size={16} />
-            </button>
-          </div>
-          <div style={styles.editorialStats}>
-            {[
-              { num: '100%', label: 'Sustainably Sourced' },
-              { num: '15+', label: 'Bespoke Materials' },
-              { num: '5Yr', label: 'Standard Warranty' },
-            ].map(({ num, label }) => (
-              <div key={label} style={styles.statCard}>
-                <span style={styles.statNum}>{num}</span>
-                <span style={styles.statLabel}>{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Why Choose Us Section */}
+      <WhyChooseUs />
 
       {/* Category Section Overlay */}
       {openCategoryId && (
