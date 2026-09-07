@@ -345,16 +345,20 @@ const styles = {
   },
   productList: {
     flex: 1,
-    overflowY: 'auto',
+    overflowY: 'hidden',
+    overflowX: 'auto',
     padding: '0 1rem 1rem',
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    display: 'flex',
     gap: '1rem',
+    scrollbarWidth: 'none',
   },
   productCard: {
     display: 'flex',
     flexDirection: 'column',
     gap: '0.5rem',
+    minWidth: '65%',
+    maxWidth: '65%',
+    flexShrink: 0,
   },
   productImage: {
     width: '100%',
