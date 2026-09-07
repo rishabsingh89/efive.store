@@ -603,8 +603,8 @@ button[aria-label="Next slide"]:hover {
   .premium-hero {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    height: calc(100vh - 72px);
-    min-height: auto;
+    min-height: calc(100vh - 72px);
+    height: auto;
     max-height: none;
   }
   .premium-hero__left {
@@ -614,7 +614,7 @@ button[aria-label="Next slide"]:hover {
   .premium-hero__right {
     order: 2;
     height: 100%;
-    min-height: 0;
+    min-height: 40vh;
   }
   .ph-img-frame {
     margin: 0;
@@ -638,7 +638,7 @@ button[aria-label="Next slide"]:hover {
   }
   .premium-hero__right {
     height: 100%;
-    min-height: 0;
+    min-height: 35vh;
   }
   .ph-float-card {
     left: 1rem;
