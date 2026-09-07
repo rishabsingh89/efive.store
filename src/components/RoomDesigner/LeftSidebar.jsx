@@ -45,7 +45,6 @@ export default function LeftSidebar() {
   const handleAddToRoom = (product) => {
     if (!roomId) return;
     dispatch({ type: 'ADD_FURNITURE', payload: { roomId, product } });
-    alert(`${product.name} added to room!`);
   };
 
   // Generic Search Header

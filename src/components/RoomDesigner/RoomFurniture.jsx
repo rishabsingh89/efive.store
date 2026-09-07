@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import * as THREE from 'three';
 import { Html, PivotControls } from '@react-three/drei';
 import { Select } from '@react-three/postprocessing';
-import { useThree } from '@react-three/fiber';
+import { useThree, useLoader } from '@react-three/fiber';
 import { useRoomDesigner } from './RoomDesignerContext';
 
 const MODEL_HEIGHTS = {
@@ -36,7 +36,44 @@ function ControlDot({ position }) {
   );
 }
 
-function FurnitureModel({ category, w, d, color }) {
+// 2D Image Billboard — renders product image as a textured plane in 3D space
+function ImageBillboard({ url, modelH, w }) {
+  const texture = useLoader(THREE.TextureLoader, url);
+  // Compute aspect ratio from loaded texture
+  const aspect = texture.image ? texture.image.width / texture.image.height : 1;
+  const planeH = modelH;
+  const planeW = planeH * aspect;
+  // Clamp width so it doesn't exceed the footprint
+  const finalW = Math.min(planeW, w * 1.2);
+  const finalH = finalW / aspect;
+
+  return (
+    <mesh position={[0, finalH / 2, 0]} castShadow>
+      <planeGeometry args={[finalW, finalH]} />
+      <meshBasicMaterial map={texture} transparent side={THREE.DoubleSide} toneMapped={false} />
+    </mesh>
+  );
+}
+
+function FurnitureModel({ category, w, d, color, imageUrl }) {
+  // If the product has an image and is NOT a structural element, render a billboard
+  const isStructural = category === 'doors' || category === 'windows';
+  const modelH = MODEL_HEIGHTS[category] || 0.7;
+
+  if (imageUrl && !isStructural) {
+    return (
+      <Suspense fallback={
+        <mesh position={[0, modelH / 2, 0]}>
+          <boxGeometry args={[w, modelH, d]} />
+          <meshStandardMaterial color="#e0e0e0" transparent opacity={0.3} />
+        </mesh>
+      }>
+        <ImageBillboard url={imageUrl} modelH={modelH} w={w} />
+      </Suspense>
+    );
+  }
+
+  // Fallback to 3D primitive shapes for structural elements or products without images
   // w = width (X axis), d = depth (Z axis)
   switch (category) {
     case 'doors': {
@@ -526,7 +563,7 @@ export default function RoomFurniture({ item, roomW, roomD, setOrbitEnabled }) {
       <group position={[0, -cutOutHeight / 2, 0]}>
         {/* Custom 3D Model */}
         <Select enabled={isSelected}>
-          <FurnitureModel category={item.category} w={w3} d={h3} color={item.color || '#d7ccc8'} />
+          <FurnitureModel category={item.category} w={w3} d={h3} color={item.color || '#d7ccc8'} imageUrl={item.images?.[0]} />
         </Select>
         
         {isSelected && (

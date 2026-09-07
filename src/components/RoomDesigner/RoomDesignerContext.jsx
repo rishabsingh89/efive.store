@@ -167,6 +167,7 @@ function reducer(state, action) {
         name: product.name,
         category: product.category,
         price: product.price,
+        images: product.images || [],
         x: clampedX,
         y: clampedY,
         width: defaults.w,
