@@ -75,7 +75,7 @@ export default function LeftSidebar() {
         <div style={styles.detailCard}>
           <div style={{
             ...styles.detailImage,
-            backgroundImage: `url(${detailProduct.images?.[0] || detailProduct.image || allCategories.find(c => c.id === detailProduct.category)?.image || ''})`,
+            backgroundImage: `url("${detailProduct.images?.[0] || detailProduct.image || allCategories.find(c => c.id === detailProduct.category)?.image || ''}")`,
           }} />
           <h3 style={styles.detailName}>{detailProduct.name}</h3>
           <div style={styles.detailPriceRow}>
@@ -133,7 +133,7 @@ export default function LeftSidebar() {
               <div
                 style={{
                   ...styles.productImage,
-                  backgroundImage: `url(${product.images?.[0] || product.image || allCategories.find(c => c.id === product.category)?.image || ''})`,
+                  backgroundImage: `url("${product.images?.[0] || product.image || allCategories.find(c => c.id === product.category)?.image || ''}")`,
                 }}
                 onClick={() => { setDetailProduct(product); setMode('detail'); }}
               >
