@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import CategoryGrid from './CategoryGrid';
@@ -18,6 +19,34 @@ export default function Storefront() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [openCategoryId, setOpenCategoryId] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Sync selectedProduct with URL
+  useEffect(() => {
+    const productId = searchParams.get('product');
+    if (productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        setSelectedProduct(product);
+      }
+    } else {
+      setSelectedProduct(null);
+    }
+  }, [searchParams, products]);
+
+  const handleProductQuickView = useCallback((product) => {
+    if (product) {
+      setSearchParams(prev => {
+        prev.set('product', product.id);
+        return prev;
+      });
+    } else {
+      setSearchParams(prev => {
+        prev.delete('product');
+        return prev;
+      });
+    }
+  }, [setSearchParams]);
 
   // ── Filtering Logic (memoized) ──────────────────────────────────────────────
   const filteredProducts = useMemo(() => {
@@ -100,7 +129,7 @@ export default function Storefront() {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  onQuickView={setSelectedProduct}
+                  onQuickView={handleProductQuickView}
                 />
               ))}
             </div>
@@ -129,7 +158,7 @@ export default function Storefront() {
         <CategorySection
           categoryId={openCategoryId}
           onClose={() => setOpenCategoryId(null)}
-          onQuickView={setSelectedProduct}
+          onQuickView={handleProductQuickView}
         />
       )}
 
@@ -137,7 +166,7 @@ export default function Storefront() {
       {selectedProduct && (
         <ProductDetailsModal
           product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
+          onClose={() => handleProductQuickView(null)}
         />
       )}
 
