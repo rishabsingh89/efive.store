@@ -63,6 +63,17 @@ export const CartProvider = ({ children }) => {
     });
   };
 
+  const updateQuantity = (productId, newQuantity) => {
+    if (newQuantity < 1) return;
+    setCartItems(prev => prev.map(item => 
+      item.id === productId ? { ...item, quantity: newQuantity } : item
+    ));
+  };
+
+  const deleteItem = (productId) => {
+    setCartItems(prev => prev.filter(item => item.id !== productId));
+  };
+
   const isInCart = (productId) => cartItems.some(item => item.id === productId);
   const isInWishlist = (productId) => wishlistItems.some(item => item.id === productId);
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -72,6 +83,8 @@ export const CartProvider = ({ children }) => {
     wishlistItems,
     addToCart,
     removeFromCart,
+    updateQuantity,
+    deleteItem,
     toggleWishlist,
     isInCart,
     isInWishlist,

@@ -63,6 +63,33 @@ export const products = [
       { name: 'Natural Teak', hex: '#8d6e63' }
     ]
   },
+  {
+    id: 'beds-3',
+    name: 'Saby',
+    images: ['/VIEW-1 (7).png', '/VIEW-3 (9).png', '/VIEW-4 (5).png', '/VIEW-2 (8).png'],
+    category: 'beds',
+    price: 14963,
+    originalPrice: 22968,
+    discount: 35,
+    rating: 4.8,
+    reviews: 120,
+    description: 'The Saby bed brings a perfect blend of modern minimalism and robust construction. Crafted for lasting comfort with an elegant wooden frame.',
+    features: [
+      'Sturdy minimalist wooden frame',
+      'Contemporary design suitable for modern bedrooms',
+      'Premium mattress support system',
+      'Easy to maintain finish'
+    ],
+    specifications: {
+      material: 'Engineered Wood, Premium Finish',
+      dimensions: 'Check mapping image for exact dimensions',
+      warranty: '3 Years Warranty',
+      assembly: 'Professional Assembly Provided'
+    },
+    colors: [
+      { name: 'Natural Oak', hex: '#d7ccc8' }
+    ]
+  },
 
   // --- DINING ---
   {
@@ -539,8 +566,21 @@ export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('efive_products_v32');
+      const deletedIds = JSON.parse(localStorage.getItem('efive_deleted_products') || '[]');
+
       if (stored) {
-        return JSON.parse(stored);
+        const parsedStored = JSON.parse(stored);
+        
+        // Add any new products from the static array that aren't in localStorage yet AND haven't been deleted
+        const newStaticProducts = products.filter(p => !parsedStored.find(sp => sp.id === p.id) && !deletedIds.includes(p.id));
+        
+        if (newStaticProducts.length > 0) {
+          const combined = [...parsedStored, ...newStaticProducts];
+          localStorage.setItem('efive_products_v32', JSON.stringify(combined));
+          return combined;
+        }
+        
+        return parsedStored;
       }
       
       // Migration/initialization: combine original products with any old admin products
@@ -563,6 +603,24 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
+      // Find what was deleted by comparing with current stored
+      const stored = localStorage.getItem('efive_products_v32');
+      if (stored) {
+        const parsedStored = JSON.parse(stored);
+        const updatedIds = updatedProducts.map(p => p.id);
+        const deletedProducts = parsedStored.filter(p => !updatedIds.includes(p.id));
+        
+        if (deletedProducts.length > 0) {
+          const deletedIds = JSON.parse(localStorage.getItem('efive_deleted_products') || '[]');
+          deletedProducts.forEach(p => {
+            if (!deletedIds.includes(p.id)) {
+              deletedIds.push(p.id);
+            }
+          });
+          localStorage.setItem('efive_deleted_products', JSON.stringify(deletedIds));
+        }
+      }
+
       localStorage.setItem('efive_products_v32', JSON.stringify(updatedProducts));
     }
   } catch (e) {

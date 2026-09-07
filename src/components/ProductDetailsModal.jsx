@@ -61,8 +61,8 @@ export default function ProductDetailsModal({ product, onClose }) {
 
   const { name, id, category, price, originalPrice, rating, reviews, description, features, specifications, colors } = product;
 
-  const displayPrice = selectedColor?.price || price;
-  const displayOriginalPrice = selectedColor?.originalPrice || originalPrice;
+  const displayPrice = price;
+  const displayOriginalPrice = originalPrice;
 
   const discountPercent = displayOriginalPrice
     ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100)
@@ -135,6 +135,8 @@ export default function ProductDetailsModal({ product, onClose }) {
                       <img 
                         src={product.images[activeImageIdx]} 
                         alt={name}
+                        loading="lazy"
+                        decoding="async"
                         style={{ 
                           width: '100%', 
                           height: '100%', 
@@ -153,6 +155,8 @@ export default function ProductDetailsModal({ product, onClose }) {
                             alt={`${name} thumbnail ${idx + 1}`}
                             onClick={() => setActiveImageIdx(idx)}
                             className="pdp-thumb"
+                            loading="lazy"
+                            decoding="async"
                             style={{
                               ...styles.thumbnailImg,
                               border: activeImageIdx === idx ? '2px solid #C5A880' : '1px solid rgba(0,0,0,0.06)',

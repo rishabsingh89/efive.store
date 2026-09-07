@@ -2,7 +2,7 @@ import React from 'react';
 import { categories } from '../data/products';
 import { Sparkles, Grid } from 'lucide-react';
 
-export default function CategoryGrid({ activeCategory, onCategorySelect }) {
+const CategoryGrid = React.memo(function CategoryGrid({ activeCategory, onCategorySelect }) {
   return (
     <section id="categories-catalog" style={styles.section}>
       <div className="container">
@@ -40,6 +40,8 @@ export default function CategoryGrid({ activeCategory, onCategorySelect }) {
                   <img
                     src={cat.image}
                     alt={cat.name}
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       ...styles.image,
                       objectFit: cat.id === 'tables' ? 'contain' : 'cover',
@@ -65,7 +67,9 @@ export default function CategoryGrid({ activeCategory, onCategorySelect }) {
       </div>
     </section>
   );
-}
+});
+
+export default CategoryGrid;
 
 const styles = {
   section: {

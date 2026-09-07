@@ -4,19 +4,19 @@ const features = [
   {
     id: 1,
     icon: '🚀',
-    title: 'New Generation',
+    title: 'Made for new Generation',
     desc: "Furniture designed for today's modern lifestyle with smart aesthetics.",
   },
   {
     id: 2,
     icon: '⚡',
-    title: 'Fast Delivery',
+    title: 'Fastest Delivery',
     desc: 'Quick, reliable, and hassle-free delivery to your doorstep.',
   },
   {
     id: 3,
     icon: '🛠️',
-    title: '15 Min Assemble',
+    title: 'D.I.Y Assemble in 15 min',
     desc: 'Simple tool-free setup that absolutely anyone can assemble.',
   },
   {
@@ -63,12 +63,26 @@ export default function WhyChooseUs() {
 
       <style dangerouslySetInnerHTML={{__html: `
         .why-choose-card {
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          transform-style: preserve-3d;
+          transform: perspective(1000px) translateZ(0) translateY(0) scale(1);
+          background: linear-gradient(145deg, #ffffff, #f9f9f9) !important;
+          z-index: 1;
         }
         .why-choose-card:hover {
-          transform: translateY(-4px);
+          transform: perspective(1000px) translateZ(40px) translateY(-12px) scale(1.05);
           border-color: hsl(var(--primary-color)) !important;
-          box-shadow: var(--shadow-md) !important;
+          box-shadow: 0 30px 60px rgba(0,0,0,0.12), 0 10px 20px rgba(0,0,0,0.08) !important;
+          background: #ffffff !important;
+          z-index: 10;
+        }
+        .why-choose-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          border-radius: inherit;
+          box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+          pointer-events: none;
         }
       `}} />
     </section>
@@ -77,7 +91,7 @@ export default function WhyChooseUs() {
 
 const styles = {
   section: {
-    backgroundColor: 'hsl(var(--card-bg))',
+    backgroundColor: 'hsl(var(--bg-color))',
     padding: '5rem 0',
     borderTop: '1px solid hsl(var(--border-color))',
     borderBottom: '1px solid hsl(var(--border-color))',
@@ -90,29 +104,38 @@ const styles = {
     alignItems: 'center',
   },
   textContent: { 
-    flex: '1 1 400px' 
+    flex: '1 1 400px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   tag: {
-    fontSize: '0.75rem',
-    fontWeight: 600,
+    fontSize: '1.1rem',
+    fontWeight: 900,
     letterSpacing: '0.2em',
-    color: 'hsl(var(--primary-color))',
-    marginBottom: '1rem',
-    display: 'block',
+    color: '#000',
+    marginBottom: '1.5rem',
+    display: 'inline-block',
+    padding: '0.7rem 1.5rem',
+    backgroundColor: 'rgba(0, 0, 0, 0.06)',
+    borderRadius: '100px',
+    border: '2px solid rgba(0, 0, 0, 0.15)',
   },
   title: {
-    fontSize: '2.5rem',
-    lineHeight: 1.2,
-    fontWeight: 500,
+    fontSize: '3.5rem',
+    lineHeight: 1.15,
+    fontWeight: 700,
     color: 'hsl(var(--text-color))',
     marginBottom: '1.5rem',
+    letterSpacing: '-0.02em',
   },
   subtitle: {
-    fontSize: '1rem',
+    fontSize: '1.15rem',
     lineHeight: 1.7,
     color: 'hsl(var(--muted-color))',
-    marginBottom: '2rem',
-    fontWeight: 300,
+    marginBottom: '2.5rem',
+    fontWeight: 400,
+    maxWidth: '95%',
   },
   cardsContainer: {
     display: 'grid',

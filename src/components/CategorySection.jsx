@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, ArrowLeft, Sparkles, ShoppingBag } from 'lucide-react';
-import { categories, products } from '../data/products';
+import { categories, getProducts } from '../data/products';
 import ProductCard from './ProductCard';
 
 export default function CategorySection({ categoryId, onClose, onQuickView }) {
@@ -9,7 +9,8 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
   const sectionRef = useRef(null);
 
   const category = categories.find((c) => c.id === categoryId);
-  const categoryProducts = products.filter((p) => p.category === categoryId);
+  const allProducts = getProducts();
+  const categoryProducts = allProducts.filter((p) => p.category === categoryId);
 
   useEffect(() => {
     // Trigger entrance animations

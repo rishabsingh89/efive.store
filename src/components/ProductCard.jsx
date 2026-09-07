@@ -21,7 +21,7 @@ function WhatsAppIcon({ size = 16, className }) {
   );
 }
 
-export default function ProductCard({ product, onQuickView }) {
+const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
   const { name, id, category, price, originalPrice, rating, reviews, colors } = product;
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [selectedColor, setSelectedColor] = useState(colors && colors.length > 0 ? colors[0] : null);
@@ -32,8 +32,8 @@ export default function ProductCard({ product, onQuickView }) {
   const quantityInCart = cartItem ? cartItem.quantity : 0;
   const isWishlisted = isInWishlist(id);
 
-  const displayPrice = selectedColor?.price || price;
-  const displayOriginalPrice = selectedColor?.originalPrice || originalPrice;
+  const displayPrice = price;
+  const displayOriginalPrice = originalPrice;
 
   const discountPercent = product.discountPercentage || (displayOriginalPrice && displayOriginalPrice > displayPrice
     ? Math.round(((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100)
@@ -95,7 +95,7 @@ export default function ProductCard({ product, onQuickView }) {
         </button>
 
         {product.images && product.images.length > 0 ? (
-          <img src={product.images[activeImageIdx] || product.images[0]} alt={name} />
+          <img src={product.images[activeImageIdx] || product.images[0]} alt={name} loading="lazy" decoding="async" />
         ) : (
           <ProductSVG category={category} colorHex={selectedColor ? selectedColor.hex : null} />
         )}
@@ -194,7 +194,9 @@ export default function ProductCard({ product, onQuickView }) {
       </div>
     </div>
   );
-}
+});
+
+export default ProductCard;
 
 const styles = {
   // imageSection is now handled in CSS (.product-image-container)

@@ -984,6 +984,38 @@ svg text {
   user-select: none;
 }
 
+/* ─── GPU Acceleration & Performance Hints ─── */
+.hero-slider-track {
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.ph-img-main {
+  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.product-card-enhanced {
+  will-change: transform, box-shadow;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  contain: layout style paint;
+}
+
+.category-card {
+  will-change: transform, box-shadow;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Defer rendering of off-screen sections */
+.catalog-product-grid {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
 /* Enhanced Product Card */
 .product-card-enhanced {
   background-color: #fff;
@@ -1517,4 +1549,20 @@ svg text {
   .nh-bottom-script {
     font-size: 1.8rem;
   }
+}
+
+/* Admin Dashboard Product Thumbnail Hover Pop-up */
+.admin-thumb-image {
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  z-index: 1;
+  cursor: zoom-in;
+}
+
+.admin-thumb-image:hover {
+  transform: scale(4);
+  transform-origin: left center;
+  z-index: 100;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 4px;
 }

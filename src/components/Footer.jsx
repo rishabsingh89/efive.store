@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, ArrowRight, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ParticleCanvas from './ParticleCanvas';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ export default function Footer() {
 
   return (
     <footer style={styles.footer}>
+      <ParticleCanvas />
       {/* Trust Badges */}
       <div style={styles.badgeSection}>
         <div className="container" style={styles.badgeContainer}>
@@ -52,20 +54,35 @@ export default function Footer() {
             <p style={styles.brandDesc}>
               Designing spaces, shaping comfort. Efive Studio curates high-end modular furniture and aesthetic home decor tailored for modern living.
             </p>
-            <p style={styles.contactInfo}>
-              <strong>Email:</strong> efivestudio.me@gmail.com <br />
-              <strong>Phone:</strong> 1800 209 5555
-            </p>
+            
+            <div style={styles.contactSection}>
+              <h4 style={styles.contactTitle}>Contact Us</h4>
+              <div style={styles.socialIcons}>
+                <a href="#" className="social-icon" style={styles.iconLink} aria-label="Instagram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                </a>
+                <a href="#" className="social-icon" style={styles.iconLink} aria-label="Facebook">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+                <a href="#" className="social-icon" style={styles.iconLink} aria-label="LinkedIn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="#" className="social-icon" style={styles.iconLink} aria-label="WhatsApp">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Links Column 1 */}
           <div style={styles.linksCol}>
             <h4 style={styles.colTitle}>Collections</h4>
             <ul style={styles.linksList}>
-              <li><span style={styles.linkItem}>Luxury Living Room</span></li>
-              <li><span style={styles.linkItem}>Ergonomic Office Desks</span></li>
-              <li><span style={styles.linkItem}>Premium Dining Tables</span></li>
-              <li><span style={styles.linkItem}>Modular Wardrobes</span></li>
+              <li><Link to="/collection/luxury-living-room" style={styles.linkItem}>Luxury Living Room</Link></li>
+              <li><Link to="/collection/ergonomic-office-desks" style={styles.linkItem}>Ergonomic Office Desks</Link></li>
+              <li><Link to="/collection/premium-dining-tables" style={styles.linkItem}>Premium Dining Tables</Link></li>
+              <li><Link to="/collection/elegant-bedroom-furniture" style={styles.linkItem}>Elegant Bedroom Furniture</Link></li>
+              <li><Link to="/collection/modern-accent-furniture" style={styles.linkItem}>Modern Accent Furniture</Link></li>
             </ul>
           </div>
 
@@ -76,7 +93,8 @@ export default function Footer() {
               <li><span style={styles.linkItem}>Interior Styling Consultation</span></li>
               <li><span style={styles.linkItem}>Custom Furniture Design</span></li>
               <li><span style={styles.linkItem}>Virtual Room Planner</span></li>
-              <li><span style={styles.linkItem}>Store Locations</span></li>
+              <li><span style={styles.linkItem}>Space Planning & Design</span></li>
+              <li><span style={styles.linkItem}>Furniture Installation & Setup</span></li>
             </ul>
           </div>
 
@@ -115,21 +133,31 @@ export default function Footer() {
             <span style={styles.bottomLink}>Privacy Policy</span>
             <span style={styles.bottomLink}>Terms of Service</span>
             <span style={styles.bottomLink}>Care Instructions</span>
-            <Link to="/admin" style={{...styles.bottomLink, textDecoration: 'none'}}>Admin</Link>
           </div>
         </div>
       </div>
+      <style dangerouslySetInnerHTML={{__html: `
+        .social-icon:hover {
+          background-color: hsl(var(--primary-color)) !important;
+          color: #fff !important;
+          transform: translateY(-3px);
+          border-color: hsl(var(--primary-color)) !important;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+      `}} />
     </footer>
   );
 }
 
 const styles = {
   footer: {
-    backgroundColor: '#1E1D1B', // Warm luxury dark charcoal
-    color: '#E6E2DA', // Off-white/beige text
+    backgroundColor: '#1E1D1B',
+    color: '#E6E2DA',
     paddingTop: '3rem',
     marginTop: '5rem',
     borderTop: '1px solid hsl(var(--border-color))',
+    position: 'relative',
+    overflow: 'hidden',
   },
   badgeSection: {
     borderBottom: '1px solid rgba(230, 226, 218, 0.1)',
@@ -190,10 +218,34 @@ const styles = {
     lineHeight: 1.6,
     marginBottom: '1.5rem',
   },
-  contactInfo: {
-    fontSize: '0.85rem',
-    lineHeight: 1.6,
-    color: '#b0aca2',
+  contactSection: {
+    marginTop: '2rem',
+  },
+  contactTitle: {
+    fontFamily: 'var(--font-heading)',
+    fontSize: '1.1rem',
+    fontWeight: 500,
+    color: '#fff',
+    marginBottom: '1rem',
+    letterSpacing: '0.02em',
+  },
+  socialIcons: {
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'center',
+  },
+  iconLink: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40px',
+    height: '40px',
+    backgroundColor: '#2b2a28',
+    color: '#E6E2DA',
+    borderRadius: '8px',
+    textDecoration: 'none',
+    transition: 'all 0.3s ease',
+    border: '1px solid rgba(230, 226, 218, 0.1)',
   },
   linksCol: {
     flex: '1 1 180px',

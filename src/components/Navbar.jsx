@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, Sparkles, ShoppingCart, Heart, User } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import ContactUsModal from './ContactUsModal';
-
+import CartDrawer from './CartDrawer';
 
 export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, products = [] }) {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -11,7 +11,8 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
   const userDropdownRef = useRef(null);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const { cartCount, wishlistItems } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { cartCount, wishlistItems, cartItems, updateQuantity, deleteItem } = useCart();
 
   // Generate suggestions based on search query
   useEffect(() => {
@@ -81,8 +82,8 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
       {/* Removed the generic .container class so the navbar stretches full width, putting logo on the left edge */}
       <div className="navbar-container" style={styles.container}>
         {/* Logo */}
-        <div style={styles.logoContainer}>
-          <img src="/logo.jpg" alt="Efive Studio" style={styles.logoImage} />
+        <div style={styles.logoContainer} onClick={() => window.location.href = '/'}>
+          <img src="/logo.jpg" alt="Efive Studio" style={styles.logoImage} loading="lazy" decoding="async" />
         </div>
 
         {/* Tagline */}
@@ -147,7 +148,11 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
           </div>
 
           {/* Cart Icon */}
-          <div style={styles.iconContainer} title="Cart">
+          <div 
+            style={styles.iconContainer} 
+            title="Cart"
+            onClick={() => setIsCartOpen(true)}
+          >
             <ShoppingCart size={20} style={{ color: 'hsl(var(--text-color))' }} />
             <span style={styles.badge}>{cartCount}</span>
           </div>
@@ -190,6 +195,17 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
     <ContactUsModal 
       isOpen={isContactModalOpen} 
       onClose={() => setIsContactModalOpen(false)} 
+    />
+    <CartDrawer
+      isOpen={isCartOpen}
+      onClose={() => setIsCartOpen(false)}
+      cartItems={cartItems}
+      onUpdateQuantity={(id, color, qty) => updateQuantity(id, qty)}
+      onRemoveItem={(id, color) => deleteItem(id)}
+      onCheckout={() => {
+        alert('Checkout functionality coming soon!');
+        setIsCartOpen(false);
+      }}
     />
     </>
   );

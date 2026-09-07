@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import CategoryGrid from './CategoryGrid';
@@ -6,7 +6,6 @@ import InteriorSection from './InteriorSection';
 import CategorySection from './CategorySection';
 import ProductCard from './ProductCard';
 import ProductDetailsModal from './ProductDetailsModal';
-import WhatsAppFloat from './WhatsAppFloat';
 import Footer from './Footer';
 import WhyChooseUs from './WhyChooseUs';
 import { getProducts } from '../data/products';
@@ -20,22 +19,34 @@ export default function Storefront() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [openCategoryId, setOpenCategoryId] = useState(null);
 
-  // ── Filtering Logic ────────────────────────────────────────────────────────
-  const filteredProducts = products.filter((product) => {
-    const matchesCategory = activeCategory ? product.category === activeCategory : true;
-    const searchLower = searchQuery.trim().toLowerCase();
-    const matchesSearch = searchLower
-      ? product.name.toLowerCase().includes(searchLower) ||
-        product.description.toLowerCase().includes(searchLower) ||
-        product.category.toLowerCase().includes(searchLower)
-      : true;
-    return matchesCategory && matchesSearch;
-  });
+  // ── Filtering Logic (memoized) ──────────────────────────────────────────────
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const matchesCategory = activeCategory ? product.category === activeCategory : true;
+      const searchLower = searchQuery.trim().toLowerCase();
+      const matchesSearch = searchLower
+        ? product.name.toLowerCase().includes(searchLower) ||
+          product.description.toLowerCase().includes(searchLower) ||
+          product.category.toLowerCase().includes(searchLower)
+        : true;
+      return matchesCategory && matchesSearch;
+    });
+  }, [products, searchQuery, activeCategory]);
 
-  const scrollToCatalog = () => {
+  const scrollToCatalog = useCallback(() => {
     const el = document.getElementById('categories-catalog');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
+
+  const handleCategorySelect = useCallback((catId) => {
+    if (catId) {
+      setOpenCategoryId(catId);
+      setActiveCategory(catId);
+    } else {
+      setActiveCategory(null);
+      scrollToCatalog();
+    }
+  }, [scrollToCatalog]);
 
   return (
     <div style={styles.app}>
@@ -57,15 +68,7 @@ export default function Storefront() {
       {/* Category Selector Grid */}
       <CategoryGrid
         activeCategory={activeCategory}
-        onCategorySelect={(catId) => {
-          if (catId) {
-            setOpenCategoryId(catId);
-            setActiveCategory(catId);
-          } else {
-            setActiveCategory(null);
-            scrollToCatalog();
-          }
-        }}
+        onCategorySelect={handleCategorySelect}
       />
 
       {/* Store Catalog */}
@@ -138,8 +141,6 @@ export default function Storefront() {
         />
       )}
 
-      {/* Floating / Sticky WhatsApp Button */}
-      <WhatsAppFloat />
 
       {/* Footer */}
       <Footer />
