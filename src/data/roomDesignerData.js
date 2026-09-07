@@ -142,7 +142,7 @@ export const ROOM_TYPE_DEFAULTS = {
 
 // ── Category-to-Room mapping (which categories show for which room type) ────
 export const ROOM_CATEGORY_MAP = {
-  living:   ['sofa', 'tables', 'tvunits', 'decor', 'chairs', 'recliners', 'doors', 'windows'],
+  living:   ['sofa', 'tvunits', 'decor', 'recliners', 'doors', 'windows'],
   bedroom:  ['beds', 'wardrobes', 'dressers', 'tables', 'decor', 'chairs', 'doors', 'windows'],
   kitchen:  ['kitchen', 'tables', 'chairs', 'decor', 'doors', 'windows'],
   bathroom: ['decor', 'doors', 'windows'],
