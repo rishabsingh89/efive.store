@@ -70,6 +70,33 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
         {displayDiscountBadge && (
           <span style={styles.discountBadge}>-{discountPercent}%</span>
         )}
+
+        {product.isOutOfStock && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            backdropFilter: 'blur(3px)',
+            WebkitBackdropFilter: 'blur(3px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 15,
+          }}>
+            <span style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.85)',
+              color: 'white',
+              padding: '0.6rem 1.2rem',
+              fontWeight: '700',
+              letterSpacing: '1.5px',
+              borderRadius: '6px',
+              fontSize: '0.85rem',
+              textTransform: 'uppercase',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+            }}>OUT OF STOCK</span>
+          </div>
+        )}
+
         {/* Wishlist Button Overlay */}
         <button 
           className="wishlist-btn-overlay"

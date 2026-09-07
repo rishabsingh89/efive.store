@@ -132,19 +132,47 @@ export default function ProductDetailsModal({ product, onClose }) {
                 {product.images && product.images.length > 0 ? (
                   <>
                     <div className="pdp-image-showcase">
-                      <img 
-                        src={product.images[activeImageIdx]} 
-                        alt={name}
-                        loading="lazy"
-                        decoding="async"
-                        style={{ 
-                          width: '100%', 
-                          height: '100%', 
-                          objectFit: 'contain',
-                          padding: '2rem',
-                          display: 'block'
-                        }}
-                      />
+                      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                        <img 
+                          src={product.images[activeImageIdx]} 
+                          alt={name}
+                          loading="lazy"
+                          decoding="async"
+                          style={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            objectFit: 'contain',
+                            padding: '2rem',
+                            display: 'block'
+                          }}
+                        />
+                        {product.isOutOfStock && (
+                          <div style={{
+                            position: 'absolute',
+                            inset: 0,
+                            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                            backdropFilter: 'blur(3px)',
+                            WebkitBackdropFilter: 'blur(3px)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 15,
+                            borderRadius: '16px'
+                          }}>
+                            <span style={{
+                              backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                              color: 'white',
+                              padding: '0.8rem 1.6rem',
+                              fontWeight: '700',
+                              letterSpacing: '1.5px',
+                              borderRadius: '6px',
+                              fontSize: '1rem',
+                              textTransform: 'uppercase',
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+                            }}>OUT OF STOCK</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                     {product.images.length > 1 && (
                       <div style={styles.thumbnailGallery}>
@@ -325,15 +353,15 @@ export default function ProductDetailsModal({ product, onClose }) {
               <div style={styles.actionSection}>
                 <div style={styles.actionHint}>
                   <span style={styles.hintText}>
-                    Interested? Connect directly with our team →
+                    {product.isOutOfStock ? "Product is currently out of stock. Notify us to get updates →" : "Interested? Connect directly with our team →"}
                   </span>
                 </div>
-                <button onClick={handleWhatsApp} style={styles.waBtn} aria-label="Connect on WhatsApp">
+                <button onClick={handleWhatsApp} style={styles.waBtn} aria-label={product.isOutOfStock ? "Notify on WhatsApp" : "Connect on WhatsApp"}>
                   <WhatsAppIcon size={22} />
                   <div style={styles.waBtnContent}>
-                    <span style={styles.waBtnTitle}>Connect on WhatsApp</span>
+                    <span style={styles.waBtnTitle}>{product.isOutOfStock ? "Notify Me on WhatsApp" : "Connect on WhatsApp"}</span>
                     <span style={styles.waBtnSub}>
-                      ₹{displayPrice.toLocaleString('en-IN')} • Enquire Now
+                      ₹{displayPrice.toLocaleString('en-IN')} • {product.isOutOfStock ? "Request Availability" : "Enquire Now"}
                     </span>
                   </div>
                 </button>

@@ -21,7 +21,8 @@ export default function AdminDashboard() {
     dimensions: '',
     warranty: '',
     assembly: '',
-    features: ''
+    features: '',
+    isOutOfStock: false
   });
   
   const [successMsg, setSuccessMsg] = useState('');
@@ -53,7 +54,8 @@ export default function AdminDashboard() {
       dimensions: '',
       warranty: '',
       assembly: '',
-      features: ''
+      features: '',
+      isOutOfStock: false
     });
     setView('form');
   };
@@ -73,7 +75,8 @@ export default function AdminDashboard() {
       dimensions: product.specifications?.dimensions || '',
       warranty: product.specifications?.warranty || '',
       assembly: product.specifications?.assembly || '',
-      features: product.features ? product.features.join('\n') : ''
+      features: product.features ? product.features.join('\n') : '',
+      isOutOfStock: product.isOutOfStock || false
     });
     setView('form');
   };
@@ -140,6 +143,7 @@ export default function AdminDashboard() {
       originalPrice: origPriceNum || null,
       discount: formData.discount ? parseInt(formData.discount) : null,
       showDiscountBadge: formData.showDiscountBadge,
+      isOutOfStock: formData.isOutOfStock,
       rating: editingId ? products.find(p => p.id === editingId)?.rating : 5.0,
       reviews: editingId ? products.find(p => p.id === editingId)?.reviews : 0,
       description: formData.description,
@@ -355,6 +359,30 @@ export default function AdminDashboard() {
                         <option key={c.id} value={c.id}>{c.name}</option>
                       ))}
                     </select>
+                  </div>
+
+                  <div style={styles.formGroup}>
+                    <label style={styles.label}>Availability</label>
+                    <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.25rem' }}>
+                      <label style={styles.checkboxLabel}>
+                        <input 
+                          type="radio" 
+                          name="isOutOfStock" 
+                          checked={!formData.isOutOfStock} 
+                          onChange={() => setFormData(prev => ({ ...prev, isOutOfStock: false }))}
+                        />
+                        Available
+                      </label>
+                      <label style={styles.checkboxLabel}>
+                        <input 
+                          type="radio" 
+                          name="isOutOfStock" 
+                          checked={formData.isOutOfStock} 
+                          onChange={() => setFormData(prev => ({ ...prev, isOutOfStock: true }))}
+                        />
+                        Out of Stock
+                      </label>
+                    </div>
                   </div>
 
                   <div style={styles.formGroup}>
