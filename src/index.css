@@ -1054,8 +1054,18 @@ svg text {
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.decor-img-container img {
+  object-fit: contain;
+  padding: 0;
+  transform: scale(1.05);
+}
+
 .product-card-enhanced:hover .product-image-container img {
   transform: scale(1.08);
+}
+
+.product-card-enhanced:hover .decor-img-container img {
+  transform: scale(1.12);
 }
 
 @media (max-width: 768px) {

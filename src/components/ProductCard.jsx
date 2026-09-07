@@ -63,7 +63,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
     <div className="product-card-enhanced">
       {/* Product Image Section */}
       <div 
-        className="product-image-container"
+        className={`product-image-container ${category === 'decor' ? 'decor-img-container' : ''}`}
         style={{ cursor: 'pointer' }}
         onClick={() => onQuickView(product)}
       >
@@ -71,7 +71,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
           <span style={styles.discountBadge}>-{discountPercent}%</span>
         )}
 
-        {product.isOutOfStock && (
+        {(product.isOutOfStock || product.isSoldOut) && (
           <div style={{
             position: 'absolute',
             inset: 0,
@@ -93,7 +93,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
               fontSize: '0.85rem',
               textTransform: 'uppercase',
               boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-            }}>OUT OF STOCK</span>
+            }}>{product.isSoldOut ? 'SOLD OUT' : 'OUT OF STOCK'}</span>
           </div>
         )}
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Search, Sparkles, ShoppingCart, Heart, User } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import ContactUsModal from './ContactUsModal';
@@ -13,6 +14,7 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cartCount, wishlistItems, cartItems, updateQuantity, deleteItem } = useCart();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Generate suggestions based on search query
   useEffect(() => {
@@ -37,11 +39,14 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
       }
     });
 
-    // 2. Check for matching products
+    // 2. Check for matching products (by name or category)
     products.forEach(product => {
-      if (product.name.toLowerCase().includes(searchLower)) {
+      const matchesName = product.name.toLowerCase().includes(searchLower);
+      const matchesCategory = product.category.toLowerCase().includes(searchLower);
+      
+      if (matchesName || matchesCategory) {
         if (!addedText.has(product.name)) {
-          newSuggestions.push({ type: 'product', text: product.name, value: product.name });
+          newSuggestions.push({ type: 'product', text: product.name, value: product.name, product: product });
           addedText.add(product.name);
         }
       }
@@ -68,11 +73,23 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
   }, []);
 
   const handleSuggestionClick = (suggestion) => {
-    onSearchChange(suggestion.text);
     setIsSearchFocused(false);
-    if (onSearchSubmit) {
-      // Small delay to ensure state update before submit
-      setTimeout(() => onSearchSubmit(), 0);
+    
+    if (suggestion.type === 'product' && suggestion.product) {
+      // Direct navigation to product modal
+      setSearchParams(prev => {
+        prev.set('product', suggestion.product.id);
+        return prev;
+      });
+      // Optionally clear search query since we opened the product directly
+      onSearchChange(''); 
+    } else {
+      // Category suggestion click
+      onSearchChange(suggestion.text);
+      if (onSearchSubmit) {
+        // Small delay to ensure state update before submit
+        setTimeout(() => onSearchSubmit(), 0);
+      }
     }
   };
 

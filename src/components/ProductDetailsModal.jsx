@@ -146,7 +146,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                             display: 'block'
                           }}
                         />
-                        {product.isOutOfStock && (
+                        {(product.isOutOfStock || product.isSoldOut) && (
                           <div style={{
                             position: 'absolute',
                             inset: 0,
@@ -169,7 +169,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                               fontSize: '1rem',
                               textTransform: 'uppercase',
                               boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-                            }}>OUT OF STOCK</span>
+                            }}>{product.isSoldOut ? 'SOLD OUT' : 'OUT OF STOCK'}</span>
                           </div>
                         )}
                       </div>
@@ -353,15 +353,15 @@ export default function ProductDetailsModal({ product, onClose }) {
               <div style={styles.actionSection}>
                 <div style={styles.actionHint}>
                   <span style={styles.hintText}>
-                    {product.isOutOfStock ? "Product is currently out of stock. Notify us to get updates →" : "Interested? Connect directly with our team →"}
+                    {(product.isOutOfStock || product.isSoldOut) ? (product.isSoldOut ? "This product has been sold out. Notify us to get updates →" : "Product is currently out of stock. Notify us to get updates →") : "Interested? Connect directly with our team →"}
                   </span>
                 </div>
-                <button onClick={handleWhatsApp} style={styles.waBtn} aria-label={product.isOutOfStock ? "Notify on WhatsApp" : "Connect on WhatsApp"}>
+                <button onClick={handleWhatsApp} style={styles.waBtn} aria-label={(product.isOutOfStock || product.isSoldOut) ? "Notify on WhatsApp" : "Connect on WhatsApp"}>
                   <WhatsAppIcon size={22} />
                   <div style={styles.waBtnContent}>
-                    <span style={styles.waBtnTitle}>{product.isOutOfStock ? "Notify Me on WhatsApp" : "Connect on WhatsApp"}</span>
+                    <span style={styles.waBtnTitle}>{(product.isOutOfStock || product.isSoldOut) ? "Notify Me on WhatsApp" : "Connect on WhatsApp"}</span>
                     <span style={styles.waBtnSub}>
-                      ₹{displayPrice.toLocaleString('en-IN')} • {product.isOutOfStock ? "Request Availability" : "Enquire Now"}
+                      ₹{displayPrice.toLocaleString('en-IN')} • {(product.isOutOfStock || product.isSoldOut) ? "Request Availability" : "Enquire Now"}
                     </span>
                   </div>
                 </button>
