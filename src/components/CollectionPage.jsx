@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import SEO from './SEO';
 
 const collectionsData = {
   'luxury-living-room': {
@@ -11,19 +12,19 @@ const collectionsData = {
     sections: [
       {
         heading: 'Transform Your Space, Transform Your Life',
-        content: 'Bhaiya, sochiye — jab aap thake-haare ghar aate ho, aur aapka sofa itna comfortable ho ki sab tension bhool jaaye. Yahi hai luxury living room ka magic. Efive Studio ka har furniture piece aapke ghar ko ek 5-star hotel jaisa feel deta hai. Humne design kiya hai — aapke comfort ke liye, aapke style ke liye, aapki family ke liye.'
+        content: 'Imagine coming home after a long, exhausting day and sinking into a sofa so comfortable that all your stress instantly melts away. That is the magic of a luxury living room. Every furniture piece by EFIVE Studio gives your home the feel of a 5-star hotel. We have designed it for your comfort, your style, and your family.'
       },
       {
-        heading: 'Why Efive Living Room Furniture?',
-        content: 'Humara har sofa, har coffee table, har TV unit — sab kuch premium quality materials se bana hai. Koi shortcut nahi, koi compromise nahi. Aap jab bhi guests ko bulayenge, unka pehla reaction hoga — "Bhai, ye furniture kahan se liya?" Aur aap proudly bolenge — Efive Studio se!'
+        heading: 'Why EFIVE Living Room Furniture?',
+        content: 'Every sofa, coffee table, and TV unit we make is crafted from premium quality materials. No shortcuts, no compromises. Whenever you host guests, their first reaction will be, "Wow, where did you get this furniture?" And you can proudly say — EFIVE Studio!'
       },
       {
         heading: 'Built for Generations, Designed for Today',
-        content: 'Modern aesthetics ke saath timeless durability — yahi hai humara promise. Har piece ko 10+ saal chalane ke liye design kiya gaya hai. Aur agar kabhi mann badal jaaye? Efive ka re-sell program hai na — upgrade karo bina tension ke. Aapka ghar, aapki choice, humara commitment.'
+        content: 'Timeless durability paired with modern aesthetics — that is our promise. Each piece is designed to easily last for over 10 years. And if you ever change your mind? EFIVE has a re-sell program so you can upgrade without any tension. Your home, your choice, our commitment.'
       },
       {
         heading: 'Your Dream Living Room is Just One Click Away',
-        content: 'Bhaiya, ab wait kyun karna? Aapka dream living room bas ek step dur hai. Efive Studio ke saath, aapko milega — best price, fastest delivery, aur 15 minute me DIY assemble. Haan, sahi padha — sirf 15 minute me aapka furniture ready! No tools needed, no headache. Bas kholo, lagao, aur enjoy karo.'
+        content: 'Why wait? Your dream living room is just one step away. With EFIVE Studio, you get the best price, fastest delivery, and a hassle-free 15-minute DIY assembly. Yes, you read that right — your furniture is ready in just 15 minutes! No tools needed, no headaches. Just unpack, set it up, and enjoy.'
       }
     ]
   },
@@ -34,19 +35,19 @@ const collectionsData = {
     sections: [
       {
         heading: 'Productivity Starts with the Right Desk',
-        content: 'Bhaiya, sochiye — din ke 8-10 ghante aap apne desk pe baithe rehte ho. Agar desk sahi nahi hai toh back pain, neck pain, aur frustration — sab milta hai free me! Efive Studio ke ergonomic desks specially designed hain aapki health aur productivity dono ke liye. Sahi height, sahi angle, sahi comfort.'
+        content: 'Think about it — you spend 8 to 10 hours a day sitting at your desk. If your desk isn\'t right, back pain, neck strain, and frustration come absolutely free! EFIVE Studio\'s ergonomic desks are specially designed for both your health and your productivity. The right height, the perfect angle, and maximum comfort.'
       },
       {
         heading: 'Why Our Office Desks Are Different',
-        content: 'Market me bahut saare desks milte hain — lekin Efive ka desk alag hai. Kyun? Because humne har detail pe dhyan diya hai. Cable management system built-in hai, adjustable height options hain, aur look itna premium hai ki aapka home office kisi corporate office se kam nahi lagega. Work from home ko work from heaven bana do!'
+        content: 'There are many desks available in the market, but an EFIVE desk stands apart. Why? Because we have paid attention to every single detail. Built-in cable management systems, adjustable height options, and a premium look that makes your home office feel like an executive corporate suite. Turn "Work from Home" into "Work from Heaven"!'
       },
       {
         heading: 'Invest in Your Health, Invest in Your Future',
-        content: 'Ek accha desk sirf furniture nahi hai — ye ek investment hai aapki health me. Ergonomic design matlab kam strain, zyada focus, aur better results. Aap jab productive hote ho, toh success automatically follow karti hai. Efive Studio ka promise hai — humara desk aapko successful banane me help karega.'
+        content: 'A good desk is not just a piece of furniture; it is an investment in your health. Ergonomic design means less strain, more focus, and better results. When you are productive, success automatically follows. EFIVE Studio promises that our desks will help you achieve your goals comfortably.'
       },
       {
         heading: 'Setup in Minutes, Use for Years',
-        content: 'DIY assembly sirf 15 minute me — koi carpenter nahi chahiye, koi tools nahi chahiye. Box open karo, simple steps follow karo, aur done! Itna easy hai ki aapka bachcha bhi assemble kar sakta hai. Aur quality? 10+ saal guarantee ke saath. One time investment, lifetime satisfaction.'
+        content: 'Enjoy DIY assembly in just 15 minutes! No carpenter needed, no complicated tools required. Simply open the box, follow the easy steps, and you are done. It is so easy that anyone can assemble it. And the quality? It comes with a 10+ year guarantee. A one-time investment for a lifetime of satisfaction.'
       }
     ]
   },
@@ -57,19 +58,19 @@ const collectionsData = {
     sections: [
       {
         heading: 'More Than Just a Table',
-        content: 'Bhaiya, yaad karo wo moments — jab puri family ek saath baith ke khana khati hai, hansti hai, baatein karti hai. Ye sab hota hai dining table pe. Efive Studio ka dining table sirf ek furniture nahi hai — ye aapke ghar ka dil hai. Har meal ko special banata hai, har gathering ko memorable banata hai.'
+        content: 'Remember those beautiful moments when the whole family sits together to eat, laugh, and share stories? It all happens around the dining table. EFIVE Studio\'s dining table is not just furniture — it is the heart of your home. It makes every meal special and turns every gathering into a cherished memory.'
       },
       {
         heading: 'Crafted with Love, Built with Precision',
-        content: 'Humara har dining table premium materials se bana hai — smooth finish, strong build, aur elegant design. Chai ka daag ho ya bachche ka paint — easy clean surface hai jo hamesha naya jaisa dikhta hai. Guests aayenge toh table dekh ke zaroor bolenge — "Kya piece hai yaar!"'
+        content: 'Every dining table we offer is made from premium materials, featuring a smooth finish, a strong build, and an elegant design. Whether it\'s a tea spill or a child\'s paint, our easy-to-clean surfaces stay looking brand new. When guests arrive, they will undoubtedly look at the table and say, "What an incredible piece!"'
       },
       {
         heading: 'Perfect Size for Every Family',
-        content: 'Chota family ho ya bada — hummare paas har size me options hain. 4-seater se lekar 8-seater tak, har need ke liye perfect fit. Aur design? Modern, classic, minimal — jo bhi aapka style ho, hummare paas hai. Aapka ghar, aapka table, aapki choice.'
+        content: 'Whether you have a small family or a large one, we have options for every need. From cozy 4-seaters to grand 8-seaters, you will find the perfect fit. Looking for modern, classic, or minimalist designs? Whatever your style is, we have it. Your home, your table, your choice.'
       },
       {
         heading: 'Order Today, Celebrate Tomorrow',
-        content: 'Fastest delivery ke saath, aapka dining table jaldi se jaldi aapke ghar pahunchega. 15 minute DIY assembly — matlab aaj order karo, kal se family dinners start! Koi wait nahi, koi hassle nahi. Efive Studio — jahan har meal ek celebration hai.'
+        content: 'With our lightning-fast delivery, your dining table will arrive at your home in record time. Thanks to the 15-minute DIY assembly, you can order today and start enjoying family dinners tomorrow! No waiting, no hassle. EFIVE Studio — where every meal is a celebration.'
       }
     ]
   },
@@ -80,19 +81,19 @@ const collectionsData = {
     sections: [
       {
         heading: 'Your Bedroom, Your Sanctuary',
-        content: 'Bhaiya, din bhar ki bhaag-daud ke baad jab aap apne bedroom me jaate ho — woh feeling honi chahiye ki aap kisi luxury resort me aa gaye ho. Efive Studio ka bedroom furniture exactly woh feel deta hai. Premium beds, elegant wardrobes, aur stylish side tables — sab kuch jo aapke bedroom ko dream room banaye.'
+        content: 'After a long, busy day, stepping into your bedroom should feel like arriving at a luxury resort. EFIVE Studio\'s bedroom furniture gives you exactly that feeling. Premium beds, elegant wardrobes, and stylish side tables — everything you need to turn your bedroom into the room of your dreams.'
       },
       {
         heading: 'Sleep Better, Live Better',
-        content: 'Research kehta hai — acchi neend ke liye accha environment zaroori hai. Humara bedroom furniture aesthetically designed hai taaki aapko peace mile, calm mile, aur raat ki neend ekdum perfect ho. Jab neend acchi hogi, toh din bhi accha jayega. Ye simple formula hai success ka — aur Efive Studio isme aapki help karega.'
+        content: 'Research shows that a good environment is essential for a good night\'s sleep. Our bedroom furniture is aesthetically designed to bring you peace, calm, and the perfect night\'s rest. When you sleep better, your days are automatically better. It\'s a simple formula for success, and EFIVE Studio is here to help you achieve it.'
       },
       {
         heading: 'Style That Speaks Volumes',
-        content: 'Aapka bedroom aapki personality reflect karta hai. Modern minimal pasand hai? Got it. Royal classic chahiye? Got it. Efive Studio ke paas har taste ke liye options hain — aur har option me quality compromise nahi hota. Premium wood, flawless finish, aur attention to every detail.'
+        content: 'Your bedroom reflects your unique personality. Love modern minimalism? We have it. Prefer a royal, classic touch? We have that too. EFIVE Studio offers options for every taste without ever compromising on quality. Expect premium wood, flawless finishes, and an uncompromising attention to every detail.'
       },
       {
         heading: 'Easy Setup, Instant Transformation',
-        content: 'Imagine karo — ek din me aapka pura bedroom transform ho jaaye. New bed, new wardrobe, new vibe! Efive ka 15-minute DIY assembly aur fastest delivery ye possible banata hai. Aaj order karo, kal se apne naye bedroom me aram se so jao. Life is short — acche furniture me invest karo!'
+        content: 'Imagine transforming your entire bedroom in a single day. A new bed, a new wardrobe, a completely new vibe! EFIVE\'s 15-minute DIY assembly and ultra-fast delivery make this possible. Order today and sleep comfortably in your brand-new bedroom tomorrow. Life is short — invest in great furniture!'
       }
     ]
   },
@@ -103,19 +104,19 @@ const collectionsData = {
     sections: [
       {
         heading: 'The Art of Small Details',
-        content: 'Bhaiya, ek accha accent piece — chahe wo ek bookshelf ho, ek console table ho, ya ek decorative stand — ye aapke pure room ka look change kar deta hai. Efive Studio ke accent furniture pieces wo magic touch dete hain jo aapke ghar ko ordinary se extraordinary banata hai. Small investment, massive transformation!'
+        content: 'A great accent piece — whether it\'s a bookshelf, a console table, or a decorative stand — can completely change the look of your entire room. EFIVE Studio\'s accent furniture provides that magic touch, turning your ordinary home into something extraordinary. A small investment for a massive transformation!'
       },
       {
         heading: 'Conversation Starters',
-        content: 'Jab guests aayenge aur ek unique accent piece dekhenge — baatcheet shuru ho jayegi. "Ye kahan se liya? Kitna khoobsurat hai!" — ye words aap sunoge har baar. Efive ke accent pieces sirf furniture nahi hain — ye aapke ghar ki kahani kehte hain. Har piece ek statement hai.'
+        content: 'When guests arrive and spot a unique accent piece, conversations naturally begin. "Where did you get this? It\'s so beautiful!" — you will hear these words every time. EFIVE\'s accent pieces are not just furniture; they tell the story of your home. Every single piece makes a powerful statement.'
       },
       {
         heading: 'Fill Every Corner with Character',
-        content: 'Ghar me woh khali corner hai na jo boring lagta hai? Wahan ek Efive accent piece rakh do — magic dekho! Bookshelves, plant stands, side tables, shoe racks — har corner ke liye perfect solution. Space waste nahi hoga, aur ghar ka look level up ho jayega instantly.'
+        content: 'Have a dull, empty corner in your home? Place an EFIVE accent piece there and watch the magic happen! Bookshelves, plant stands, side tables, and shoe racks provide the perfect solution for every nook. No space is wasted, and your home\'s aesthetic is instantly elevated.'
       },
       {
         heading: 'Affordable Luxury, Instant Impact',
-        content: 'Accent furniture ka matlab ye nahi ki bahut paisa kharcha karna hai. Efive Studio ke prices itne reasonable hain ki aap shock ho jaoge — "Itna premium piece, itne me?" Haan bhaiya, yahi toh Efive ka funda hai — luxury for everyone! Order karo, 15 minute me assemble karo, aur apne ghar ko naya look do.'
+        content: 'Buying accent furniture doesn\'t mean you have to spend a fortune. EFIVE Studio\'s prices are so reasonable that you will be pleasantly shocked. "Such a premium piece at this price?" Yes, that is the EFIVE philosophy — luxury for everyone! Order now, assemble it in 15 minutes, and give your home a fresh, new look.'
       }
     ]
   }
@@ -128,6 +129,7 @@ export default function CollectionPage() {
   if (!data) {
     return (
       <>
+        <SEO title="Collection Not Found" description="This collection does not exist." path={`/collections/${slug}`} />
         <Navbar />
         <div style={styles.notFound}>
           <h1 style={styles.notFoundTitle}>Page Not Found</h1>
@@ -141,13 +143,18 @@ export default function CollectionPage() {
 
   return (
     <>
+      <SEO 
+        title={`${data.title} Collection`} 
+        description={`${data.title}: ${data.hero}`} 
+        path={`/collections/${slug}`} 
+      />
       <Navbar />
       <main style={styles.main}>
         {/* Hero Section */}
         <section style={styles.heroSection}>
           <div className="container">
             <span style={styles.breadcrumb}>
-              <Link to="/" style={styles.breadcrumbLink}>Home</Link> / Collections / {data.title}
+              <Link to="/" style={styles.breadcrumbLink}>Home</Link> / <Link to="/collections" style={styles.breadcrumbLink}>Collections</Link> / {data.title}
             </span>
             <h1 style={styles.heroTitle}>{data.title}</h1>
             <p style={styles.heroTagline}>{data.tagline}</p>

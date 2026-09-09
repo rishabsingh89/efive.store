@@ -74,27 +74,57 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Links Column 1 */}
+          {/* Links Column 1: Collections */}
           <div style={styles.linksCol}>
-            <h4 style={styles.colTitle}>Collections</h4>
+            <Link to="/collections" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Collections</h4></Link>
             <ul style={styles.linksList}>
-              <li><Link to="/collection/luxury-living-room" style={styles.linkItem}>Luxury Living Room</Link></li>
-              <li><Link to="/collection/ergonomic-office-desks" style={styles.linkItem}>Ergonomic Office Desks</Link></li>
-              <li><Link to="/collection/premium-dining-tables" style={styles.linkItem}>Premium Dining Tables</Link></li>
-              <li><Link to="/collection/elegant-bedroom-furniture" style={styles.linkItem}>Elegant Bedroom Furniture</Link></li>
-              <li><Link to="/collection/modern-accent-furniture" style={styles.linkItem}>Modern Accent Furniture</Link></li>
+              <li><Link to="/collections/luxury-living-room" style={styles.linkItem}>Luxury Living Room</Link></li>
+              <li><Link to="/collections/ergonomic-office-desks" style={styles.linkItem}>Ergonomic Office Desks</Link></li>
+              <li><Link to="/collections/premium-dining-tables" style={styles.linkItem}>Premium Dining Tables</Link></li>
+              <li><Link to="/collections/elegant-bedroom-furniture" style={styles.linkItem}>Elegant Bedroom Furniture</Link></li>
+              <li><Link to="/collections/modern-accent-furniture" style={styles.linkItem}>Modern Accent Furniture</Link></li>
             </ul>
           </div>
 
-          {/* Links Column 2 */}
+          {/* Links Column 2: Services */}
           <div style={styles.linksCol}>
-            <h4 style={styles.colTitle}>Services</h4>
+            <Link to="/services" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Services</h4></Link>
             <ul style={styles.linksList}>
-              <li><span style={styles.linkItem}>Interior Styling Consultation</span></li>
-              <li><span style={styles.linkItem}>Custom Furniture Design</span></li>
-              <li><span style={styles.linkItem}>Virtual Room Planner</span></li>
-              <li><span style={styles.linkItem}>Space Planning & Design</span></li>
-              <li><span style={styles.linkItem}>Furniture Installation & Setup</span></li>
+              <li><Link to="/services/delivery" style={styles.linkItem}>Delivery Services</Link></li>
+              <li><Link to="/services/click-and-collect" style={styles.linkItem}>Click & Collect</Link></li>
+              <li><Link to="/services/online-planning" style={styles.linkItem}>Online Planning Tool</Link></li>
+              <li><Link to="/services/assembly" style={styles.linkItem}>Assembly Services</Link></li>
+              <li><Link to="/services/measuring" style={styles.linkItem}>Measuring Service</Link></li>
+              <li><Link to="/services/kitchen-planning" style={styles.linkItem}>Kitchen Planning</Link></li>
+              <li><Link to="/services/installation" style={styles.linkItem}>Installation Service</Link></li>
+              <li><Link to="/services/customer-service" style={styles.linkItem}>Customer Service</Link></li>
+              <li><Link to="/services/recycle-program" style={styles.linkItem}>Recycle Program</Link></li>
+            </ul>
+          </div>
+
+          {/* Links Column 3: Help */}
+          <div style={styles.linksCol}>
+            <Link to="/help" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Help</h4></Link>
+            <ul style={styles.linksList}>
+              <li><Link to="/help/how-to-shop" style={styles.linkItem}>How to Shop</Link></li>
+              <li><Link to="/help/return-policy" style={styles.linkItem}>Return Policy</Link></li>
+              <li><Link to="/help/prices-and-price-tags" style={styles.linkItem}>Prices & Price Tags</Link></li>
+              <li><Link to="/contact" style={styles.linkItem}>Contact Us</Link></li>
+              <li><Link to="/help/faqs" style={styles.linkItem}>FAQs</Link></li>
+              <li><Link to="/help/gift-card" style={styles.linkItem}>Gift Card</Link></li>
+              <li><Link to="/help/terms-and-conditions" style={styles.linkItem}>Terms & Conditions</Link></li>
+              <li><Link to="/help/damaged-articles-claim" style={styles.linkItem}>Damaged Articles Claim</Link></li>
+              <li><Link to="/help/gst-rate-revision" style={styles.linkItem}>GST Rate Revision</Link></li>
+            </ul>
+          </div>
+
+          {/* Links Column 4: About */}
+          <div style={styles.linksCol}>
+            <Link to="/about" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>About EFIVE</h4></Link>
+            <ul style={styles.linksList}>
+              <li><Link to="/about/this-is-efive" style={styles.linkItem}>This is EFIVE</Link></li>
+              <li><Link to="/about/csr-policy" style={styles.linkItem}>CSR Policy</Link></li>
+              <li><Link to="/about/sustainability" style={styles.linkItem}>Sustainability</Link></li>
             </ul>
           </div>
 

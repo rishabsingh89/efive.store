@@ -18,7 +18,8 @@ export const WHATSAPP_CHANNEL_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
  * Used for general "Chat with us" / floating buttons / navbar.
  */
 export function openWhatsAppChannel() {
-  window.open(WHATSAPP_CHANNEL_LINK, '_blank', 'noopener,noreferrer');
+  const event = new CustomEvent('show-whatsapp-modal', { detail: { text: '' } });
+  window.dispatchEvent(event);
 }
 
 /**
@@ -65,7 +66,13 @@ export function buildWhatsAppUrl({ productName, productId, price, colorName }) {
  * Open WhatsApp in a new tab for a specific product.
  */
 export function openWhatsApp(params) {
-  window.open(buildWhatsAppUrl(params), '_blank', 'noopener,noreferrer');
+  const url = buildWhatsAppUrl(params);
+  // Extract just the text parameter since the modal rebuilds the URL
+  const urlObj = new URL(url);
+  const text = urlObj.searchParams.get('text') || '';
+  
+  const event = new CustomEvent('show-whatsapp-modal', { detail: { text } });
+  window.dispatchEvent(event);
 }
 
 /**
@@ -88,7 +95,7 @@ export function openWhatsAppInteriorInquiry(serviceName) {
   ].join('\n');
 
   const encoded = encodeURIComponent(lines);
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
-  window.open(url, '_blank', 'noopener,noreferrer');
+  const event = new CustomEvent('show-whatsapp-modal', { detail: { text: encoded } });
+  window.dispatchEvent(event);
 }
 

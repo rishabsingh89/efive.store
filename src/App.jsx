@@ -8,21 +8,49 @@ import AdminDashboard from './components/admin/AdminDashboard';
 import CollectionPage from './components/CollectionPage';
 
 import { CartProvider } from './contexts/CartContext';
+import { HelmetProvider } from 'react-helmet-async';
+import WhatsAppModal from './components/WhatsAppModal';
+import ScrollToTop from './components/ScrollToTop';
+
+// New Pages
+import CollectionsMain from './components/pages/CollectionsMain';
+import ServicesMain from './components/pages/ServicesMain';
+import ServicePage from './components/pages/ServicePage';
+import HelpMain from './components/pages/HelpMain';
+import HelpPage from './components/pages/HelpPage';
+import AboutMain from './components/pages/AboutMain';
+import AboutPage from './components/pages/AboutPage';
+import ContactPage from './components/pages/ContactPage';
 
 export default function App() {
   return (
-    <CartProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Storefront />} />
-          <Route path="/calculate-cost" element={<CostCalculator />} />
-          <Route path="/room-designer" element={<RoomDesigner />} />
-          <Route path="/collection/:slug" element={<CollectionPage />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-          </Route>
-        </Routes>
-      </Router>
-    </CartProvider>
+    <HelmetProvider>
+      <CartProvider>
+        <WhatsAppModal />
+        <Router>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Storefront />} />
+            <Route path="/calculate-cost" element={<CostCalculator />} />
+            <Route path="/room-designer" element={<RoomDesigner />} />
+            
+            {/* SEO Pages */}
+            <Route path="/collections" element={<CollectionsMain />} />
+            <Route path="/collections/:slug" element={<CollectionPage />} />
+            <Route path="/services" element={<ServicesMain />} />
+            <Route path="/services/:slug" element={<ServicePage />} />
+            <Route path="/help" element={<HelpMain />} />
+            <Route path="/help/:slug" element={<HelpPage />} />
+            <Route path="/about" element={<AboutMain />} />
+            <Route path="/about/:slug" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+            </Route>
+          </Routes>
+        </Router>
+      </CartProvider>
+    </HelmetProvider>
   );
 }

@@ -5,7 +5,9 @@ import { useCart } from '../contexts/CartContext';
 import ContactUsModal from './ContactUsModal';
 import CartDrawer from './CartDrawer';
 
-export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, products = [] }) {
+const EMPTY_PRODUCTS = [];
+
+export default function Navbar({ searchQuery = '', onSearchChange, onSearchSubmit, products = EMPTY_PRODUCTS }) {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const searchContainerRef = useRef(null);
@@ -19,7 +21,7 @@ export default function Navbar({ searchQuery, onSearchChange, onSearchSubmit, pr
   // Generate suggestions based on search query
   useEffect(() => {
     if (!searchQuery.trim()) {
-      setSuggestions([]);
+      setSuggestions(prev => prev.length === 0 ? prev : []);
       return;
     }
 
