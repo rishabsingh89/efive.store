@@ -21,6 +21,18 @@ export default function Storefront() {
   const [openCategoryId, setOpenCategoryId] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Sync category with URL
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      setOpenCategoryId(categoryParam);
+      setActiveCategory(categoryParam);
+    } else {
+      setOpenCategoryId(null);
+      setActiveCategory(null);
+    }
+  }, [searchParams]);
+
   // Sync selectedProduct with URL
   useEffect(() => {
     const productId = searchParams.get('product');
@@ -69,13 +81,18 @@ export default function Storefront() {
 
   const handleCategorySelect = useCallback((catId) => {
     if (catId) {
-      setOpenCategoryId(catId);
-      setActiveCategory(catId);
+      setSearchParams(prev => {
+        prev.set('category', catId);
+        return prev;
+      });
     } else {
-      setActiveCategory(null);
+      setSearchParams(prev => {
+        prev.delete('category');
+        return prev;
+      });
       scrollToCatalog();
     }
-  }, [scrollToCatalog]);
+  }, [setSearchParams, scrollToCatalog]);
 
   return (
     <div style={styles.app}>
@@ -157,7 +174,12 @@ export default function Storefront() {
       {openCategoryId && (
         <CategorySection
           categoryId={openCategoryId}
-          onClose={() => setOpenCategoryId(null)}
+          onClose={() => {
+            setSearchParams(prev => {
+              prev.delete('category');
+              return prev;
+            });
+          }}
           onQuickView={handleProductQuickView}
         />
       )}
