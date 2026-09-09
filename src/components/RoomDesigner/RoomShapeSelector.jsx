@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useRoomDesigner } from './RoomDesignerContext';
 import { ROOM_SHAPES } from '../../data/roomDesignerData';
 
@@ -47,9 +47,31 @@ export default function RoomShapeSelector() {
   const containerRef = useRef(null);
   const [position, setPosition] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(true);
   const dragRef = useRef({ startX: 0, startY: 0, initialLeft: 0, initialTop: 0, wasDragging: false });
 
   if (!room) return null;
+
+  useEffect(() => {
+    const timer1 = setTimeout(() => {
+      if (containerRef.current && containerRef.current.offsetParent) {
+        const parentRect = containerRef.current.offsetParent.getBoundingClientRect();
+        setPosition({
+          x: parentRect.width - 60,
+          y: parentRect.height / 2
+        });
+      }
+    }, 100);
+
+    const timer2 = setTimeout(() => {
+      setIsAnimating(false);
+    }, 2100);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []);
 
   const currentShape = room.roomShape || 'rectangle';
 
@@ -65,6 +87,8 @@ export default function RoomShapeSelector() {
   const onPointerDown = (e) => {
     if (e.button !== 0) return; // Only left click
     
+    setIsAnimating(false);
+
     let centerX, centerY;
     if (position) {
       centerX = position.x;
@@ -140,6 +164,7 @@ export default function RoomShapeSelector() {
       style={{
         ...styles.container,
         ...defaultStyles,
+        transition: isDragging ? 'none' : (isAnimating ? 'all 2s cubic-bezier(0.4, 0, 0.2, 1)' : 'all 0.3s ease'),
         cursor: isDragging ? 'grabbing' : 'grab',
       }}
     >

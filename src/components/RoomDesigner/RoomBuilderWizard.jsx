@@ -136,21 +136,27 @@ export default function RoomBuilderWizard() {
                   style={{
                     ...styles.swatch,
                     backgroundColor: c.hex,
-                    border: room.wallColor === c.hex ? '3px solid #111' : '1px solid #ddd',
+                    outline: room.wallColor === c.hex ? '2.5px solid #111' : '1px solid rgba(0,0,0,0.15)',
+                    outlineOffset: room.wallColor === c.hex ? '2px' : '0',
+                    border: '1px solid rgba(0,0,0,0.15)',
+                    borderRadius: '6px',
                   }}
                 />
               ))}
             </div>
 
             <h4 style={styles.subLabel} style={{marginTop: '1rem'}}>Floor style</h4>
-            <div style={styles.grid3}>
+            <div style={styles.grid6}>
               {FLOOR_TYPES.map((f) => (
                 <div
                   key={f.id}
+                  title={f.label}
                   onClick={() => handleStyleChange('floorType', f.id)}
                   style={{
                     ...styles.floorCard,
-                    borderColor: room.floorType === f.id ? '#111' : '#eee',
+                    outline: room.floorType === f.id ? '2.5px solid #111' : '1px solid #eee',
+                    outlineOffset: room.floorType === f.id ? '2px' : '0',
+                    backgroundColor: room.floorType === f.id ? '#F8F8F8' : '#FFF',
                   }}
                 >
                   <div style={{
@@ -158,7 +164,12 @@ export default function RoomBuilderWizard() {
                     backgroundColor: f.color,
                     backgroundImage: f.pattern !== 'none' ? f.pattern : 'none',
                   }} />
-                  <span style={styles.floorLabel}>{f.label}</span>
+                  <span style={{
+                    ...styles.floorLabel,
+                    fontWeight: room.floorType === f.id ? '700' : '500',
+                  }}>
+                    {f.label}
+                  </span>
                 </div>
               ))}
             </div>
@@ -321,6 +332,11 @@ const styles = {
     borderRadius: '8px',
     cursor: 'pointer',
     padding: 0,
+  },
+  grid6: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(6, 1fr)',
+    gap: '0.4rem',
   },
   grid3: {
     display: 'grid',

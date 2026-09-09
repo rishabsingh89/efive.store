@@ -171,25 +171,45 @@ export const FURNITURE_DEFAULTS = {
 
 // ── Wall Color Palette ───────────────────────────────────────────────────────
 export const WALL_COLORS = [
-  { id: 'ivory',    label: 'Ivory Cream',    hex: '#F5F0E8' },
-  { id: 'white',    label: 'Pure White',     hex: '#FFFFFF' },
-  { id: 'warm',     label: 'Warm Beige',     hex: '#EDE8DC' },
-  { id: 'sage',     label: 'Sage Green',     hex: '#D4DDD4' },
-  { id: 'sky',      label: 'Sky Blue',       hex: '#D6E4EE' },
-  { id: 'blush',    label: 'Blush Pink',     hex: '#F0E0E0' },
-  { id: 'charcoal', label: 'Charcoal',       hex: '#4A4A4A' },
-  { id: 'navy',     label: 'Navy Blue',      hex: '#2C3E50' },
-  { id: 'terracotta', label: 'Terracotta',   hex: '#C67A5C' },
-  { id: 'lavender', label: 'Lavender',       hex: '#E0D8E8' },
+  { id: 'white',      label: 'Pure White',      hex: '#FFFFFF' },
+  { id: 'beige',      label: 'Light Beige',     hex: '#E6E0D5' },
+  { id: 'blush',      label: 'Soft Blush',      hex: '#E8D5C8' },
+  { id: 'terracotta', label: 'Terracotta',      hex: '#B95924' },
+  { id: 'brown',      label: 'Dark Brown',      hex: '#854D3F' },
+  { id: 'powder_blue',label: 'Powder Blue',     hex: '#B9CBD1' },
+  { id: 'slate',      label: 'Slate Blue',      hex: '#5C808E' },
+  { id: 'sage',       label: 'Sage Green',      hex: '#94A285' },
+  { id: 'grey',       label: 'Neutral Grey',    hex: '#828685' },
+  { id: 'taupe',      label: 'Taupe',           hex: '#927B75' },
+  { id: 'plum',       label: 'Plum',            hex: '#684C5E' },
+  { id: 'dark_green', label: 'Dark Green',      hex: '#45675A' },
 ];
 
 // ── Floor Types ──────────────────────────────────────────────────────────────
 export const FLOOR_TYPES = [
-  { id: 'wooden',  label: 'Wooden',     color: '#C4A882', pattern: 'repeating-linear-gradient(90deg, #C4A882 0px, #C4A882 30px, #B89970 30px, #B89970 32px)', textureUrl: '/textures/wood.jpg', textureScale: [3.0, 3.0] },
-  { id: 'marble',  label: 'Marble',     color: '#E8E4DE', pattern: 'linear-gradient(135deg, #E8E4DE 25%, #D8D4CE 25%, #D8D4CE 50%, #E8E4DE 50%, #E8E4DE 75%, #D8D4CE 75%)', textureUrl: '/textures/marble.jpg', textureScale: [3.0, 3.0] },
-  { id: 'tiles',   label: 'Tiles',      color: '#E0DDD5', pattern: 'repeating-conic-gradient(#E0DDD5 0% 25%, #D5D2CA 0% 50%) 0 0 / 40px 40px', textureUrl: '/textures/tiles.jpg', textureScale: [3.0, 3.0] },
-  { id: 'carpet',  label: 'Carpet',     color: '#B8AFA0', pattern: 'none', textureUrl: '/textures/carpet.jpg', textureScale: [3.0, 3.0] },
-  { id: 'concrete', label: 'Concrete',  color: '#CFCBC3', pattern: 'none', textureUrl: '/textures/concrete.jpg', textureScale: [3.0, 3.0] },
+  // Row 1 (Woods)
+  { id: 'wooden',       label: 'Natural oak',     color: '#C2A178', pattern: 'repeating-linear-gradient(90deg, #C2A178 0px, #C2A178 30px, #B6956C 30px, #B6956C 32px)' },
+  { id: 'warm_oak',     label: 'Warm oak',        color: '#A3784A', pattern: 'repeating-linear-gradient(90deg, #A3784A 0px, #A3784A 30px, #956B3D 30px, #956B3D 32px)' },
+  { id: 'dark_ash',     label: 'Ash grey',        color: '#54595B', pattern: 'repeating-linear-gradient(90deg, #54595B 0px, #54595B 30px, #484C4E 30px, #484C4E 32px)' },
+  { id: 'walnut',       label: 'Walnut',          color: '#654536', pattern: 'repeating-linear-gradient(90deg, #654536 0px, #654536 30px, #573A2C 30px, #573A2C 32px)' },
+  { id: 'cherry',       label: 'Cherry wood',     color: '#A84D2B', pattern: 'repeating-linear-gradient(90deg, #A84D2B 0px, #A84D2B 30px, #974222 30px, #974222 32px)' },
+  { id: 'black_wood',   label: 'Black wood',      color: '#2C2B2A', pattern: 'repeating-linear-gradient(90deg, #2C2B2A 0px, #2C2B2A 30px, #201F1E 30px, #201F1E 32px)' },
+
+  // Row 2 (Woods & Stones)
+  { id: 'honey_oak',    label: 'Honey oak',       color: '#C69B56', pattern: 'repeating-linear-gradient(90deg, #C69B56 0px, #C69B56 30px, #B88E49 30px, #B88E49 32px)' },
+  { id: 'golden_teak',  label: 'Golden teak',     color: '#B8863A', pattern: 'repeating-linear-gradient(90deg, #B8863A 0px, #B8863A 30px, #A9792E 30px, #A9792E 32px)' },
+  { id: 'light_ash',    label: 'Light ash',       color: '#BEBDB8', pattern: 'repeating-linear-gradient(90deg, #BEBDB8 0px, #BEBDB8 30px, #B0AFAA 30px, #B0AFAA 32px)' },
+  { id: 'greige_oak',   label: 'Greige oak',      color: '#99948D', pattern: 'repeating-linear-gradient(90deg, #99948D 0px, #99948D 30px, #8C8780 30px, #8C8780 32px)' },
+  { id: 'dark_slate',   label: 'Dark slate',      color: '#484D50', pattern: 'none' },
+  { id: 'smoked_oak',   label: 'Smoked oak',      color: '#52453B', pattern: 'repeating-linear-gradient(90deg, #52453B 0px, #52453B 30px, #453930 30px, #453930 32px)' },
+
+  // Row 3 (Tiles, Marble, Special)
+  { id: 'white_wash',   label: 'White wash',      color: '#E6E3DB', pattern: 'repeating-linear-gradient(90deg, #E6E3DB 0px, #E6E3DB 30px, #D9D6CE 30px, #D9D6CE 32px)' },
+  { id: 'marble',       label: 'Cream marble',    color: '#FAF6EF', pattern: 'linear-gradient(135deg, #FAF6EF 25%, #F0ECD4 25%, #F0ECD4 50%, #FAF6EF 50%, #FAF6EF 75%, #F0ECD4 75%)' },
+  { id: 'tiles',        label: 'White tile',      color: '#FFFFFF', pattern: 'repeating-conic-gradient(#FFFFFF 0% 25%, #F5F5F5 0% 50%) 0 0 / 40px 40px' },
+  { id: 'carpet',       label: 'Carpet',          color: '#B8AFA0', pattern: 'none' },
+  { id: 'slate_tile',   label: 'Slate tile',      color: '#606569', pattern: 'repeating-conic-gradient(#606569 0% 25%, #505559 0% 50%) 0 0 / 40px 40px' },
+  { id: 'concrete',     label: 'Grey concrete',   color: '#A9AAAA', pattern: 'none' },
 ];
 
 // ── Ceiling Colors ───────────────────────────────────────────────────────────

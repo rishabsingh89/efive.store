@@ -53,7 +53,7 @@ function CameraController({ mode, controlsRef }) {
         controlsRef.current.update();
       }
     } else { // dollhouse
-      camera.position.set(0, 4, 6);
+      camera.position.set(0, 8, 12);
       camera.lookAt(0, 0.4, 0);
       if (controlsRef.current) {
         controlsRef.current.target.set(0, 0.4, 0);
@@ -139,9 +139,10 @@ function DragHandle3D({ tag, w, d, onResize, setOrbitEnabled }) {
   );
 }
 
-// Dynamic Wall Component
-function DynamicWall({ p1, p2, tag, color, defaults, doorStyle, windowStyle }) {
+// Dynamic Wall Component with Skirting, Door & Window Fixtures
+function DynamicWall({ p1, p2, tag, color, defaults, doorStyle, windowStyle, onSelectFeature }) {
   const meshRef = useRef();
+  const [hoveredFeature, setHoveredFeature] = useState(null);
   
   const dx = p2[0] - p1[0];
   const dz = p2[1] - p1[1];
@@ -157,12 +158,119 @@ function DynamicWall({ p1, p2, tag, color, defaults, doorStyle, windowStyle }) {
     const dot = normal.dot(toCamera);
     meshRef.current.visible = dot > -0.15; 
   });
+
+  const isLeftWall = tag === 'left';
+  const isTopWall = tag === 'top';
+
   return (
     <group ref={meshRef} position={[cx, WALL_H / 2, cz]} rotation={[0, angle, 0]}>
-      <mesh receiveShadow>
+      {/* Wall Plaster Surface */}
+      <mesh receiveShadow castShadow>
         <boxGeometry args={[length + WALL_T, WALL_H, WALL_T]} />
-        <meshStandardMaterial color={color} roughness={1.0} />
+        <meshStandardMaterial color={color} roughness={0.6} metalness={0.02} />
       </mesh>
+
+      {/* Skirting / Baseboard along wall bottom */}
+      <mesh position={[0, -WALL_H / 2 + 0.04, WALL_T / 2 + 0.005]} receiveShadow>
+        <boxGeometry args={[length + WALL_T, 0.08, 0.015]} />
+        <meshStandardMaterial color="#FAF9F6" roughness={0.4} />
+      </mesh>
+
+      {/* 3D Door Frame & Panel on Left Wall */}
+      {isLeftWall && (
+        <group 
+          position={[-length * 0.15, -WALL_H / 2 + 1.05, WALL_T / 2 + 0.01]}
+          onPointerOver={(e) => { e.stopPropagation(); setHoveredFeature('door'); }}
+          onPointerOut={() => setHoveredFeature(null)}
+          onClick={(e) => { e.stopPropagation(); if (onSelectFeature) onSelectFeature('door'); }}
+        >
+          {/* Outer Frame */}
+          <mesh receiveShadow castShadow>
+            <boxGeometry args={[1.0, 2.1, 0.06]} />
+            <meshStandardMaterial color="#F4F4F4" roughness={0.3} />
+          </mesh>
+
+          {/* Inner Door Panel */}
+          <mesh position={[0, 0, 0.01]} receiveShadow castShadow>
+            <boxGeometry args={[0.9, 2.02, 0.04]} />
+            <meshStandardMaterial 
+              color={doorStyle === 'wooden' ? '#8B5A2B' : doorStyle === 'glass' ? '#D0E8FF' : '#FFFFFF'} 
+              roughness={doorStyle === 'glass' ? 0.1 : 0.4} 
+              transparent={doorStyle === 'glass'}
+              opacity={doorStyle === 'glass' ? 0.7 : 1.0}
+            />
+          </mesh>
+
+          {/* Door Handle */}
+          <mesh position={[0.36, -0.05, 0.04]} castShadow>
+            <cylinderGeometry args={[0.02, 0.02, 0.12, 16]} />
+            <meshStandardMaterial color="#999999" metalness={0.8} roughness={0.2} />
+          </mesh>
+
+          {/* Target Marker Ring (matching reference screenshots) */}
+          <group position={[0, 0, 0.05]}>
+            <mesh>
+              <ringGeometry args={[0.12, 0.16, 32]} />
+              <meshBasicMaterial color={hoveredFeature === 'door' ? '#FFD700' : '#CCCCCC'} side={THREE.DoubleSide} transparent opacity={0.85} />
+            </mesh>
+            <mesh>
+              <circleGeometry args={[0.06, 32]} />
+              <meshBasicMaterial color={hoveredFeature === 'door' ? '#FFD700' : '#CCCCCC'} side={THREE.DoubleSide} transparent opacity={0.6} />
+            </mesh>
+          </group>
+        </group>
+      )}
+
+      {/* 3D Window Frame & Glass on Back Wall */}
+      {isTopWall && (
+        <group 
+          position={[length * 0.15, 0.1, WALL_T / 2 + 0.01]}
+          onPointerOver={(e) => { e.stopPropagation(); setHoveredFeature('window'); }}
+          onPointerOut={() => setHoveredFeature(null)}
+          onClick={(e) => { e.stopPropagation(); if (onSelectFeature) onSelectFeature('window'); }}
+        >
+          {/* Outer Frame */}
+          <mesh receiveShadow castShadow>
+            <boxGeometry args={[1.2, 1.2, 0.06]} />
+            <meshStandardMaterial color="#F4F4F4" roughness={0.3} />
+          </mesh>
+
+          {/* Glass Pane */}
+          <mesh position={[0, 0, 0.01]}>
+            <boxGeometry args={[1.08, 1.08, 0.02]} />
+            <meshPhysicalMaterial 
+              color="#E0F7FA" 
+              transmission={0.8} 
+              transparent 
+              opacity={0.6} 
+              roughness={0.1} 
+              metalness={0.9} 
+            />
+          </mesh>
+
+          {/* Inner Grid Divider */}
+          <mesh position={[0, 0, 0.02]}>
+            <boxGeometry args={[1.08, 0.03, 0.01]} />
+            <meshStandardMaterial color="#F4F4F4" />
+          </mesh>
+          <mesh position={[0, 0, 0.02]}>
+            <boxGeometry args={[0.03, 1.08, 0.01]} />
+            <meshStandardMaterial color="#F4F4F4" />
+          </mesh>
+
+          {/* Target Marker Ring */}
+          <group position={[0, 0, 0.04]}>
+            <mesh>
+              <ringGeometry args={[0.12, 0.16, 32]} />
+              <meshBasicMaterial color={hoveredFeature === 'window' ? '#FFD700' : '#CCCCCC'} side={THREE.DoubleSide} transparent opacity={0.85} />
+            </mesh>
+            <mesh>
+              <circleGeometry args={[0.06, 32]} />
+              <meshBasicMaterial color={hoveredFeature === 'window' ? '#FFD700' : '#CCCCCC'} side={THREE.DoubleSide} transparent opacity={0.6} />
+            </mesh>
+          </group>
+        </group>
+      )}
     </group>
   );
 }
@@ -287,26 +395,127 @@ const ftInToM = (ft, inc) => {
   return totalInches / 39.3701;
 };
 
-function Floor3D({ shape, floorInfo, roomW, roomD }) {
-  const texture = useTexture(floorInfo.textureUrl);
+function createProceduralFloorTexture(floorInfo) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 1024;
+  const ctx = canvas.getContext('2d');
   
-  useMemo(() => {
-    if (texture) {
-      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-      const repeatX = (roomW || 1) / (floorInfo.textureScale[0] || 1);
-      const repeatY = (roomD || 1) / (floorInfo.textureScale[1] || 1);
-      texture.repeat.set(repeatX, repeatY);
-      texture.needsUpdate = true;
+  const baseColor = floorInfo.color || '#C2A178';
+  ctx.fillStyle = baseColor;
+  ctx.fillRect(0, 0, 1024, 1024);
+
+  const isWood = ['wooden', 'warm_oak', 'dark_ash', 'walnut', 'cherry', 'black_wood', 'honey_oak', 'golden_teak', 'light_ash', 'greige_oak', 'dark_slate', 'smoked_oak', 'white_wash', 'bamboo', 'light_pine'].includes(floorInfo.id);
+  const isTile = ['tiles', 'slate_tile', 'grey_tile', 'square_tile'].includes(floorInfo.id);
+  const isMarble = ['marble', 'travertine'].includes(floorInfo.id);
+
+  if (isWood) {
+    const numRows = 8;
+    const rowH = 1024 / numRows;
+    for (let r = 0; r < numRows; r++) {
+      const y = r * rowH;
+
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+      for (let g = 0; g < 14; g++) {
+        const gy = y + (g / 14) * rowH;
+        ctx.fillRect(0, gy, 1024, 1.5);
+      }
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.035)';
+      for (let g = 0; g < 8; g++) {
+        const gy = y + (g / 8) * rowH + 3;
+        ctx.fillRect(0, gy, 1024, 1);
+      }
+
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.28)';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(1024, y);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, y + 2.5);
+      ctx.lineTo(1024, y + 2.5);
+      ctx.stroke();
+
+      const offset = (r % 2 === 0) ? 0 : 256;
+      const plankW = 340;
+      for (let p = -1; p <= 4; p++) {
+        const px = p * plankW + offset;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.28)';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(px, y);
+        ctx.lineTo(px, y + rowH);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(px + 2.5, y);
+        ctx.lineTo(px + 2.5, y + rowH);
+        ctx.stroke();
+      }
     }
-  }, [texture, floorInfo.textureScale, roomW, roomD]);
+  } else if (isTile) {
+    const tileSize = 128;
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.lineWidth = 3;
+    for (let x = 0; x <= 1024; x += tileSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, 1024);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= 1024; y += tileSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(1024, y);
+      ctx.stroke();
+    }
+  } else if (isMarble) {
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.07)';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(0, 200);
+    ctx.bezierCurveTo(300, 100, 600, 400, 1024, 300);
+    ctx.stroke();
+
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(100, 0);
+    ctx.bezierCurveTo(400, 500, 500, 600, 900, 1024);
+    ctx.stroke();
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+function Floor3D({ shape, floorInfo, roomW, roomD }) {
+  const texture = useMemo(() => {
+    const tex = createProceduralFloorTexture(floorInfo);
+    tex.repeat.set(roomW / 2.5, roomD / 2.5);
+    return tex;
+  }, [floorInfo.id, floorInfo.color, roomW, roomD]);
 
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.005, 0]} receiveShadow>
       <shapeGeometry args={[shape]} />
-      <meshStandardMaterial 
-        color={floorInfo.color} 
-        roughness={0.7}
-        map={texture}
+      <meshPhysicalMaterial 
+        map={texture} 
+        color="#FFFFFF" 
+        roughness={0.22}
+        metalness={0.04}
+        clearcoat={0.75}
+        clearcoatRoughness={0.12}
+        envMapIntensity={1.3}
       />
     </mesh>
   );
@@ -314,21 +523,7 @@ function Floor3D({ shape, floorInfo, roomW, roomD }) {
 
 function FloorWrapper({ shape, floorInfo, roomW, roomD }) {
   return (
-    <Suspense fallback={
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.005, 0]} receiveShadow>
-        <shapeGeometry args={[shape]} />
-        <meshStandardMaterial color={floorInfo.color} roughness={0.5} />
-      </mesh>
-    }>
-      {floorInfo.textureUrl ? (
-        <Floor3D shape={shape} floorInfo={floorInfo} roomW={roomW} roomD={roomD} />
-      ) : (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.005, 0]} receiveShadow>
-          <shapeGeometry args={[shape]} />
-          <meshStandardMaterial color={floorInfo.color} roughness={0.5} />
-        </mesh>
-      )}
-    </Suspense>
+    <Floor3D shape={shape} floorInfo={floorInfo} roomW={roomW} roomD={roomD} />
   );
 }
 
@@ -504,7 +699,7 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
 
   return (
     <div style={styles.canvasOuter} onDragOver={handleDragOver} onDrop={handleDrop} ref={canvasRef}>
-      <Canvas shadows camera={{ position: [0, 4, 6], fov: 45 }} onPointerMissed={handlePointerMissed}>
+      <Canvas shadows camera={{ position: [0, 8, 12], fov: 45 }} onPointerMissed={handlePointerMissed}>
         <ambientLight intensity={spotlightsEnabled ? 0.4 : 0.8} />
         <directionalLight position={[10, 15, 10]} intensity={spotlightsEnabled ? 0.6 : 1.2} castShadow shadow-mapSize={[2048, 2048]} shadow-bias={-0.0005} />
         <Environment preset="apartment" />
