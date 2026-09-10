@@ -23,39 +23,6 @@ function buildRoomsForBHK(bhkId) {
     const defaults = ROOM_TYPE_DEFAULTS[room.type] || ROOM_TYPE_DEFAULTS.living;
     
     const initialFurniture = [];
-    if (defaults.doors) {
-      defaults.doors.forEach(d => {
-        initialFurniture.push({
-          id: nextFurnitureId(),
-          category: 'doors',
-          name: 'Door',
-          price: 3500,
-          width: d.w,
-          height: 12,
-          x: d.side === 'left' ? 0 : d.side === 'right' ? defaults.width : d.x,
-          y: d.side === 'top' ? 0 : d.side === 'bottom' ? defaults.height : d.y,
-          rotation: d.side === 'left' ? 90 : d.side === 'right' ? -90 : d.side === 'bottom' ? 180 : 0,
-          color: 'wooden',
-        });
-      });
-    }
-    if (defaults.windows) {
-      defaults.windows.forEach(w => {
-        initialFurniture.push({
-          id: nextFurnitureId(),
-          category: 'windows',
-          name: 'Window',
-          price: 4500,
-          width: w.w,
-          height: 12,
-          x: w.side === 'left' ? 0 : w.side === 'right' ? defaults.width : w.x,
-          y: w.side === 'top' ? 0 : w.side === 'bottom' ? defaults.height : w.y,
-          rotation: w.side === 'left' ? 90 : w.side === 'right' ? -90 : w.side === 'bottom' ? 180 : 0,
-          color: 'white',
-          elevation: 1.2,
-        });
-      });
-    }
 
     rooms[room.id] = {
       label: room.label,
@@ -437,11 +404,19 @@ function init(initialBhkId) {
     const saved = storage.load(STORAGE_KEY);
     if (saved && saved.selectedBHK === initialBhkId) {
       const config = BHK_CONFIGS.find((b) => b.id === initialBhkId);
+      const cleanRooms = { ...saved.rooms };
+      Object.keys(cleanRooms).forEach((rId) => {
+        if (cleanRooms[rId]?.furniture) {
+          cleanRooms[rId].furniture = cleanRooms[rId].furniture.filter(
+            (item) => item.category !== 'doors' && item.category !== 'windows'
+          );
+        }
+      });
       return {
         ...initialState,
         selectedBHK: initialBhkId,
         activeRoomId: config?.rooms[0]?.id || null,
-        rooms: saved.rooms || buildRoomsForBHK(initialBhkId),
+        rooms: cleanRooms,
       };
     }
     const config = BHK_CONFIGS.find((b) => b.id === initialBhkId);

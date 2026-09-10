@@ -175,6 +175,102 @@ function DynamicWall({ p1, p2, tag, color, defaults, doorStyle, windowStyle, onS
         <boxGeometry args={[length + WALL_T, 0.08, 0.015]} />
         <meshStandardMaterial color="#FAF9F6" roughness={0.4} />
       </mesh>
+
+      {/* 3D Door Frame & Panel on Left Wall */}
+      {isLeftWall && (
+        <group 
+          position={[-length * 0.15, -WALL_H / 2 + 1.05, WALL_T / 2 + 0.01]}
+          onPointerOver={(e) => { e.stopPropagation(); setHoveredFeature('door'); }}
+          onPointerOut={() => setHoveredFeature(null)}
+          onClick={(e) => { e.stopPropagation(); if (onSelectFeature) onSelectFeature('door'); }}
+        >
+          {/* Outer Frame */}
+          <mesh receiveShadow castShadow>
+            <boxGeometry args={[1.0, 2.1, 0.06]} />
+            <meshStandardMaterial color="#F4F4F4" roughness={0.3} />
+          </mesh>
+
+          {/* Inner Door Panel */}
+          <mesh position={[0, 0, 0.01]} receiveShadow castShadow>
+            <boxGeometry args={[0.9, 2.02, 0.04]} />
+            <meshStandardMaterial 
+              color={doorStyle === 'wooden' ? '#8B5A2B' : doorStyle === 'glass' ? '#D0E8FF' : '#FFFFFF'} 
+              roughness={doorStyle === 'glass' ? 0.1 : 0.4} 
+              transparent={doorStyle === 'glass'}
+              opacity={doorStyle === 'glass' ? 0.7 : 1.0}
+            />
+          </mesh>
+
+          {/* Door Handle */}
+          <mesh position={[0.36, -0.05, 0.04]} castShadow>
+            <cylinderGeometry args={[0.02, 0.02, 0.12, 16]} />
+            <meshStandardMaterial color="#999999" metalness={0.8} roughness={0.2} />
+          </mesh>
+
+          {/* Target Marker Ring */}
+          <group position={[0, 0, 0.05]}>
+            <mesh>
+              <ringGeometry args={[0.12, 0.16, 32]} />
+              <meshBasicMaterial color={hoveredFeature === 'door' ? '#FFD700' : '#CCCCCC'} side={THREE.DoubleSide} transparent opacity={0.85} />
+            </mesh>
+            <mesh>
+              <circleGeometry args={[0.06, 32]} />
+              <meshBasicMaterial color={hoveredFeature === 'door' ? '#FFD700' : '#CCCCCC'} side={THREE.DoubleSide} transparent opacity={0.6} />
+            </mesh>
+          </group>
+        </group>
+      )}
+
+      {/* 3D Window Frame & Glass on Back Wall */}
+      {isTopWall && (
+        <group 
+          position={[length * 0.15, 0.1, WALL_T / 2 + 0.01]}
+          onPointerOver={(e) => { e.stopPropagation(); setHoveredFeature('window'); }}
+          onPointerOut={() => setHoveredFeature(null)}
+          onClick={(e) => { e.stopPropagation(); if (onSelectFeature) onSelectFeature('window'); }}
+        >
+          {/* Outer Frame */}
+          <mesh receiveShadow castShadow>
+            <boxGeometry args={[1.2, 1.2, 0.06]} />
+            <meshStandardMaterial color="#F4F4F4" roughness={0.3} />
+          </mesh>
+
+          {/* Glass Pane */}
+          <mesh position={[0, 0, 0.01]}>
+            <boxGeometry args={[1.08, 1.08, 0.02]} />
+            <meshPhysicalMaterial 
+              color="#E0F7FA" 
+              transmission={0.8} 
+              transparent 
+              opacity={0.6} 
+              roughness={0.1} 
+              metalness={0.9} 
+            />
+          </mesh>
+
+          {/* Inner Grid Divider */}
+          <mesh position={[0, 0, 0.02]}>
+            <boxGeometry args={[1.08, 0.03, 0.01]} />
+            <meshStandardMaterial color="#F4F4F4" />
+          </mesh>
+          <mesh position={[0, 0, 0.02]}>
+            <boxGeometry args={[0.03, 1.08, 0.01]} />
+            <meshStandardMaterial color="#F4F4F4" />
+          </mesh>
+
+          {/* Target Marker Ring */}
+          <group position={[0, 0, 0.04]}>
+            <mesh>
+              <ringGeometry args={[0.12, 0.16, 32]} />
+              <meshBasicMaterial color={hoveredFeature === 'window' ? '#FFD700' : '#CCCCCC'} side={THREE.DoubleSide} transparent opacity={0.85} />
+            </mesh>
+            <mesh>
+              <circleGeometry args={[0.06, 32]} />
+              <meshBasicMaterial color={hoveredFeature === 'window' ? '#FFD700' : '#CCCCCC'} side={THREE.DoubleSide} transparent opacity={0.6} />
+            </mesh>
+          </group>
+        </group>
+      )}
     </group>
   );
 }
