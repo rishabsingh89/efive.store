@@ -46,7 +46,7 @@ export default function ProductDetailsModal({ product, onClose }) {
     });
     document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = 'auto';
     };
   }, []);
 
@@ -71,7 +71,10 @@ export default function ProductDetailsModal({ product, onClose }) {
   const handleClose = () => {
     setIsContentReady(false);
     setTimeout(() => setIsVisible(false), 100);
-    setTimeout(() => onClose(), 350);
+    setTimeout(() => {
+      document.body.style.overflow = 'auto';
+      onClose();
+    }, 350);
   };
 
   const handleWhatsApp = () => {

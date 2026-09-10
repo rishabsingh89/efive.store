@@ -22,14 +22,17 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
     // Lock body scroll
     document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = 'auto';
     };
   }, []);
 
   const handleClose = () => {
     setIsContentVisible(false);
     setTimeout(() => setIsVisible(false), 150);
-    setTimeout(() => onClose(), 400);
+    setTimeout(() => {
+      document.body.style.overflow = 'auto';
+      onClose();
+    }, 400);
   };
 
   // Close on Escape key

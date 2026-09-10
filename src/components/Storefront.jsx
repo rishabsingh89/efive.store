@@ -46,6 +46,18 @@ export default function Storefront() {
     }
   }, [searchParams, products]);
 
+  // Centralized body overflow lock/unlock manager for Storefront overlays
+  useEffect(() => {
+    if (openCategoryId || selectedProduct) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [openCategoryId, selectedProduct]);
+
   const handleProductQuickView = useCallback((product) => {
     if (product) {
       setSearchParams(prev => {
