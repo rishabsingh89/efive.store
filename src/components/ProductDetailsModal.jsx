@@ -507,6 +507,11 @@ export default function ProductDetailsModal({ product, onClose }) {
           gap: 3rem;
           align-items: start;
         }
+        .pdp-3d-perspective {
+          position: relative !important;
+          top: auto !important;
+          width: 100%;
+        }
         .pdp-image-showcase {
           width: 100%;
           height: 480px;
@@ -519,16 +524,23 @@ export default function ProductDetailsModal({ product, onClose }) {
             gap: 2rem;
           }
           .pdp-content-wrapper {
-            padding: 1.5rem 1rem 4rem;
+            padding: 1.25rem 1rem 3rem;
           }
           .pdp-image-showcase {
-            height: 350px;
+            height: 340px;
+          }
+          .pdp-3d-perspective {
+            position: relative !important;
+            top: auto !important;
           }
         }
         
         @media (max-width: 576px) {
           .pdp-image-showcase {
-            height: 280px;
+            height: 260px;
+          }
+          .pdp-content-wrapper {
+            padding: 1rem 0.75rem 2.5rem;
           }
         }
       `}</style>
@@ -611,8 +623,7 @@ const styles = {
     boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
   },
   visualSection: {
-    position: 'sticky',
-    top: '80px',
+    position: 'relative',
     opacity: 0,
   },
   visualCard: {
@@ -893,12 +904,10 @@ const styles = {
 
   // ── WhatsApp CTA ──────────────────────────────────────────────────────────
   actionSection: {
-    padding: '1.5rem 0',
+    padding: '1.5rem 0 0.5rem',
     borderTop: '1px solid #E6E2DA',
-    position: 'sticky',
-    bottom: 0,
-    backgroundColor: 'rgba(250, 247, 242, 0.95)',
-    backdropFilter: 'blur(8px)',
+    marginTop: '1.5rem',
+    position: 'relative',
   },
   actionHint: {
     marginBottom: '0.75rem',
