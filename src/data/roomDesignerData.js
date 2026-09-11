@@ -25,8 +25,7 @@ export const BHK_CONFIGS = [
     description: 'Ideal for small families',
     rooms: [
       { id: 'living', type: 'living', label: 'Living Room' },
-      { id: 'bedroom1', type: 'bedroom', label: 'Bedroom 1' },
-      { id: 'bedroom2', type: 'bedroom', label: 'Bedroom 2' },
+      { id: 'bedroom1', type: 'bedroom', label: 'Bedroom' },
       { id: 'kitchen', type: 'kitchen', label: 'Kitchen' },
       { id: 'bathroom1', type: 'bathroom', label: 'Bathroom' },
     ],
