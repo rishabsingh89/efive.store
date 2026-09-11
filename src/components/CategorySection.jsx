@@ -18,19 +18,13 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
       setIsVisible(true);
       setTimeout(() => setIsContentVisible(true), 200);
     });
-
-    // Lock body scroll
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
+    // Body scroll is managed centrally by Storefront.jsx
   }, []);
 
   const handleClose = () => {
     setIsContentVisible(false);
     setTimeout(() => setIsVisible(false), 150);
     setTimeout(() => {
-      document.body.style.overflow = 'auto';
       onClose();
     }, 400);
   };

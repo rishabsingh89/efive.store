@@ -145,7 +145,7 @@ export default function RoomBuilderWizard() {
               ))}
             </div>
 
-            <h4 style={styles.subLabel} style={{marginTop: '1rem'}}>Floor style</h4>
+            <h4 style={{ ...styles.subLabel, marginTop: '1rem' }}>Floor style</h4>
             <div style={styles.grid6}>
               {FLOOR_TYPES.map((f) => (
                 <div

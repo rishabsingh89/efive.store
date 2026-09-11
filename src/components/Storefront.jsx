@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import Hero from './Hero';
@@ -14,12 +14,19 @@ import { Sparkles, ChevronRight } from 'lucide-react';
 import '../App.css';
 
 export default function Storefront() {
-  const products = getProducts();
+  // Memoize products to prevent new array reference on every render
+  // (getProducts reads from localStorage and returns a new array each call)
+  const products = useMemo(() => getProducts(), []);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [openCategoryId, setOpenCategoryId] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // Track scroll position before overlays open
+  const savedScrollY = useRef(0);
+  // Track previous overlay state to detect closed→open vs open→open transitions
+  const wasOverlayOpen = useRef(false);
 
   // Sync category with URL
   useEffect(() => {
@@ -46,17 +53,43 @@ export default function Storefront() {
     }
   }, [searchParams, products]);
 
-  // Centralized body overflow lock/unlock manager for Storefront overlays
+  // Centralized body overflow lock/unlock — SINGLE SOURCE OF TRUTH
+  // No other component should touch document.body.style.overflow
   useEffect(() => {
-    if (openCategoryId || selectedProduct) {
+    const isOverlayOpen = !!(openCategoryId || selectedProduct);
+
+    if (isOverlayOpen && !wasOverlayOpen.current) {
+      // Transitioning from NO overlay → overlay open: save scroll position
+      savedScrollY.current = window.scrollY;
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
+    } else if (isOverlayOpen && wasOverlayOpen.current) {
+      // Already had an overlay open (e.g. category→product transition)
+      // Keep overflow hidden but do NOT overwrite savedScrollY
+      document.body.style.overflow = 'hidden';
+    } else if (!isOverlayOpen && wasOverlayOpen.current) {
+      // All overlays closed: unlock scrolling and restore position
+      document.body.style.overflow = '';
+      const scrollTarget = savedScrollY.current;
+      requestAnimationFrame(() => {
+        window.scrollTo(0, scrollTarget);
+      });
     }
+
+    wasOverlayOpen.current = isOverlayOpen;
+
     return () => {
-      document.body.style.overflow = 'auto';
+      // Always clear on unmount or before re-run
+      document.body.style.overflow = '';
     };
   }, [openCategoryId, selectedProduct]);
+
+  // Safety: ensure body overflow is clean on mount (handles HMR, strict mode, stale state)
+  useEffect(() => {
+    document.body.style.overflow = '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   const handleProductQuickView = useCallback((product) => {
     if (product) {

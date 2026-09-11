@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  ArrowLeft, X, Star, Shield, Compass, Hammer,
-  Truck, RotateCcw, CheckCircle,
-} from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { ShoppingCart, Heart, Share2, X, ChevronRight, Check, Star, ShieldCheck, Shield, ArrowRight, Truck, ArrowLeft, Compass, Hammer, RotateCcw, CheckCircle } from 'lucide-react';
+import ProductImageMagnifier from './ProductImageMagnifier';
 import ProductSVG from './ProductSVG';
 import { openWhatsApp } from '../whatsapp';
 
@@ -44,10 +42,7 @@ export default function ProductDetailsModal({ product, onClose }) {
       setIsVisible(true);
       setTimeout(() => setIsContentReady(true), 150);
     });
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
+    // Body scroll is managed centrally by Storefront.jsx
   }, []);
 
   // Close on Escape
@@ -72,7 +67,6 @@ export default function ProductDetailsModal({ product, onClose }) {
     setIsContentReady(false);
     setTimeout(() => setIsVisible(false), 100);
     setTimeout(() => {
-      document.body.style.overflow = 'auto';
       onClose();
     }, 350);
   };
@@ -135,18 +129,14 @@ export default function ProductDetailsModal({ product, onClose }) {
                 {product.images && product.images.length > 0 ? (
                   <>
                     <div className="pdp-image-showcase">
-                      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                        <img 
+                      <div style={{ position: 'relative', width: '100%', height: '100%', padding: '2rem' }}>
+                        <ProductImageMagnifier
                           src={product.images[activeImageIdx]} 
                           alt={name}
-                          loading="lazy"
-                          decoding="async"
-                          style={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'contain',
-                            padding: '2rem',
-                            display: 'block'
+                          zoomLevel={2.5}
+                          lensSize={200}
+                          imageStyle={{ 
+                            objectFit: 'contain'
                           }}
                         />
                         {(product.isOutOfStock || product.isSoldOut) && (
