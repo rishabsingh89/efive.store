@@ -41,8 +41,8 @@ export const products = [
     name: 'Mesa Solid Teak Canopy Bed',
     images: ['/images/beds/Beds/WABY/view-5.jpg', '/images/beds/Beds/WABY/view-1.jpg'],
     category: 'beds',
-    price: 79999,
-    originalPrice: 99999,
+    price: 14999,
+    originalPrice: 19999,
     rating: 4.7,
     reviews: 43,
     description: 'Bring a dramatic architectural flair to your bedroom with the Mesa Canopy Bed. Masterfully crafted from 100% sustainably-sourced solid teak wood in a rich walnut finish.',
@@ -565,7 +565,7 @@ export const products = [
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v32');
+      const stored = localStorage.getItem('efive_products_v33');
       const deletedIds = JSON.parse(localStorage.getItem('efive_deleted_products') || '[]');
 
       if (stored) {
@@ -576,7 +576,7 @@ export const getProducts = () => {
         
         if (newStaticProducts.length > 0) {
           const combined = [...parsedStored, ...newStaticProducts];
-          localStorage.setItem('efive_products_v32', JSON.stringify(combined));
+          localStorage.setItem('efive_products_v33', JSON.stringify(combined));
           return combined;
         }
         
@@ -591,7 +591,7 @@ export const getProducts = () => {
       }
       
       const combined = [...products, ...oldLocalProducts];
-      localStorage.setItem('efive_products_v32', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v33', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -604,7 +604,7 @@ export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
       // Find what was deleted by comparing with current stored
-      const stored = localStorage.getItem('efive_products_v32');
+      const stored = localStorage.getItem('efive_products_v33');
       if (stored) {
         const parsedStored = JSON.parse(stored);
         const updatedIds = updatedProducts.map(p => p.id);
@@ -621,7 +621,7 @@ export const saveProducts = (updatedProducts) => {
         }
       }
 
-      localStorage.setItem('efive_products_v32', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v33', JSON.stringify(updatedProducts));
     }
   } catch (e) {
     console.error('Could not save products', e);
