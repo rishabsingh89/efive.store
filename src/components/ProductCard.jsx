@@ -63,7 +63,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
     <div className="product-card-enhanced">
       {/* Product Image Section */}
       <div 
-        className={`product-image-container ${category === 'decor' ? 'decor-img-container' : ''}`}
+        className={`product-image-container ${category === 'decor' ? 'decor-img-container' : ''} ${category === 'shelves' ? 'shelves-img-container' : ''}`}
         style={{ cursor: 'pointer' }}
         onClick={() => onQuickView(product)}
       >

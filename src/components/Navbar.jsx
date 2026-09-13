@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, Sparkles, ShoppingCart, Heart, User } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
+import { getCategories } from '../data/products';
 import ContactUsModal from './ContactUsModal';
 import CartDrawer from './CartDrawer';
 
@@ -30,10 +31,11 @@ export default function Navbar({ searchQuery = '', onSearchChange, onSearchSubmi
     const addedText = new Set();
 
     // 1. Check for matching categories
-    const categories = ['beds', 'dining', 'chairs', 'decor', 'tvunits', 'study', 'tables'];
-    categories.forEach(cat => {
-      if (cat.toLowerCase().includes(searchLower)) {
-        const text = cat.charAt(0).toUpperCase() + cat.slice(1);
+    const categoriesList = getCategories();
+    categoriesList.forEach(c => {
+      const cat = c.id;
+      if (cat.toLowerCase().includes(searchLower) || c.name.toLowerCase().includes(searchLower)) {
+        const text = c.name;
         if (!addedText.has(text)) {
           newSuggestions.push({ type: 'category', text, value: cat });
           addedText.add(text);

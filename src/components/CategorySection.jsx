@@ -9,7 +9,24 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
   const sectionRef = useRef(null);
 
   const category = categories.find((c) => c.id === categoryId);
-  const allProducts = getProducts();
+  const [allProducts, setAllProducts] = useState(() => getProducts());
+
+  useEffect(() => {
+    const handleProductsUpdate = (e) => {
+      if (e?.detail) {
+        setAllProducts(e.detail);
+      } else {
+        setAllProducts(getProducts());
+      }
+    };
+    window.addEventListener('efive_products_updated', handleProductsUpdate);
+    window.addEventListener('storage', handleProductsUpdate);
+    return () => {
+      window.removeEventListener('efive_products_updated', handleProductsUpdate);
+      window.removeEventListener('storage', handleProductsUpdate);
+    };
+  }, []);
+
   const categoryProducts = allProducts.filter((p) => p.category === categoryId);
 
   useEffect(() => {

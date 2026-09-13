@@ -1,8 +1,23 @@
-import React from 'react';
-import { categories } from '../data/products';
+import React, { useState, useEffect } from 'react';
+import { getCategories } from '../data/products';
 import { Sparkles, Grid } from 'lucide-react';
 
 const CategoryGrid = React.memo(function CategoryGrid({ activeCategory, onCategorySelect }) {
+  const [categoriesList, setCategoriesList] = useState(getCategories());
+
+  useEffect(() => {
+    const handleCatUpdate = (e) => {
+      if (e?.detail) setCategoriesList(e.detail.categories || e.detail);
+      else setCategoriesList(getCategories());
+    };
+    window.addEventListener('efive_categories_updated', handleCatUpdate);
+    window.addEventListener('efive_cms_updated', handleCatUpdate);
+    return () => {
+      window.removeEventListener('efive_categories_updated', handleCatUpdate);
+      window.removeEventListener('efive_cms_updated', handleCatUpdate);
+    };
+  }, []);
+
   return (
     <section id="categories-catalog" style={styles.section}>
       <div className="container">
@@ -26,7 +41,7 @@ const CategoryGrid = React.memo(function CategoryGrid({ activeCategory, onCatego
         </div>
 
         <div className="category-grid">
-          {categories.map((cat) => {
+          {categoriesList.map((cat) => {
             const isActive = activeCategory === cat.id;
 
             return (

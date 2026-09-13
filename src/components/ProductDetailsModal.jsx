@@ -129,14 +129,17 @@ export default function ProductDetailsModal({ product, onClose }) {
                 {product.images && product.images.length > 0 ? (
                   <>
                     <div className="pdp-image-showcase">
-                      <div style={{ position: 'relative', width: '100%', height: '100%', padding: '2rem' }}>
+                      <div style={{ position: 'relative', width: '100%', height: '100%', padding: '1rem' }}>
                         <ProductImageMagnifier
                           src={product.images[activeImageIdx]} 
                           alt={name}
                           zoomLevel={2.5}
                           lensSize={200}
                           imageStyle={{ 
-                            objectFit: 'contain'
+                            objectFit: 'contain',
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '12px'
                           }}
                         />
                         {(product.isOutOfStock || product.isSoldOut) && (
@@ -507,7 +510,7 @@ export default function ProductDetailsModal({ product, onClose }) {
         }
         .pdp-image-showcase {
           width: 100%;
-          height: 480px;
+          height: 500px;
           overflow: hidden;
         }
         
@@ -520,7 +523,7 @@ export default function ProductDetailsModal({ product, onClose }) {
             padding: 1.25rem 1rem 3rem;
           }
           .pdp-image-showcase {
-            height: 340px;
+            height: 460px;
           }
           .pdp-3d-perspective {
             position: relative !important;
@@ -530,7 +533,7 @@ export default function ProductDetailsModal({ product, onClose }) {
         
         @media (max-width: 576px) {
           .pdp-image-showcase {
-            height: 260px;
+            height: 380px;
           }
           .pdp-content-wrapper {
             padding: 1rem 0.75rem 2.5rem;
@@ -660,12 +663,12 @@ const styles = {
     backgroundColor: '#f8fafc',
   },
   thumbnailImg: {
-    width: '64px',
-    height: '64px',
-    objectFit: 'contain',
-    padding: '4px',
+    width: '100px',
+    height: '75px',
+    objectFit: 'cover',
+    padding: '0',
     backgroundColor: '#ffffff',
-    borderRadius: '10px',
+    borderRadius: '8px',
     cursor: 'pointer',
     transition: 'all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)',
     boxShadow: '0 2px 8px rgba(0,0,0,0.05)',

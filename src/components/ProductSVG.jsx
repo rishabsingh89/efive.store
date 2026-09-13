@@ -160,6 +160,26 @@ export default function ProductSVG({ category, colorHex }) {
           </svg>
         );
 
+      case 'shelves':
+        return (
+          <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={styles.svg}>
+            <ellipse cx="100" cy="110" rx="70" ry="5" fill="rgba(30, 29, 27, 0.05)" />
+            {/* Wooden Shelves Planks */}
+            <rect x="35" y="32" width="130" height="7" rx="2" fill="#8d6e63" />
+            <rect x="35" y="62" width="130" height="7" rx="2" fill="#8d6e63" />
+            <rect x="35" y="92" width="130" height="7" rx="2" fill="#8d6e63" />
+            {/* Shelf Side Supports */}
+            <line x1="45" y1="20" x2="45" y2="105" stroke="#37474f" strokeWidth="4" />
+            <line x1="155" y1="20" x2="155" y2="105" stroke="#37474f" strokeWidth="4" />
+            {/* Decorative items on shelves */}
+            <rect x="55" y="20" width="12" height="12" rx="2" fill={accentColor} />
+            <circle cx="61" cy="15" r="5" fill="#4caf50" />
+            <rect x="120" y="44" width="6" height="18" fill="#e57373" />
+            <rect x="127" y="42" width="6" height="20" fill="#64b5f6" />
+            <rect x="134" y="46" width="6" height="16" fill="#ffd54f" />
+          </svg>
+        );
+
       default:
         return (
           <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={styles.svg}>

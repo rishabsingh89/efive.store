@@ -1,10 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, ChevronDown, ChevronLeft, ChevronRight, Settings, Leaf, Users, ShieldCheck } from 'lucide-react';
+import { getHeroCMS } from '../data/products';
 
 const Hero = React.memo(function Hero({ onExploreClick }) {
+  const [heroCMS, setHeroCMS] = useState(getHeroCMS());
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = 5;
+
+  useEffect(() => {
+    const handleHeroUpdate = (e) => {
+      if (e?.detail) setHeroCMS(e.detail.heroCMS || e.detail);
+      else setHeroCMS(getHeroCMS());
+    };
+    window.addEventListener('efive_hero_updated', handleHeroUpdate);
+    window.addEventListener('efive_cms_updated', handleHeroUpdate);
+    return () => {
+      window.removeEventListener('efive_hero_updated', handleHeroUpdate);
+      window.removeEventListener('efive_cms_updated', handleHeroUpdate);
+    };
+  }, []);
 
   // Auto-play
   useEffect(() => {

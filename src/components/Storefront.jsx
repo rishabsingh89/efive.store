@@ -14,9 +14,23 @@ import { Sparkles, ChevronRight } from 'lucide-react';
 import '../App.css';
 
 export default function Storefront() {
-  // Memoize products to prevent new array reference on every render
-  // (getProducts reads from localStorage and returns a new array each call)
-  const products = useMemo(() => getProducts(), []);
+  const [products, setProducts] = useState(() => getProducts());
+
+  useEffect(() => {
+    const handleProductsUpdate = (e) => {
+      if (e?.detail) {
+        setProducts(e.detail);
+      } else {
+        setProducts(getProducts());
+      }
+    };
+    window.addEventListener('efive_products_updated', handleProductsUpdate);
+    window.addEventListener('storage', handleProductsUpdate);
+    return () => {
+      window.removeEventListener('efive_products_updated', handleProductsUpdate);
+      window.removeEventListener('storage', handleProductsUpdate);
+    };
+  }, []);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);

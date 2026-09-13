@@ -1037,7 +1037,7 @@ svg text {
 }
 
 .product-image-container {
-  height: 200px;
+  height: 240px;
   position: relative;
   overflow: hidden;
   background-color: hsl(var(--card-bg));
@@ -1050,27 +1050,37 @@ svg text {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: center;
   padding: 0.5rem;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .decor-img-container img {
-  object-fit: contain;
+  object-fit: cover;
   padding: 0;
-  transform: scale(1.05);
+  transform: scale(1.02);
+}
+
+.shelves-img-container img {
+  padding: 0;
+  object-fit: cover;
 }
 
 .product-card-enhanced:hover .product-image-container img {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .product-card-enhanced:hover .decor-img-container img {
-  transform: scale(1.12);
+  transform: scale(1.08);
+}
+
+.product-card-enhanced:hover .shelves-img-container img {
+  transform: scale(1.06);
 }
 
 @media (max-width: 768px) {
   .product-image-container {
-    height: 140px;
+    height: 180px;
   }
 }
 
