@@ -160,9 +160,9 @@ export default function Footer() {
         <div className="container" style={styles.bottomContainer}>
           <p style={styles.copyright}>&copy; {new Date().getFullYear()} Efive Studio Home Decor. All rights reserved.</p>
           <div style={styles.bottomLinks}>
-            <span style={styles.bottomLink}>Privacy Policy</span>
-            <span style={styles.bottomLink}>Terms of Service</span>
-            <span style={styles.bottomLink}>Care Instructions</span>
+            <Link to="/help/privacy-policy" style={{...styles.bottomLink, textDecoration: 'none'}}>Privacy Policy</Link>
+            <Link to="/help/terms-of-service" style={{...styles.bottomLink, textDecoration: 'none'}}>Terms of Service</Link>
+            <Link to="/help/care-instructions" style={{...styles.bottomLink, textDecoration: 'none'}}>Care Instructions</Link>
           </div>
         </div>
       </div>

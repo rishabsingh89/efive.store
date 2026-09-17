@@ -324,6 +324,91 @@ export const helpData = {
         content: 'If the GST rate goes down, the benefit is directly passed on to you with lower prices. If it goes up, we strive to absorb costs where possible to keep our furniture affordable.'
       }
     ]
+  },
+  'privacy-policy': {
+    title: 'Privacy Policy',
+    description: 'Learn how EFIVE Studio collects, uses, and protects your personal data.',
+    hero: 'Your privacy is our priority. We are committed to protecting your data.',
+    sections: [
+      {
+        heading: 'Information We Collect',
+        content: 'When you visit efive.store, we may collect personal information that you provide to us, such as your name, email address, shipping address, and payment details when you make a purchase or create an account. We also automatically collect certain information about your device, including your IP address, browser type, and interactions with our website through cookies.'
+      },
+      {
+        heading: 'How We Use Your Information',
+        content: 'We use the information we collect to process your orders, provide customer support, and improve our services. Your data helps us personalize your shopping experience, send order updates, and notify you about new products or offers if you have opted into our newsletter.'
+      },
+      {
+        heading: 'Data Protection & Security',
+        content: 'EFIVE Studio takes data security seriously. We implement industry-standard encryption protocols (SSL) and secure server hosting to ensure your personal and payment information is protected against unauthorized access, alteration, or disclosure.'
+      },
+      {
+        heading: 'Sharing of Information',
+        content: 'We do not sell your personal data to third parties. We may share necessary information with trusted third-party service providers (such as logistics partners and payment gateways) strictly for the purpose of fulfilling your order and providing our services.'
+      },
+      {
+        heading: 'Your Rights',
+        content: 'You have the right to access, correct, or delete your personal information stored with us. If you wish to exercise these rights or have any concerns about your privacy, please contact our support team at privacy@efive.store.'
+      }
+    ]
+  },
+  'terms-of-service': {
+    title: 'Terms of Service',
+    description: 'The terms and conditions that govern your use of the EFIVE Studio website and services.',
+    hero: 'Understanding the rules that guide our services.',
+    sections: [
+      {
+        heading: 'Acceptance of Terms',
+        content: 'By accessing and using efive.store, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, you should not use our website or purchase our products.'
+      },
+      {
+        heading: 'Products and Pricing',
+        content: 'We strive to provide accurate descriptions and images of our furniture. However, slight variations in color and texture may occur due to screen settings or natural materials. All prices are listed in INR and are subject to change without prior notice. We reserve the right to modify or discontinue products at any time.'
+      },
+      {
+        heading: 'Orders and Payments',
+        content: 'An order is confirmed only upon successful payment. We reserve the right to cancel any order due to stock unavailability, pricing errors, or suspected fraudulent activity. In such cases, a full refund will be processed.'
+      },
+      {
+        heading: 'Shipping and Delivery',
+        content: 'Delivery timelines provided are estimates. While we make every effort to deliver on time, EFIVE Studio is not liable for delays caused by unforeseen circumstances or third-party logistics. Customers are responsible for providing an accurate and accessible delivery address.'
+      },
+      {
+        heading: 'User Conduct',
+        content: 'You agree not to use our website for any unlawful purpose or in any way that could damage, disable, or impair our servers. Any attempt to gain unauthorized access to our systems will result in immediate termination of your account and potential legal action.'
+      },
+      {
+        heading: 'Limitation of Liability',
+        content: 'EFIVE Studio shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or website. Our maximum liability in any event will not exceed the total amount paid by you for the specific product in question.'
+      }
+    ]
+  },
+  'care-instructions': {
+    title: 'Care Instructions',
+    description: 'Learn how to maintain and care for your EFIVE Studio furniture to ensure it lasts a lifetime.',
+    hero: 'Keep your furniture looking brand new with proper care.',
+    sections: [
+      {
+        heading: 'General Wood Care',
+        content: 'Dust your wooden furniture regularly using a soft, dry, lint-free cloth. Avoid using harsh chemicals, silicone-based polishes, or abrasive cleaners, as they can damage the finish. Keep wooden pieces away from direct sunlight and extreme temperature changes to prevent fading and cracking.'
+      },
+      {
+        heading: 'Upholstery & Fabric Care',
+        content: 'Vacuum fabric upholstery weekly using a brush attachment to remove dust and dirt. For minor spills, gently blot (do not rub) the area immediately with a clean, absorbent cloth. We recommend professional cleaning for stubborn stains. Avoid direct sunlight to prevent fabric fading.'
+      },
+      {
+        heading: 'Leather Maintenance',
+        content: 'Dust leather furniture with a dry cloth and occasionally wipe it with a slightly damp cloth. Use a specialized leather conditioner every 6-12 months to keep the leather soft and prevent cracking. Keep leather pieces away from heat sources like radiators and direct sunlight.'
+      },
+      {
+        heading: 'Metal & Glass Components',
+        content: 'Wipe metal frames with a soft, damp cloth and dry immediately to prevent water spots or rust. For glass surfaces, use a standard glass cleaner or a mixture of water and white vinegar with a microfiber cloth. Avoid using abrasive sponges that could scratch the glass or metal finish.'
+      },
+      {
+        heading: 'Outdoor Furniture',
+        content: 'While our outdoor pieces are weather-resistant, covering them during extreme weather or when not in use will prolong their lifespan. Wipe down outdoor furniture periodically with mild soapy water and let it air dry completely.'
+      }
+    ]
   }
 };
 

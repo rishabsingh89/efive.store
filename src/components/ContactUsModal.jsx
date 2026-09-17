@@ -95,7 +95,7 @@ export default function ContactUsModal({ isOpen, onClose }) {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                style={{...styles.input, flex: 1}}
+                style={{...styles.input, flex: 1, minWidth: 0}}
                 required
                 placeholder="Phone Number"
               />
@@ -234,17 +234,20 @@ const styles = {
   phoneGroup: {
     display: 'flex',
     gap: '0.5rem',
-    alignItems: 'center',
+    alignItems: 'stretch',
+    width: '100%',
   },
   countrySelect: {
-    padding: '0.75rem',
+    padding: '0.75rem 0.25rem 0.75rem 0.5rem',
     borderRadius: '6px',
     border: '1px solid #D1C8B8',
     backgroundColor: '#fff',
     fontFamily: 'var(--font-body)',
-    fontSize: '1rem',
+    fontSize: '0.95rem',
     outline: 'none',
     transition: 'border-color 0.2s',
-    minWidth: '120px',
+    flexShrink: 0,
+    width: '30%',
+    maxWidth: '110px',
   }
 };
