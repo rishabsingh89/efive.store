@@ -9,8 +9,6 @@ const ParticleCanvas = () => {
     const ctx = canvas.getContext('2d');
     let animationFrameId;
     let particles = [];
-    let trail = [];
-    let sparks = [];
 
     const mouse = { x: -1000, y: -1000, active: false };
 
@@ -28,9 +26,6 @@ const ParticleCanvas = () => {
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
       mouse.active = true;
-
-      trail.push({ x: mouse.x, y: mouse.y, age: 0 });
-      if (trail.length > 30) trail.shift();
     };
 
     const handleMouseLeave = () => {
@@ -115,67 +110,7 @@ const ParticleCanvas = () => {
         }
       }
 
-      if (trail.length > 1) {
-        ctx.beginPath();
-        ctx.moveTo(trail[0].x, trail[0].y);
-        for (let i = 1; i < trail.length; i++) {
-          ctx.lineTo(trail[i].x, trail[i].y);
-        }
-        ctx.strokeStyle = 'rgba(0, 180, 255, 0.45)';
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = 'rgba(0, 180, 255, 0.7)';
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-      }
 
-      for (let i = 0; i < trail.length; i++) {
-        trail[i].age++;
-      }
-      trail = trail.filter(t => t.age < 25);
-
-      if (mouse.active) {
-        if (Math.random() < 0.5) {
-          sparks.push({
-            x: mouse.x + (Math.random() - 0.5) * 10,
-            y: mouse.y + (Math.random() - 0.5) * 10,
-            vx: (Math.random() - 0.5) * 3,
-            vy: (Math.random() - 0.5) * 3,
-            life: 1,
-            size: Math.random() * 2 + 1
-          });
-        }
-      }
-
-      for (let i = 0; i < sparks.length; i++) {
-        const spark = sparks[i];
-        spark.x += spark.vx;
-        spark.y += spark.vy;
-        spark.life -= 0.025;
-
-        if (spark.life > 0) {
-          ctx.beginPath();
-          ctx.arc(spark.x, spark.y, spark.size * spark.life, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0, 180, 255, ${spark.life * 0.8})`;
-          ctx.shadowBlur = 6;
-          ctx.shadowColor = '#00b4ff';
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        }
-      }
-      sparks = sparks.filter(s => s.life > 0);
-
-      if (mouse.active) {
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#fff';
-        ctx.shadowBlur = 14;
-        ctx.shadowColor = '#00b4ff';
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      }
 
       animationFrameId = window.requestAnimationFrame(draw);
     };

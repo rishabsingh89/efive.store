@@ -24,70 +24,74 @@ export default function GenericPage({ dataMap, basePath, categoryName }) {
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <SEO title={data.title} description={data.description} path={`/${basePath}/${slug}`} />
-      <Navbar />
-      <main style={styles.main}>
-        {/* Hero Section */}
-        <section style={styles.heroSection}>
-          <div className="container">
-            <span style={styles.breadcrumb}>
-              <Link to="/" style={styles.breadcrumbLink}>Home</Link> / <Link to={`/${basePath}`} style={styles.breadcrumbLink}>{categoryName}</Link> / {data.title}
-            </span>
-            <h1 style={styles.heroTitle}>{data.title}</h1>
-            <div style={styles.heroDivider}></div>
-            <p style={styles.heroQuote}>"{data.hero}"</p>
-          </div>
-        </section>
-
-        {/* Content Sections */}
-        <section style={styles.contentSection}>
-          <div className="container">
-            {data.sections.map((section, index) => (
-              <div
-                key={index}
-                style={{
-                  ...styles.contentBlock,
-                  ...(index % 2 === 1 ? styles.contentBlockAlt : {})
-                }}
-                className="generic-block"
-              >
-                <h2 style={styles.sectionHeading}>{section.heading}</h2>
-                <div style={styles.sectionDivider}></div>
-                <p style={styles.sectionContent}>{section.content}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* FAQs */}
-        {data.faqs && data.faqs.length > 0 && (
-          <section style={styles.faqSection}>
+      
+      <div style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column' }}>
+        <Navbar />
+        <main style={styles.main}>
+          {/* Hero Section */}
+          <section style={styles.heroSection}>
             <div className="container">
-              <h2 style={styles.faqTitle}>Frequently Asked Questions</h2>
-              <div style={styles.faqList}>
-                {data.faqs.map((faq, i) => (
-                  <div key={i} style={styles.faqItem}>
-                    <h3 style={styles.faqQuestion}>{faq.q}</h3>
-                    <p style={styles.faqAnswer}>{faq.a}</p>
-                  </div>
-                ))}
-              </div>
+              <span style={styles.breadcrumb}>
+                <Link to="/" style={styles.breadcrumbLink}>Home</Link> / <Link to={`/${basePath}`} style={styles.breadcrumbLink}>{categoryName}</Link> / {data.title}
+              </span>
+              <h1 style={styles.heroTitle}>{data.title}</h1>
+              <div style={styles.heroDivider}></div>
+              <p style={styles.heroQuote}>"{data.hero}"</p>
             </div>
           </section>
-        )}
 
-        {/* CTA Section */}
-        <section style={styles.ctaSection}>
-          <div className="container" style={styles.ctaContainer}>
-            <h2 style={styles.ctaTitle}>Need further assistance?</h2>
-            <p style={styles.ctaText}>
-              Our customer service team is always ready to help you with your queries.
-            </p>
-            <Link to="/contact" style={styles.ctaBtn}>Contact Us →</Link>
-          </div>
-        </section>
-      </main>
+          {/* Content Sections */}
+          <section style={styles.contentSection}>
+            <div className="container">
+              {data.sections.map((section, index) => (
+                <div
+                  key={index}
+                  style={{
+                    ...styles.contentBlock,
+                    ...(index % 2 === 1 ? styles.contentBlockAlt : {})
+                  }}
+                  className="generic-block"
+                >
+                  <h2 style={styles.sectionHeading}>{section.heading}</h2>
+                  <div style={styles.sectionDivider}></div>
+                  <p style={styles.sectionContent}>{section.content}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* FAQs */}
+          {data.faqs && data.faqs.length > 0 && (
+            <section style={styles.faqSection}>
+              <div className="container">
+                <h2 style={styles.faqTitle}>Frequently Asked Questions</h2>
+                <div style={styles.faqList}>
+                  {data.faqs.map((faq, i) => (
+                    <div key={i} style={styles.faqItem}>
+                      <h3 style={styles.faqQuestion}>{faq.q}</h3>
+                      <p style={styles.faqAnswer}>{faq.a}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* CTA Section */}
+          <section style={styles.ctaSection}>
+            <div className="container" style={styles.ctaContainer}>
+              <h2 style={styles.ctaTitle}>Need further assistance?</h2>
+              <p style={styles.ctaText}>
+                Our customer service team is always ready to help you with your queries.
+              </p>
+              <Link to="/contact" style={styles.ctaBtn}>Contact Us →</Link>
+            </div>
+          </section>
+        </main>
+      </div>
+      
       <Footer />
 
       <style dangerouslySetInnerHTML={{__html: `
@@ -102,7 +106,7 @@ export default function GenericPage({ dataMap, basePath, categoryName }) {
           white-space: pre-wrap;
         }
       `}} />
-    </>
+    </div>
   );
 }
 

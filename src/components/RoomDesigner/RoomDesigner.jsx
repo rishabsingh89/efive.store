@@ -14,6 +14,16 @@ import {
   Edit, Share, Save, ArrowRight, Copy, Trash2 
 } from 'lucide-react';
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return isMobile;
+}
+
 function ItemOptionsPanel({ activeItem, dispatch, onClose }) {
   const products = getProducts();
   const product = products.find((p) => p.id === activeItem.productId);
@@ -161,6 +171,7 @@ function DesignerContent({ initialBhkId, onClose }) {
   const { state, dispatch } = useRoomDesigner();
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const isMobile = useIsMobile();
   
   const [designName, setDesignName] = useState(() => {
     const saved = storage.load(STORAGE_KEY);
@@ -209,7 +220,11 @@ function DesignerContent({ initialBhkId, onClose }) {
   }, 0);
 
   return (
-    <div style={isModal ? styles.modalOverlay : styles.workspace}>
+    <div style={isModal ? styles.modalOverlay : { 
+      ...styles.workspace, 
+      height: isMobile ? '115vh' : '100vh',
+      overflow: isMobile ? 'visible' : 'hidden'
+    }}>
       <div style={isModal ? styles.modalContent : { display: 'flex', flexDirection: 'column', height: '100%' }}>
         
         {!isModal && <Navbar />}
@@ -280,7 +295,10 @@ function DesignerContent({ initialBhkId, onClose }) {
         </div>
 
         {/* Main Split Layout */}
-        <div style={styles.mainLayout} className="rd-main-layout">
+        <div style={{
+          ...styles.mainLayout,
+          overflow: isMobile ? 'visible' : 'hidden'
+        }} className="rd-main-layout">
           {state.wizardMode ? (
             <RoomBuilderWizard />
           ) : (

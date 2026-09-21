@@ -13,6 +13,16 @@ import {
   Plus, Minus, Paintbrush, Ruler, Eye, Video, X
 } from 'lucide-react';
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return isMobile;
+}
+
 const MODEL_HEIGHTS = {
   beds: 1.0,
   sofa: 0.8,
@@ -38,25 +48,28 @@ function CameraController({ mode, controlsRef }) {
   const { camera } = useThree();
   
   useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    const targetX = isMobile ? 1.5 : 0; // Shift focus right on mobile to move room left
+
     if (mode === 'top') {
-      camera.position.set(0, 7.5, 0);
-      camera.lookAt(0, 0, 0);
+      camera.position.set(targetX, 7.5, 0);
+      camera.lookAt(targetX, 0, 0);
       if (controlsRef.current) {
-        controlsRef.current.target.set(0, 0, 0);
+        controlsRef.current.target.set(targetX, 0, 0);
         controlsRef.current.update();
       }
     } else if (mode === 'side') {
-      camera.position.set(0, 1.8, 6.5);
-      camera.lookAt(0, 0.4, 0);
+      camera.position.set(targetX, 1.8, 6.5);
+      camera.lookAt(targetX, 0.4, 0);
       if (controlsRef.current) {
-        controlsRef.current.target.set(0, 0.4, 0);
+        controlsRef.current.target.set(targetX, 0.4, 0);
         controlsRef.current.update();
       }
     } else { // dollhouse
-      camera.position.set(0, 8, 12);
-      camera.lookAt(0, 0.4, 0);
+      camera.position.set(targetX, 8, 12);
+      camera.lookAt(targetX, 0.4, 0);
       if (controlsRef.current) {
-        controlsRef.current.target.set(0, 0.4, 0);
+        controlsRef.current.target.set(targetX, 0.4, 0);
         controlsRef.current.update();
       }
     }
@@ -576,6 +589,7 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
   const [internalViewMode, setInternalViewMode] = useState('dollhouse');
   const controlsRef = useRef();
   const canvasRef = useRef();
+  const isMobile = useIsMobile();
 
   const viewMode = wizardMode 
     ? (wizardStep <= 2 ? 'top' : 'dollhouse') 
@@ -886,7 +900,7 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
 
       {/* Toolbar overlay (only show if not in wizard mode) */}
       {!wizardMode && (
-        <div style={styles.toolbar}>
+        <div style={{ ...styles.toolbar, transform: isMobile ? 'scale(0.8)' : 'none', transformOrigin: 'top right' }}>
           <button 
             style={{ ...styles.toolBtn, backgroundColor: viewMode === 'dollhouse' ? '#C5A880' : '#fff', color: viewMode === 'dollhouse' ? '#fff' : '#333' }}
             onClick={() => setInternalViewMode('dollhouse')}

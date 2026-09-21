@@ -155,102 +155,103 @@ export default function Storefront() {
 
   return (
     <div style={styles.app}>
-      {/* Sticky Navbar */}
-      <Navbar
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        onSearchSubmit={scrollToCatalog}
-        products={products}
-      />
+      <div style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column' }}>
+        {/* Sticky Navbar */}
+        <Navbar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onSearchSubmit={scrollToCatalog}
+          products={products}
+        />
 
-      {/* Hero Banner */}
-      <Hero onExploreClick={scrollToCatalog} />
+        {/* Hero Banner */}
+        <Hero onExploreClick={scrollToCatalog} />
 
 
-      {/* Luxury Interior Solutions */}
-      <InteriorSection />
+        {/* Luxury Interior Solutions */}
+        <InteriorSection />
 
-      {/* Category Selector Grid */}
-      <CategoryGrid
-        activeCategory={activeCategory}
-        onCategorySelect={handleCategorySelect}
-      />
+        {/* Category Selector Grid */}
+        <CategoryGrid
+          activeCategory={activeCategory}
+          onCategorySelect={handleCategorySelect}
+        />
 
-      {/* Store Catalog */}
-      <main style={styles.catalogSection}>
-        <div className="container">
-          {/* Section header */}
-          <div style={styles.catalogHeader}>
-            <div style={styles.titleWrapper}>
-              <h3 style={styles.sectionTitle}>
-                {activeCategory
-                  ? `${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Collection`
-                  : 'All Curated Pieces'}
-              </h3>
-              <span style={styles.countBadge}>
-                {filteredProducts.length} {filteredProducts.length === 1 ? 'piece' : 'pieces'}
-              </span>
+        {/* Store Catalog */}
+        <main style={styles.catalogSection}>
+          <div className="container">
+            {/* Section header */}
+            <div style={styles.catalogHeader}>
+              <div style={styles.titleWrapper}>
+                <h3 style={styles.sectionTitle}>
+                  {activeCategory
+                    ? `${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Collection`
+                    : 'All Curated Pieces'}
+                </h3>
+                <span style={styles.countBadge}>
+                  {filteredProducts.length} {filteredProducts.length === 1 ? 'piece' : 'pieces'}
+                </span>
+              </div>
+              {searchQuery && (
+                <p style={styles.searchNotice}>
+                  Showing results for "<strong>{searchQuery}</strong>"
+                </p>
+              )}
             </div>
-            {searchQuery && (
-              <p style={styles.searchNotice}>
-                Showing results for "<strong>{searchQuery}</strong>"
-              </p>
+
+            {/* Product Grid */}
+            {filteredProducts.length > 0 ? (
+              <div className="catalog-product-grid">
+                {filteredProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onQuickView={handleProductQuickView}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div style={styles.noResults}>
+                <Sparkles size={36} style={{ color: 'hsl(var(--primary-color))', marginBottom: '1rem' }} />
+                <h3>No items found</h3>
+                <p>Try refining your search query or selecting a different category filter.</p>
+                <button
+                  onClick={() => { setSearchQuery(''); setActiveCategory(null); }}
+                  className="btn btn-primary"
+                  style={{ marginTop: '1.5rem' }}
+                >
+                  Reset Filters
+                </button>
+              </div>
             )}
           </div>
+        </main>
 
-          {/* Product Grid */}
-          {filteredProducts.length > 0 ? (
-            <div className="catalog-product-grid">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onQuickView={handleProductQuickView}
-                />
-              ))}
-            </div>
-          ) : (
-            <div style={styles.noResults}>
-              <Sparkles size={36} style={{ color: 'hsl(var(--primary-color))', marginBottom: '1rem' }} />
-              <h3>No items found</h3>
-              <p>Try refining your search query or selecting a different category filter.</p>
-              <button
-                onClick={() => { setSearchQuery(''); setActiveCategory(null); }}
-                className="btn btn-primary"
-                style={{ marginTop: '1.5rem' }}
-              >
-                Reset Filters
-              </button>
-            </div>
-          )}
-        </div>
-      </main>
+        {/* Why Choose Us Section */}
+        <WhyChooseUs />
 
-      {/* Why Choose Us Section */}
-      <WhyChooseUs />
+        {/* Category Section Overlay */}
+        {openCategoryId && (
+          <CategorySection
+            categoryId={openCategoryId}
+            onClose={() => {
+              setSearchParams(prev => {
+                prev.delete('category');
+                return prev;
+              });
+            }}
+            onQuickView={handleProductQuickView}
+          />
+        )}
 
-      {/* Category Section Overlay */}
-      {openCategoryId && (
-        <CategorySection
-          categoryId={openCategoryId}
-          onClose={() => {
-            setSearchParams(prev => {
-              prev.delete('category');
-              return prev;
-            });
-          }}
-          onQuickView={handleProductQuickView}
-        />
-      )}
-
-      {/* Product Detail Full-Screen Page */}
-      {selectedProduct && (
-        <ProductDetailsModal
-          product={selectedProduct}
-          onClose={() => handleProductQuickView(null)}
-        />
-      )}
-
+        {/* Product Detail Full-Screen Page */}
+        {selectedProduct && (
+          <ProductDetailsModal
+            product={selectedProduct}
+            onClose={() => handleProductQuickView(null)}
+          />
+        )}
+      </div>
 
       {/* Footer */}
       <Footer />

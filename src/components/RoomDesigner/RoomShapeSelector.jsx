@@ -39,10 +39,21 @@ function ShapeIcon({ shapeId, color }) {
   }
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return isMobile;
+}
+
 export default function RoomShapeSelector() {
   const { state, dispatch } = useRoomDesigner();
   const roomId = state.activeRoomId;
   const room = state.rooms[roomId];
+  const isMobile = useIsMobile();
 
   const containerRef = useRef(null);
   const [position, setPosition] = useState(null);
@@ -164,6 +175,10 @@ export default function RoomShapeSelector() {
       style={{
         ...styles.container,
         ...defaultStyles,
+        ...(isMobile ? {
+          transform: `translate(-50%, -50%) scale(0.75)`,
+          top: position ? `${position.y}px` : 'calc(100% - 100px)', // push lower down when no custom pos
+        } : {}),
         transition: isDragging ? 'none' : (isAnimating ? 'all 2s cubic-bezier(0.4, 0, 0.2, 1)' : 'all 0.3s ease'),
         cursor: isDragging ? 'grabbing' : 'grab',
       }}
