@@ -1,12 +1,30 @@
 import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import SEO from '../SEO';
 
 export default function GenericPage({ dataMap, basePath, categoryName }) {
   const { slug } = useParams();
+  const { pathname } = useLocation();
   const data = dataMap[slug];
+
+  useEffect(() => {
+    // Force scroll to top when page changes (especially from footer links)
+    const scrollToTop = () => {
+      try {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      } catch (e) {
+        window.scrollTo(0, 0);
+      }
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+    
+    scrollToTop();
+    const timer = setTimeout(scrollToTop, 100);
+    return () => clearTimeout(timer);
+  }, [pathname, slug]);
 
   if (!data) {
     return (
