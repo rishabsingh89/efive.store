@@ -121,7 +121,7 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
               {/* CTA Row */}
               <div className="ph-cta-row">
                 <button
-                  className="ph-cta-primary"
+                  className="ph-cta-secondary"
                   onClick={onExploreClick}
                   aria-label="Explore Collection"
                 >
@@ -131,7 +131,7 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
 
                 <Link
                   to="/calculate-cost"
-                  className="ph-cta-secondary"
+                  className="ph-cta-primary"
                   aria-label="Design Your Space"
                 >
                   <Sparkles size={14} className="ph-cta-sparkle" />

@@ -417,7 +417,8 @@ button[aria-label="Next slide"]:hover {
 .ph-cta-icon {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.ph-cta-primary:hover .ph-cta-icon {
+.ph-cta-primary:hover .ph-cta-icon,
+.ph-cta-secondary:hover .ph-cta-icon {
   transform: translateX(5px);
 }
 
@@ -450,7 +451,8 @@ button[aria-label="Next slide"]:hover {
   flex-shrink: 0;
   transition: transform 0.4s ease;
 }
-.ph-cta-secondary:hover .ph-cta-sparkle {
+.ph-cta-secondary:hover .ph-cta-sparkle,
+.ph-cta-primary:hover .ph-cta-sparkle {
   transform: rotate(15deg) scale(1.1);
 }
 
