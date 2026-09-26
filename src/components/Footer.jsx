@@ -3,6 +3,23 @@ import { Mail, ArrowRight, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ParticleCanvas from './ParticleCanvas';
 
+const FooterLink = ({ to, children, style, className }) => {
+  const handleClick = () => {
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    } catch (e) {
+      window.scrollTo(0, 0);
+    }
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  };
+  return (
+    <Link to={to} style={style} className={className} onClick={handleClick}>
+      {children}
+    </Link>
+  );
+};
+
 export default function Footer() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -76,55 +93,55 @@ export default function Footer() {
 
           {/* Links Column 1: Collections */}
           <div style={styles.linksCol}>
-            <Link to="/collections" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Collections</h4></Link>
+            <FooterLink to="/collections" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Collections</h4></FooterLink>
             <ul style={styles.linksList}>
-              <li><Link to="/collections/luxury-living-room" style={styles.linkItem}>Luxury Living Room</Link></li>
-              <li><Link to="/collections/ergonomic-office-desks" style={styles.linkItem}>Ergonomic Office Desks</Link></li>
-              <li><Link to="/collections/premium-dining-tables" style={styles.linkItem}>Premium Dining Tables</Link></li>
-              <li><Link to="/collections/elegant-bedroom-furniture" style={styles.linkItem}>Elegant Bedroom Furniture</Link></li>
-              <li><Link to="/collections/modern-accent-furniture" style={styles.linkItem}>Modern Accent Furniture</Link></li>
+              <li><FooterLink to="/collections/luxury-living-room" style={styles.linkItem}>Luxury Living Room</FooterLink></li>
+              <li><FooterLink to="/collections/ergonomic-office-desks" style={styles.linkItem}>Ergonomic Office Desks</FooterLink></li>
+              <li><FooterLink to="/collections/premium-dining-tables" style={styles.linkItem}>Premium Dining Tables</FooterLink></li>
+              <li><FooterLink to="/collections/elegant-bedroom-furniture" style={styles.linkItem}>Elegant Bedroom Furniture</FooterLink></li>
+              <li><FooterLink to="/collections/modern-accent-furniture" style={styles.linkItem}>Modern Accent Furniture</FooterLink></li>
             </ul>
           </div>
 
           {/* Links Column 2: Services */}
           <div style={styles.linksCol}>
-            <Link to="/services" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Services</h4></Link>
+            <FooterLink to="/services" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Services</h4></FooterLink>
             <ul style={styles.linksList}>
-              <li><Link to="/services/delivery" style={styles.linkItem}>Delivery Services</Link></li>
-              <li><Link to="/services/click-and-collect" style={styles.linkItem}>Click & Collect</Link></li>
-              <li><Link to="/services/online-planning" style={styles.linkItem}>Online Planning Tool</Link></li>
-              <li><Link to="/services/assembly" style={styles.linkItem}>Assembly Services</Link></li>
-              <li><Link to="/services/measuring" style={styles.linkItem}>Measuring Service</Link></li>
-              <li><Link to="/services/kitchen-planning" style={styles.linkItem}>Kitchen Planning</Link></li>
-              <li><Link to="/services/installation" style={styles.linkItem}>Installation Service</Link></li>
-              <li><Link to="/services/customer-service" style={styles.linkItem}>Customer Service</Link></li>
-              <li><Link to="/services/recycle-program" style={styles.linkItem}>Recycle Program</Link></li>
+              <li><FooterLink to="/services/delivery" style={styles.linkItem}>Delivery Services</FooterLink></li>
+              <li><FooterLink to="/services/click-and-collect" style={styles.linkItem}>Click & Collect</FooterLink></li>
+              <li><FooterLink to="/services/online-planning" style={styles.linkItem}>Online Planning Tool</FooterLink></li>
+              <li><FooterLink to="/services/assembly" style={styles.linkItem}>Assembly Services</FooterLink></li>
+              <li><FooterLink to="/services/measuring" style={styles.linkItem}>Measuring Service</FooterLink></li>
+              <li><FooterLink to="/services/kitchen-planning" style={styles.linkItem}>Kitchen Planning</FooterLink></li>
+              <li><FooterLink to="/services/installation" style={styles.linkItem}>Installation Service</FooterLink></li>
+              <li><FooterLink to="/services/customer-service" style={styles.linkItem}>Customer Service</FooterLink></li>
+              <li><FooterLink to="/services/recycle-program" style={styles.linkItem}>Recycle Program</FooterLink></li>
             </ul>
           </div>
 
           {/* Links Column 3: Help */}
           <div style={styles.linksCol}>
-            <Link to="/help" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Help</h4></Link>
+            <FooterLink to="/help" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Help</h4></FooterLink>
             <ul style={styles.linksList}>
-              <li><Link to="/help/how-to-shop" style={styles.linkItem}>How to Shop</Link></li>
-              <li><Link to="/help/return-policy" style={styles.linkItem}>Return Policy</Link></li>
-              <li><Link to="/help/prices-and-price-tags" style={styles.linkItem}>Prices & Price Tags</Link></li>
-              <li><Link to="/contact" style={styles.linkItem}>Contact Us</Link></li>
-              <li><Link to="/help/faqs" style={styles.linkItem}>FAQs</Link></li>
-              <li><Link to="/help/gift-card" style={styles.linkItem}>Gift Card</Link></li>
-              <li><Link to="/help/terms-and-conditions" style={styles.linkItem}>Terms & Conditions</Link></li>
-              <li><Link to="/help/damaged-articles-claim" style={styles.linkItem}>Damaged Articles Claim</Link></li>
-              <li><Link to="/help/gst-rate-revision" style={styles.linkItem}>GST Rate Revision</Link></li>
+              <li><FooterLink to="/help/how-to-shop" style={styles.linkItem}>How to Shop</FooterLink></li>
+              <li><FooterLink to="/help/return-policy" style={styles.linkItem}>Return Policy</FooterLink></li>
+              <li><FooterLink to="/help/prices-and-price-tags" style={styles.linkItem}>Prices & Price Tags</FooterLink></li>
+              <li><FooterLink to="/contact" style={styles.linkItem}>Contact Us</FooterLink></li>
+              <li><FooterLink to="/help/faqs" style={styles.linkItem}>FAQs</FooterLink></li>
+              <li><FooterLink to="/help/gift-card" style={styles.linkItem}>Gift Card</FooterLink></li>
+              <li><FooterLink to="/help/terms-and-conditions" style={styles.linkItem}>Terms & Conditions</FooterLink></li>
+              <li><FooterLink to="/help/damaged-articles-claim" style={styles.linkItem}>Damaged Articles Claim</FooterLink></li>
+              <li><FooterLink to="/help/gst-rate-revision" style={styles.linkItem}>GST Rate Revision</FooterLink></li>
             </ul>
           </div>
 
           {/* Links Column 4: About */}
           <div style={styles.linksCol}>
-            <Link to="/about" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>About EFIVE</h4></Link>
+            <FooterLink to="/about" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>About EFIVE</h4></FooterLink>
             <ul style={styles.linksList}>
-              <li><Link to="/about/this-is-efive" style={styles.linkItem}>This is EFIVE</Link></li>
-              <li><Link to="/about/csr-policy" style={styles.linkItem}>CSR Policy</Link></li>
-              <li><Link to="/about/sustainability" style={styles.linkItem}>Sustainability</Link></li>
+              <li><FooterLink to="/about/this-is-efive" style={styles.linkItem}>This is EFIVE</FooterLink></li>
+              <li><FooterLink to="/about/csr-policy" style={styles.linkItem}>CSR Policy</FooterLink></li>
+              <li><FooterLink to="/about/sustainability" style={styles.linkItem}>Sustainability</FooterLink></li>
             </ul>
           </div>
 
@@ -160,9 +177,9 @@ export default function Footer() {
         <div className="container" style={styles.bottomContainer}>
           <p style={styles.copyright}>&copy; {new Date().getFullYear()} Efive Studio Home Decor. All rights reserved.</p>
           <div style={styles.bottomLinks}>
-            <Link to="/help/privacy-policy" style={{...styles.bottomLink, textDecoration: 'none'}}>Privacy Policy</Link>
-            <Link to="/help/terms-of-service" style={{...styles.bottomLink, textDecoration: 'none'}}>Terms of Service</Link>
-            <Link to="/help/care-instructions" style={{...styles.bottomLink, textDecoration: 'none'}}>Care Instructions</Link>
+            <FooterLink to="/help/privacy-policy" style={{...styles.bottomLink, textDecoration: 'none'}}>Privacy Policy</FooterLink>
+            <FooterLink to="/help/terms-of-service" style={{...styles.bottomLink, textDecoration: 'none'}}>Terms of Service</FooterLink>
+            <FooterLink to="/help/care-instructions" style={{...styles.bottomLink, textDecoration: 'none'}}>Care Instructions</FooterLink>
           </div>
         </div>
       </div>
