@@ -10,6 +10,7 @@ import {
   calculateEstimate,
 } from '../data/calculatorData';
 import RoomDesigner from './RoomDesigner/RoomDesigner';
+import OfficeDesigns from './OfficeDesigns';
 
 // ── Icon map for category icons ──────────────────────────────────────────────
 const ICON_MAP = { Home, Building2, Coffee };
@@ -187,6 +188,8 @@ export default function CostCalculator() {
             );
           })}
         </div>
+      ) : activeCat === 'office' ? (
+        <OfficeDesigns />
       ) : (
       <div style={styles.mainGrid}>
         {/* ── View Step 2: Form & Estimate ── */}
