@@ -335,7 +335,7 @@ export const products = [
     "id": "decor-5",
     "name": "Chic Macrame Leaf & Tassel Wall Art",
     "images": [
-      "/InShot_20260815_195735818.jpg (1).jpeg"
+      "/images/bedroom_decor_tassel.jpg"
     ],
     "category": "decor",
     "price": 1699,

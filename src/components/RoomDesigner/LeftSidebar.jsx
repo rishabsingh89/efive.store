@@ -6,6 +6,7 @@ import {
   Search, ChevronLeft, ChevronRight, Plus, Eye, ChevronDown, CheckCircle2, ShoppingBag, X, Sparkles
 } from 'lucide-react';
 import LivingRoomHotspotScene from './LivingRoomHotspotScene';
+import BedroomHotspotScene from './BedroomHotspotScene';
 
 const formatPrice = (n) => '₹' + n.toLocaleString('en-IN');
 
@@ -201,6 +202,22 @@ export default function LeftSidebar({ onOpenProductModal }) {
                         <span>Browse Living Room Catalog</span>
                       </button>
                     </div>
+                  ) : r.type === 'bedroom' ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <BedroomHotspotScene 
+                        isCompact={true} 
+                        onOpenProductModal={onOpenProductModal}
+                        onSelectProductInSidebar={(p) => { setDetailProduct(p); setMode('detail'); }}
+                        onExpandView={() => setIsSceneModalOpen(true)}
+                      />
+                      <button 
+                        onClick={() => setMode('shop')} 
+                        style={styles.browseFurnitureBtn}
+                      >
+                        <ShoppingBag size={14} />
+                        <span>Browse Bedroom Catalog</span>
+                      </button>
+                    </div>
                   ) : (
                     <div 
                       style={{
@@ -244,18 +261,33 @@ export default function LeftSidebar({ onOpenProductModal }) {
               </button>
             </div>
             <div style={styles.sceneModalBody}>
-              <LivingRoomHotspotScene 
-                isCompact={false} 
-                onOpenProductModal={(p) => {
-                  setIsSceneModalOpen(false);
-                  if (onOpenProductModal) onOpenProductModal(p);
-                }} 
-                onSelectProductInSidebar={(p) => {
-                  setIsSceneModalOpen(false);
-                  setDetailProduct(p);
-                  setMode('detail');
-                }}
-              />
+              {state.activeRoomId === 'bedroom' ? (
+                <BedroomHotspotScene 
+                  isCompact={false} 
+                  onOpenProductModal={(p) => {
+                    setIsSceneModalOpen(false);
+                    if (onOpenProductModal) onOpenProductModal(p);
+                  }} 
+                  onSelectProductInSidebar={(p) => {
+                    setIsSceneModalOpen(false);
+                    setDetailProduct(p);
+                    setMode('detail');
+                  }}
+                />
+              ) : (
+                <LivingRoomHotspotScene 
+                  isCompact={false} 
+                  onOpenProductModal={(p) => {
+                    setIsSceneModalOpen(false);
+                    if (onOpenProductModal) onOpenProductModal(p);
+                  }} 
+                  onSelectProductInSidebar={(p) => {
+                    setIsSceneModalOpen(false);
+                    setDetailProduct(p);
+                    setMode('detail');
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>

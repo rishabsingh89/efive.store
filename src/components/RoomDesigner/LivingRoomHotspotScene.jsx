@@ -15,19 +15,19 @@ export default function LivingRoomHotspotScene({
   const [activeHotspot, setActiveHotspot] = useState(!isCompact);
   const [copied, setCopied] = useState(false);
 
-  // Decor product: decor-3 (Custom Name Macrame Nursery Wall Decor)
+  // Decor product: decor-1 (Handwoven Macrame Sun & Rainbow Wall Decor)
   const products = getProducts();
-  const decorProduct = products.find((p) => p.id === 'decor-3') || {
-    id: 'decor-3',
-    name: 'Custom Name Macrame Nursery Wall Decor',
-    price: 1599,
-    originalPrice: 2399,
-    images: ['/InShot_20260815_195530665.jpg.jpeg'],
+  const decorProduct = products.find((p) => p.id === 'decor-1') || {
+    id: 'decor-1',
+    name: 'Handwoven Macrame Sun & Rainbow Wall Decor',
+    price: 1299,
+    originalPrice: 1999,
+    images: ['/1778757701815.jpg.jpeg'],
     category: 'decor',
-    description: 'Personalized handcrafted macrame wall decor ideal for living room and modern interiors.'
+    description: 'A beautiful handcrafted macrame rainbow wall hanging to add a bohemian and cheerful touch to any room.'
   };
 
-  const productUrl = `${window.location.origin}/?category=decor&product=decor-3`;
+  const productUrl = `${window.location.origin}/?category=decor&product=decor-1`;
 
   const handleCopyUrl = (e) => {
     e.stopPropagation();
@@ -43,7 +43,7 @@ export default function LivingRoomHotspotScene({
     try {
       const url = new URL(window.location.href);
       url.searchParams.set('category', 'decor');
-      url.searchParams.set('product', 'decor-3');
+      url.searchParams.set('product', 'decor-1');
       window.history.pushState({}, '', url.toString());
     } catch (err) {
       console.warn('Could not update history state', err);
@@ -53,7 +53,7 @@ export default function LivingRoomHotspotScene({
     if (onOpenProductModal) {
       onOpenProductModal(decorProduct);
     } else {
-      window.location.href = `/?category=decor&product=decor-3`;
+      window.location.href = `/?category=decor&product=decor-1`;
     }
 
     // 3. Switch sidebar to product detail if callback exists
@@ -68,7 +68,7 @@ export default function LivingRoomHotspotScene({
       name: decorProduct.name,
       id: decorProduct.id,
       price: decorProduct.price,
-      image: decorProduct.images?.[0] || '/InShot_20260815_195530665.jpg.jpeg'
+      image: decorProduct.images?.[0] || '/1778757701815.jpg.jpeg'
     });
   };
 
@@ -231,7 +231,7 @@ export default function LivingRoomHotspotScene({
 
             <div style={styles.popoverBody}>
               <img 
-                src={decorProduct.images?.[0] || '/InShot_20260815_195530665.jpg.jpeg'} 
+                src={decorProduct.images?.[0] || '/1778757701815.jpg.jpeg'} 
                 alt={decorProduct.name}
                 style={styles.productThumb}
               />
@@ -294,7 +294,7 @@ export default function LivingRoomHotspotScene({
             title="Click to open Decor product"
           >
             <img 
-              src={decorProduct.images?.[0] || '/InShot_20260815_195530665.jpg.jpeg'} 
+              src={decorProduct.images?.[0] || '/1778757701815.jpg.jpeg'} 
               alt={decorProduct.name}
               style={styles.compactThumb}
             />
