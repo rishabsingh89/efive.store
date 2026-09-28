@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { ExternalLink, Copy, Check, ShoppingBag, Plus, Maximize2, X, Sparkles, Eye } from 'lucide-react';
+import { ExternalLink, Copy, Check, ShoppingBag, Plus, Maximize2, X, Sparkles, MessageCircle } from 'lucide-react';
 import { getProducts } from '../../data/products';
 import { useRoomDesigner } from './RoomDesignerContext';
+import { openWhatsApp } from '../../whatsapp';
 
 export default function LivingRoomHotspotScene({ 
   isCompact = false, 
   onOpenProductModal, 
+  onSelectProductInSidebar,
   onExpandView,
   style = {} 
 }) {
   const { state, dispatch } = useRoomDesigner();
-  const [activeHotspot, setActiveHotspot] = useState(false);
+  const [activeHotspot, setActiveHotspot] = useState(!isCompact);
   const [copied, setCopied] = useState(false);
 
   // Decor product: decor-3 (Custom Name Macrame Nursery Wall Decor)
@@ -35,12 +37,39 @@ export default function LivingRoomHotspotScene({
   };
 
   const handleOpenProduct = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
+    
+    // 1. Update browser URL so a direct link is generated
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('category', 'decor');
+      url.searchParams.set('product', 'decor-3');
+      window.history.pushState({}, '', url.toString());
+    } catch (err) {
+      console.warn('Could not update history state', err);
+    }
+
+    // 2. Open Product Modal
     if (onOpenProductModal) {
       onOpenProductModal(decorProduct);
     } else {
-      window.open(productUrl, '_blank');
+      window.location.href = `/?category=decor&product=decor-3`;
     }
+
+    // 3. Switch sidebar to product detail if callback exists
+    if (onSelectProductInSidebar) {
+      onSelectProductInSidebar(decorProduct);
+    }
+  };
+
+  const handleWhatsApp = (e) => {
+    e.stopPropagation();
+    openWhatsApp({
+      name: decorProduct.name,
+      id: decorProduct.id,
+      price: decorProduct.price,
+      image: decorProduct.images?.[0] || '/InShot_20260815_195530665.jpg.jpeg'
+    });
   };
 
   const handleAddToRoom = (e) => {
@@ -55,20 +84,21 @@ export default function LivingRoomHotspotScene({
   return (
     <div 
       style={{
-        ...styles.container,
-        ...(isCompact ? styles.compactContainer : styles.fullContainer),
+        position: 'relative',
+        width: '100%',
+        ...(isCompact ? styles.compactWrapper : styles.fullWrapper),
         ...style
       }}
-      className="living-room-hotspot-container"
+      className="living-room-hotspot-wrapper"
     >
       <style>{`
         @keyframes hotspotPulse {
           0% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.75);
             transform: scale(1);
           }
           60% {
-            box-shadow: 0 0 0 14px rgba(255, 255, 255, 0);
+            box-shadow: 0 0 0 16px rgba(255, 255, 255, 0);
             transform: scale(1.08);
           }
           100% {
@@ -76,91 +106,122 @@ export default function LivingRoomHotspotScene({
             transform: scale(1);
           }
         }
-        .hotspot-pin-btn {
-          animation: hotspotPulse 2.2s infinite ease-in-out;
+        .hotspot-interactive-btn {
+          animation: hotspotPulse 2s infinite ease-in-out;
           transition: transform 0.2s ease, background-color 0.2s ease;
+          cursor: pointer;
         }
-        .hotspot-pin-btn:hover {
-          transform: scale(1.22) !important;
-          background-color: rgba(255, 255, 255, 0.5) !important;
+        .hotspot-interactive-btn:hover {
+          transform: scale(1.25) !important;
+          background-color: rgba(255, 255, 255, 0.6) !important;
         }
-        @media (max-width: 600px) {
-          .hotspot-popover-card {
-            width: 250px !important;
-            padding: 10px !important;
-          }
+        .hotspot-interactive-btn:active {
+          transform: scale(0.95) !important;
+        }
+        .popover-clickable-card {
+          cursor: pointer;
+          transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .popover-clickable-card:hover {
+          box-shadow: 0 14px 36px rgba(0,0,0,0.35) !important;
         }
       `}</style>
 
-      {/* Background Living Room Image */}
-      <img 
-        src="/images/living_room_bg.jpg" 
-        alt="Modern Living Room with Handcrafted Macrame Decor"
-        style={styles.image}
-        loading="eager"
-      />
-
-      {/* Top Banner in Full View */}
-      {!isCompact && (
-        <div style={styles.topBadgeBar}>
-          <div style={styles.badgePill}>
-            <Sparkles size={14} style={{ color: '#C5A880' }} />
-            <span>Interactive 3D Living Room • Touch Decor to Shop</span>
-          </div>
-        </div>
-      )}
-
-      {/* Expand Button for Compact Mode */}
-      {isCompact && onExpandView && (
-        <button 
-          onClick={(e) => { e.stopPropagation(); onExpandView(); }} 
-          style={styles.expandBtn}
-          title="Fullscreen Inspiration View"
-        >
-          <Maximize2 size={13} />
-        </button>
-      )}
-
-      {/* ── 3D HOTSPOT ON WALL DECOR ── */}
-      {/* Coordinates: green arch macrame hanging at 41.5% X, 43.5% Y */}
+      {/* Image container with rounded corners */}
       <div 
         style={{
-          position: 'absolute',
-          top: '43.5%',
-          left: '41.5%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 25
+          width: '100%',
+          height: isCompact ? '175px' : '100%',
+          minHeight: isCompact ? '175px' : '420px',
+          position: 'relative',
+          borderRadius: isCompact ? '12px' : '0px',
+          overflow: 'hidden',
+          backgroundColor: '#1E1D1B',
+          cursor: isCompact ? 'pointer' : 'default'
         }}
-        onClick={(e) => {
-          e.stopPropagation();
-          setActiveHotspot(!activeHotspot);
-        }}
+        onClick={isCompact ? handleOpenProduct : undefined}
       >
-        {/* Hotspot Outer Ring (Transparent Circle) + Center Dot (White Bindu) */}
-        <div 
-          className="hotspot-pin-btn"
-          style={styles.hotspotPin}
-          title="Wall Decor - Click to view URL & Price"
-        >
-          {/* White Center Dot (Bindu) */}
-          <div style={styles.hotspotDot} />
-        </div>
+        <img 
+          src="/images/living_room_bg.jpg" 
+          alt="Modern Living Room with Handcrafted Macrame Decor"
+          style={styles.image}
+          loading="eager"
+        />
 
-        {/* Floating Tooltip / Popover on Touch or Click */}
-        {activeHotspot && (
-          <div 
-            className="hotspot-popover-card"
-            style={{
-              ...styles.popover,
-              ...(isCompact ? styles.compactPopover : styles.fullPopover)
-            }}
-            onClick={(e) => e.stopPropagation()}
+        {/* Top Banner in Full View */}
+        {!isCompact && (
+          <div style={styles.topBadgeBar}>
+            <div style={styles.badgePill}>
+              <Sparkles size={14} style={{ color: '#C5A880' }} />
+              <span>Interactive 3D Living Room • Touch Decor to Shop</span>
+            </div>
+          </div>
+        )}
+
+        {/* Expand Button for Compact Mode */}
+        {isCompact && onExpandView && (
+          <button 
+            onClick={(e) => { e.stopPropagation(); onExpandView(); }} 
+            style={styles.expandBtn}
+            title="Fullscreen Inspiration View"
           >
-            {/* Popover Header */}
+            <Maximize2 size={13} />
+          </button>
+        )}
+
+        {/* ── 3D HOTSPOT PIN ON WALL DECOR ── */}
+        {/* Coordinates: green arch macrame hanging at 41.5% X, 43.5% Y */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: '43.5%',
+            left: '41.5%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 30
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            // In compact view, tapping directly opens the product!
+            if (isCompact) {
+              handleOpenProduct();
+            } else {
+              setActiveHotspot(!activeHotspot);
+            }
+          }}
+        >
+          {/* Circular Hotspot: Transparent outer circle + White center dot (bindu) */}
+          <div 
+            className="hotspot-interactive-btn"
+            style={styles.hotspotPin}
+            title="Touch to open Decor details & Buy"
+          >
+            <div style={styles.hotspotDot} />
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Popover / Card for Non-Compact View or Expanded Card */}
+      {(!isCompact && activeHotspot) && (
+        <div 
+          style={{
+            position: 'absolute',
+            top: '48%',
+            left: '41.5%',
+            transform: 'translate(-50%, 0)',
+            zIndex: 100,
+            width: '300px',
+            maxWidth: '90vw'
+          }}
+        >
+          <div 
+            className="popover-clickable-card"
+            style={styles.popover}
+            onClick={handleOpenProduct}
+          >
             <div style={styles.popoverHeader}>
-              <span style={styles.popoverTag}>Wall Decor</span>
+              <span style={styles.popoverTag}>Wall Decor • ₹1,599</span>
               <button 
-                onClick={() => setActiveHotspot(false)} 
+                onClick={(e) => { e.stopPropagation(); setActiveHotspot(false); }} 
                 style={styles.closeBtn}
                 aria-label="Close"
               >
@@ -168,7 +229,6 @@ export default function LivingRoomHotspotScene({
               </button>
             </div>
 
-            {/* Product Image & Title */}
             <div style={styles.popoverBody}>
               <img 
                 src={decorProduct.images?.[0] || '/InShot_20260815_195530665.jpg.jpeg'} 
@@ -187,9 +247,8 @@ export default function LivingRoomHotspotScene({
               </div>
             </div>
 
-            {/* Direct URL Display with Copy Button */}
             <div style={styles.urlSection}>
-              <div style={styles.urlLabel}>Product URL:</div>
+              <div style={styles.urlLabel}>Product Link:</div>
               <div style={styles.urlBox}>
                 <span style={styles.urlText}>{productUrl}</span>
                 <button 
@@ -203,53 +262,79 @@ export default function LivingRoomHotspotScene({
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div style={styles.actionRow}>
               <button 
                 onClick={handleOpenProduct}
                 style={styles.buyBtn}
+                title="Open Product Page"
               >
                 <ShoppingBag size={13} />
-                <span>Buy (₹{decorProduct.price.toLocaleString('en-IN')})</span>
+                <span>View Details & Buy</span>
               </button>
 
               <button 
-                onClick={handleAddToRoom}
-                style={styles.addRoomBtn}
-                title="Add to current 3D room"
+                onClick={handleWhatsApp}
+                style={styles.whatsAppBtn}
+                title="Inquire / Order on WhatsApp"
               >
-                <Plus size={13} />
-                <span>Add</span>
+                <MessageCircle size={13} />
+                <span>WhatsApp</span>
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* In Compact Mode: Sleek direct action bar below the image */}
+      {isCompact && (
+        <div style={styles.compactBottomBar}>
+          <div 
+            style={styles.compactProductInfo}
+            onClick={handleOpenProduct}
+            title="Click to open Decor product"
+          >
+            <img 
+              src={decorProduct.images?.[0] || '/InShot_20260815_195530665.jpg.jpeg'} 
+              alt={decorProduct.name}
+              style={styles.compactThumb}
+            />
+            <div style={{ overflow: 'hidden' }}>
+              <div style={styles.compactTitle}>{decorProduct.name}</div>
+              <div style={styles.compactPrice}>₹{decorProduct.price.toLocaleString('en-IN')} <span style={styles.compactOrigPrice}>₹{decorProduct.originalPrice?.toLocaleString('en-IN')}</span></div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <button 
+              onClick={handleOpenProduct}
+              style={styles.compactBuyBtn}
+              title="Touch to open product details & buy"
+            >
+              <ShoppingBag size={13} />
+              <span>Buy</span>
+            </button>
+            <button 
+              onClick={handleWhatsApp}
+              style={styles.compactWhatsAppBtn}
+              title="Order on WhatsApp"
+            >
+              <MessageCircle size={14} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 const styles = {
-  container: {
-    position: 'relative',
-    overflow: 'hidden',
+  compactWrapper: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#1E1D1B',
-    userSelect: 'none',
+    flexDirection: 'column',
+    gap: '8px',
   },
-  compactContainer: {
-    width: '100%',
-    height: '170px',
-    borderRadius: '10px',
-    boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
-  },
-  fullContainer: {
-    width: '100%',
+  fullWrapper: {
     height: '100%',
-    minHeight: '420px',
-    borderRadius: '0px',
   },
   image: {
     width: '100%',
@@ -280,8 +365,8 @@ const styles = {
     position: 'absolute',
     top: '8px',
     right: '8px',
-    width: '26px',
-    height: '26px',
+    width: '28px',
+    height: '28px',
     borderRadius: '50%',
     backgroundColor: 'rgba(255, 255, 255, 0.92)',
     border: 'none',
@@ -294,10 +379,10 @@ const styles = {
     zIndex: 15,
   },
   hotspotPin: {
-    width: '30px',
-    height: '30px',
+    width: '32px',
+    height: '32px',
     borderRadius: '50%',
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.35)',
     border: '2px solid rgba(255, 255, 255, 0.95)',
     boxShadow: '0 0 14px rgba(255, 255, 255, 0.85), 0 3px 6px rgba(0,0,0,0.4)',
     display: 'flex',
@@ -307,42 +392,28 @@ const styles = {
     backdropFilter: 'blur(3px)',
   },
   hotspotDot: {
-    width: '9px',
-    height: '9px',
+    width: '10px',
+    height: '10px',
     borderRadius: '50%',
     backgroundColor: '#FFFFFF',
-    boxShadow: '0 0 5px rgba(0,0,0,0.6)',
+    boxShadow: '0 0 5px rgba(0,0,0,0.7)',
   },
   popover: {
-    position: 'absolute',
     backgroundColor: 'rgba(255, 255, 255, 0.98)',
     backdropFilter: 'blur(12px)',
-    borderRadius: '12px',
-    padding: '12px',
-    boxShadow: '0 12px 30px rgba(0,0,0,0.3)',
-    border: '1px solid rgba(197, 168, 128, 0.35)',
-    zIndex: 100,
-  },
-  compactPopover: {
-    width: '240px',
-    top: '34px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-  },
-  fullPopover: {
-    width: '290px',
-    top: '38px',
-    left: '50%',
-    transform: 'translateX(-50%)',
+    borderRadius: '14px',
+    padding: '14px',
+    boxShadow: '0 12px 32px rgba(0,0,0,0.3)',
+    border: '1px solid rgba(197, 168, 128, 0.4)',
   },
   popoverHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '6px',
+    marginBottom: '8px',
   },
   popoverTag: {
-    fontSize: '0.68rem',
+    fontSize: '0.72rem',
     fontWeight: 700,
     textTransform: 'uppercase',
     color: '#B89970',
@@ -358,13 +429,13 @@ const styles = {
   },
   popoverBody: {
     display: 'flex',
-    gap: '8px',
-    marginBottom: '8px',
+    gap: '10px',
+    marginBottom: '10px',
   },
   productThumb: {
-    width: '48px',
-    height: '48px',
-    borderRadius: '6px',
+    width: '52px',
+    height: '52px',
+    borderRadius: '8px',
     objectFit: 'cover',
     border: '1px solid #eee',
     flexShrink: 0,
@@ -375,7 +446,7 @@ const styles = {
     justifyContent: 'center',
   },
   productName: {
-    fontSize: '0.78rem',
+    fontSize: '0.82rem',
     fontWeight: 700,
     color: '#1E1D1B',
     margin: '0 0 3px 0',
@@ -384,34 +455,34 @@ const styles = {
   priceRow: {
     display: 'flex',
     alignItems: 'baseline',
-    gap: '5px',
+    gap: '6px',
   },
   price: {
-    fontSize: '0.9rem',
+    fontSize: '0.95rem',
     fontWeight: 800,
     color: '#1E1D1B',
   },
   origPrice: {
-    fontSize: '0.72rem',
+    fontSize: '0.75rem',
     color: '#888',
     textDecoration: 'line-through',
   },
   discountBadge: {
-    fontSize: '0.62rem',
+    fontSize: '0.65rem',
     fontWeight: 700,
     color: '#2e7d32',
     backgroundColor: '#e8f5e9',
-    padding: '1px 4px',
+    padding: '1px 5px',
     borderRadius: '4px',
   },
   urlSection: {
     backgroundColor: '#F5F5F3',
-    borderRadius: '6px',
-    padding: '5px 7px',
-    marginBottom: '8px',
+    borderRadius: '8px',
+    padding: '6px 8px',
+    marginBottom: '10px',
   },
   urlLabel: {
-    fontSize: '0.65rem',
+    fontSize: '0.68rem',
     color: '#777',
     fontWeight: 600,
     marginBottom: '2px',
@@ -423,19 +494,19 @@ const styles = {
     gap: '4px',
   },
   urlText: {
-    fontSize: '0.66rem',
+    fontSize: '0.68rem',
     color: '#0058a3',
     fontFamily: 'monospace',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    maxWidth: '160px',
+    maxWidth: '170px',
   },
   copyBtn: {
     display: 'inline-flex',
     alignItems: 'center',
     gap: '3px',
-    padding: '2px 6px',
+    padding: '3px 6px',
     borderRadius: '4px',
     border: '1px solid #ddd',
     backgroundColor: '#fff',
@@ -447,36 +518,111 @@ const styles = {
   },
   actionRow: {
     display: 'flex',
-    gap: '5px',
+    gap: '6px',
   },
   buyBtn: {
     flex: 1,
-    padding: '7px 8px',
-    borderRadius: '6px',
+    padding: '8px 10px',
+    borderRadius: '8px',
     border: 'none',
     backgroundColor: '#0058a3', // IKEA Blue
     color: '#fff',
-    fontSize: '0.72rem',
+    fontSize: '0.75rem',
+    fontWeight: 700,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '5px',
+    cursor: 'pointer',
+    transition: 'background 0.2s',
+  },
+  whatsAppBtn: {
+    padding: '8px 12px',
+    borderRadius: '8px',
+    border: 'none',
+    backgroundColor: '#25D366', // WhatsApp Green
+    color: '#fff',
+    fontSize: '0.75rem',
     fontWeight: 700,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: '4px',
     cursor: 'pointer',
-    transition: 'background 0.2s',
   },
-  addRoomBtn: {
-    padding: '7px 8px',
-    borderRadius: '6px',
-    border: '1px solid #C5A880',
-    backgroundColor: 'rgba(197, 168, 128, 0.1)',
-    color: '#8c6d46',
-    fontSize: '0.72rem',
-    fontWeight: 700,
+  // Compact Bottom Bar (never clipped, always accessible)
+  compactBottomBar: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: '3px',
+    justifyContent: 'space-between',
+    backgroundColor: '#FFFFFF',
+    border: '1px solid #E6E2DA',
+    borderRadius: '10px',
+    padding: '8px 10px',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+    gap: '8px',
+  },
+  compactProductInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    overflow: 'hidden',
     cursor: 'pointer',
+    flex: 1,
+  },
+  compactThumb: {
+    width: '36px',
+    height: '36px',
+    borderRadius: '6px',
+    objectFit: 'cover',
+    border: '1px solid #eee',
+    flexShrink: 0,
+  },
+  compactTitle: {
+    fontSize: '0.78rem',
+    fontWeight: 700,
+    color: '#1E1D1B',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    lineHeight: 1.2,
+  },
+  compactPrice: {
+    fontSize: '0.8rem',
+    fontWeight: 800,
+    color: '#B89970',
+  },
+  compactOrigPrice: {
+    fontSize: '0.7rem',
+    color: '#999',
+    textDecoration: 'line-through',
+    fontWeight: 400,
+  },
+  compactBuyBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '4px',
+    padding: '7px 12px',
+    backgroundColor: '#0058A3',
+    color: '#fff',
+    borderRadius: '6px',
+    border: 'none',
+    fontSize: '0.75rem',
+    fontWeight: 700,
+    cursor: 'pointer',
+    whiteSpace: 'nowrap',
+  },
+  compactWhatsAppBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '32px',
+    height: '32px',
+    backgroundColor: '#25D366',
+    color: '#fff',
+    borderRadius: '6px',
+    border: 'none',
+    cursor: 'pointer',
+    flexShrink: 0,
   }
 };

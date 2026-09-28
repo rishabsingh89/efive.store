@@ -190,6 +190,7 @@ export default function LeftSidebar({ onOpenProductModal }) {
                       <LivingRoomHotspotScene 
                         isCompact={true} 
                         onOpenProductModal={onOpenProductModal}
+                        onSelectProductInSidebar={(p) => { setDetailProduct(p); setMode('detail'); }}
                         onExpandView={() => setIsSceneModalOpen(true)}
                       />
                       <button 
@@ -249,6 +250,11 @@ export default function LeftSidebar({ onOpenProductModal }) {
                   setIsSceneModalOpen(false);
                   if (onOpenProductModal) onOpenProductModal(p);
                 }} 
+                onSelectProductInSidebar={(p) => {
+                  setIsSceneModalOpen(false);
+                  setDetailProduct(p);
+                  setMode('detail');
+                }}
               />
             </div>
           </div>
