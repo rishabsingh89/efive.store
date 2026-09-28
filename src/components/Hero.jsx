@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, ChevronDown, ChevronLeft, ChevronRight, Settings, Leaf, Users, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sparkles, ChevronDown, ChevronLeft, ChevronRight, Settings, Leaf, Users, ShieldCheck, Play, Pause } from 'lucide-react';
 import { getHeroCMS } from '../data/products';
 
 const Hero = React.memo(function Hero({ onExploreClick }) {
   const [heroCMS, setHeroCMS] = useState(getHeroCMS());
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
   const totalSlides = 5;
 
   useEffect(() => {
@@ -23,11 +24,16 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
 
   // Auto-play
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, []);
+    let timer;
+    if (isPlaying) {
+      timer = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % totalSlides);
+      }, 6000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [isPlaying]);
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % totalSlides);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
@@ -351,14 +357,25 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
         padding: '0 2rem',
         pointerEvents: 'none' 
       }}>
-        <button 
-          onClick={(e) => { e.stopPropagation(); prevSlide(); }} 
-          style={{...sliderBtnStyle, pointerEvents: 'auto'}}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-        >
-          <ChevronLeft size={24}/>
-        </button>
+        <div style={{ display: 'flex', gap: '1rem', pointerEvents: 'auto' }}>
+          <button 
+            onClick={(e) => { e.stopPropagation(); setIsPlaying(!isPlaying); }} 
+            style={sliderBtnStyle}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            aria-label={isPlaying ? 'Pause slider' : 'Play slider'}
+          >
+            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+          </button>
+          <button 
+            onClick={(e) => { e.stopPropagation(); prevSlide(); }} 
+            style={sliderBtnStyle}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            <ChevronLeft size={24}/>
+          </button>
+        </div>
         <button 
           onClick={(e) => { e.stopPropagation(); nextSlide(); }} 
           style={{...sliderBtnStyle, pointerEvents: 'auto'}}
