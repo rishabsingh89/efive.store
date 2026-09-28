@@ -238,37 +238,7 @@ export const products = [
       }
     ]
   },
-  {
-    "id": "decor-2",
-    "name": "Boho Macrame Rainbow Feather Wall Hanging",
-    "images": [
-      "/InShot_20260613_145926359.jpg.jpeg"
-    ],
-    "category": "decor",
-    "price": 1499,
-    "originalPrice": 2199,
-    "rating": 4.8,
-    "reviews": 29,
-    "description": "Handcrafted bohemian macrame wall hanging featuring pastel feather accents and intricate knotting techniques.",
-    "features": [
-      "100% Natural Cotton Cords",
-      "Handwoven by expert artisans",
-      "Feather and leaf accents",
-      "Ready to hang instantly"
-    ],
-    "specifications": {
-      "material": "Cotton, Wood",
-      "dimensions": "W 30cm x H 25cm",
-      "warranty": "No Warranty",
-      "assembly": "Ready to Hang"
-    },
-    "colors": [
-      {
-        "name": "Warm Cream & Sage",
-        "hex": "#D8E2DC"
-      }
-    ]
-  },
+
   {
     "id": "decor-3",
     "name": "Custom Name Macrame Nursery Wall Decor",
@@ -331,37 +301,7 @@ export const products = [
       }
     ]
   },
-  {
-    "id": "decor-5",
-    "name": "Chic Macrame Leaf & Tassel Wall Art",
-    "images": [
-      "/images/bedroom_decor_tassel.jpg"
-    ],
-    "category": "decor",
-    "price": 1699,
-    "originalPrice": 2499,
-    "rating": 4.9,
-    "reviews": 54,
-    "description": "Statement macrame tapestry with layered leaf tassels and natural wooden ring focal point.",
-    "features": [
-      "Layered Tassel Design",
-      "Natural Wooden Ring Holder",
-      "Artisanal Craftsmanship",
-      "Ready to hang instantly"
-    ],
-    "specifications": {
-      "material": "Cotton, Natural Wood",
-      "dimensions": "W 40cm x H 30cm",
-      "warranty": "No Warranty",
-      "assembly": "Ready to Hang"
-    },
-    "colors": [
-      {
-        "name": "Terracotta & Ivory",
-        "hex": "#E07A5F"
-      }
-    ]
-  },
+
   {
     "id": "decor-6",
     "name": "Artisan Woven Macrame Banner",
@@ -932,12 +872,16 @@ export const getProducts = () => {
           if (!deletedIds.includes(p.id)) {
             const existing = map.get(p.id);
             if (existing) {
+              const isUserUploadedImage = existing.image && existing.image.startsWith('data:image/');
               const hasStaticLocalImage = p.image && !p.image.includes('unsplash');
+              
+              const isUserUploadedImages = existing.images && existing.images.some(img => img.startsWith('data:image/'));
               const hasStaticLocalImages = p.images && p.images.some(img => !img.includes('unsplash'));
+              
               map.set(p.id, { 
                 ...existing, 
-                image: (hasStaticLocalImage || !existing.image || existing.image.includes('unsplash') || p.id.startsWith('shelves-')) ? p.image : existing.image,
-                images: (hasStaticLocalImages || !existing.images || existing.images.some(img => img.includes('unsplash')) || p.id.startsWith('shelves-')) ? p.images : existing.images
+                image: isUserUploadedImage ? existing.image : ((hasStaticLocalImage || !existing.image || existing.image.includes('unsplash') || p.id.startsWith('shelves-')) ? p.image : existing.image),
+                images: isUserUploadedImages ? existing.images : ((hasStaticLocalImages || !existing.images || existing.images.some(img => img.includes('unsplash')) || p.id.startsWith('shelves-')) ? p.images : existing.images)
               });
             } else {
               map.set(p.id, p);

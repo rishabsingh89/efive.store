@@ -15,17 +15,8 @@ export default function BedroomHotspotScene({
   const [activeHotspot, setActiveHotspot] = useState(!isCompact);
   const [copied, setCopied] = useState(false);
 
-  // Decor product: decor-5 (Chic Macrame Leaf & Tassel Wall Art)
   const products = getProducts();
-  const decorProduct = products.find((p) => p.id === 'decor-5') || {
-    id: 'decor-5',
-    name: 'Chic Macrame Leaf & Tassel Wall Art',
-    price: 1699,
-    originalPrice: 2499,
-    images: ['/images/bedroom_decor_tassel.jpg'],
-    category: 'decor',
-    description: 'Statement macrame tapestry with layered leaf tassels and natural wooden ring focal point.'
-  };
+  const decorProduct = null;
 
   const productUrl = `${window.location.origin}/?category=decor&product=decor-5`;
 
@@ -50,9 +41,9 @@ export default function BedroomHotspotScene({
     }
 
     // 2. Open Product Modal
-    if (onOpenProductModal) {
+    if (onOpenProductModal && decorProduct) {
       onOpenProductModal(decorProduct);
-    } else {
+    } else if (decorProduct) {
       window.location.href = `/?category=decor&product=decor-5`;
     }
 

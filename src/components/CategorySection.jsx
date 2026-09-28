@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, ArrowLeft, Sparkles, ShoppingBag } from 'lucide-react';
-import { categories, getProducts } from '../data/products';
+import { getCategories, getProducts } from '../data/products';
 import ProductCard from './ProductCard';
 
 export default function CategorySection({ categoryId, onClose, onQuickView }) {
@@ -8,10 +8,17 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
   const [isContentVisible, setIsContentVisible] = useState(false);
   const sectionRef = useRef(null);
 
-  const category = categories.find((c) => c.id === categoryId);
+  const [allCategories, setAllCategories] = useState(() => getCategories());
+  const category = allCategories.find((c) => c.id === categoryId);
   const [allProducts, setAllProducts] = useState(() => getProducts());
-
+  
   useEffect(() => {
+    const handleCatUpdate = (e) => {
+      if (e?.detail?.categories) setAllCategories(e.detail.categories);
+      else setAllCategories(getCategories());
+    };
+    window.addEventListener('efive_categories_updated', handleCatUpdate);
+    window.addEventListener('efive_cms_updated', handleCatUpdate);
     const handleProductsUpdate = (e) => {
       if (e?.detail) {
         setAllProducts(e.detail);
@@ -24,6 +31,8 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
     return () => {
       window.removeEventListener('efive_products_updated', handleProductsUpdate);
       window.removeEventListener('storage', handleProductsUpdate);
+      window.removeEventListener('efive_categories_updated', handleCatUpdate);
+      window.removeEventListener('efive_cms_updated', handleCatUpdate);
     };
   }, []);
 
