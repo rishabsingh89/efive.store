@@ -176,46 +176,16 @@ export const products = [
     ]
   },
   {
-    "id": "dining-2",
-    "name": "Nordic Extendable Dining Table",
-    "category": "dining",
-    "price": 38999,
-    "originalPrice": 49999,
-    "rating": 4.8,
-    "reviews": 62,
-    "description": "Versatility meets Scandinavian elegance. This table easily expands from a cozy 4-seater to a generous 8-seater using a smooth, concealed leaf mechanism.",
-    "features": [
-      "Smooth internal butterfly extension leaf",
-      "Tapered solid wood legs for classic mid-century look",
-      "Scratch-resistant oak veneer tabletop",
-      "Perfect for modern, multipurpose spaces"
-    ],
-    "specifications": {
-      "material": "Oak Veneer, Solid Oak Wood Frame",
-      "dimensions": "Closed: 140cm x 90cm, Opened: 200cm x 90cm",
-      "warranty": "3 Years Warranty",
-      "assembly": "Easy Self Assembly"
-    },
-    "colors": [
-      {
-        "name": "Light Oak",
-        "hex": "#e0c097"
-      },
-      {
-        "name": "Espresso Black",
-        "hex": "#1c1c1c"
-      }
-    ]
-  },
-  {
     "id": "decor-1",
     "name": "Handwoven Macrame Sun & Rainbow Wall Decor",
-    "images": [
-      "/1778757701815.jpg.jpeg"
-    ],
     "category": "decor",
-    "price": 1299,
-    "originalPrice": 1999,
+    "price": 2499,
+    "originalPrice": 3199,
+    "discount": 22,
+    "showDiscountBadge": true,
+    "stockStatus": "available",
+    "isOutOfStock": false,
+    "isSoldOut": false,
     "rating": 4.9,
     "reviews": 42,
     "description": "A beautiful handcrafted macrame rainbow wall hanging to add a bohemian and cheerful touch to any room. Made with natural cotton cords and pastel shades.",
@@ -228,7 +198,7 @@ export const products = [
     "specifications": {
       "material": "Cotton, Wood",
       "dimensions": "W 25cm x H 20cm",
-      "warranty": "No Warranty",
+      "warranty": "1 Years Warranty",
       "assembly": "Ready to Hang"
     },
     "colors": [
@@ -236,9 +206,49 @@ export const products = [
         "name": "Multicolor Pastel",
         "hex": "#E5D3C8"
       }
+    ],
+    "image": "/1778757701815.jpg.jpeg",
+    "images": [
+      "/1778757701815.jpg.jpeg"
     ]
   },
-
+  {
+    "id": "decor-2",
+    "name": "Boho Macrame Rainbow Feather Wall Hanging",
+    "category": "decor",
+    "price": 3399,
+    "originalPrice": 4199,
+    "discount": 19,
+    "showDiscountBadge": true,
+    "stockStatus": "available",
+    "isOutOfStock": false,
+    "isSoldOut": false,
+    "rating": 4.8,
+    "reviews": 29,
+    "description": "Handcrafted bohemian macrame wall hanging featuring pastel feather accents and intricate knotting techniques.",
+    "features": [
+      "100% Natural Cotton Cords",
+      "Handwoven by expert artisans",
+      "Feather and leaf accents",
+      "Ready to hang instantly"
+    ],
+    "specifications": {
+      "material": "Cotton, Wood",
+      "dimensions": "W 30cm x H 25cm",
+      "warranty": "1 Years Warranty",
+      "assembly": "Ready to Hang"
+    },
+    "colors": [
+      {
+        "name": "Warm Cream & Sage",
+        "hex": "#D8E2DC"
+      }
+    ],
+    "image": "/InShot_20260613_145926359.jpg.jpeg",
+    "images": [
+      "/InShot_20260613_145926359.jpg.jpeg"
+    ]
+  },
   {
     "id": "decor-3",
     "name": "Custom Name Macrame Nursery Wall Decor",
@@ -301,7 +311,6 @@ export const products = [
       }
     ]
   },
-
   {
     "id": "decor-6",
     "name": "Artisan Woven Macrame Banner",
@@ -362,38 +371,6 @@ export const products = [
       {
         "name": "Walnut Top & Black Frame",
         "hex": "#4e342e"
-      }
-    ]
-  },
-  {
-    "id": "study-2",
-    "name": "Kensington Solid Sheesham Study Desk",
-    "category": "study",
-    "price": 19999,
-    "originalPrice": 25999,
-    "rating": 4.8,
-    "reviews": 73,
-    "description": "A classic, timeless design. The Kensington desk is handmade from solid Sheesham wood (Indian Rosewood) showing rich grain patterns, equipped with 3 spacious utility drawers.",
-    "features": [
-      "100% Solid Indian Sheesham Wood (Rosewood)",
-      "3 utility drawers with traditional dovetail joinery",
-      "Beautiful natural wood polish highlights rich grain patterns",
-      "Solid stout legs for maximum stability"
-    ],
-    "specifications": {
-      "material": "Solid Sheesham Wood, Honey Finish",
-      "dimensions": "W 120cm x D 60cm x H 76cm",
-      "warranty": "3 Years Warranty",
-      "assembly": "Only Leg Attachment Required"
-    },
-    "colors": [
-      {
-        "name": "Honey Sheesham",
-        "hex": "#c48b4f"
-      },
-      {
-        "name": "Teak Sheesham",
-        "hex": "#8a5c37"
       }
     ]
   },
@@ -764,38 +741,6 @@ export const products = [
         "imageIdx": 0,
         "price": 19999,
         "originalPrice": 28999
-      }
-    ]
-  },
-  {
-    "id": "chairs-1",
-    "name": "Bespoke Mid-Century Accent Chair",
-    "category": "chairs",
-    "price": 12999,
-    "originalPrice": 17999,
-    "rating": 4.8,
-    "reviews": 65,
-    "description": "Add a touch of elegance to any room with this stunning accent chair. Featuring premium boucle fabric upholstery, high density foam, and sleek matte black metal legs.",
-    "features": [
-      "Ergonomically curved backrest support",
-      "Ultra-soft high quality boucle weave fabric",
-      "Anti-scratch floor protectors on legs",
-      "Sturdy carbon steel leg structure"
-    ],
-    "specifications": {
-      "material": "Boucle Fabric, Carbon Steel Legs",
-      "dimensions": "W 65cm x D 70cm x H 80cm",
-      "warranty": "2 Years Warranty",
-      "assembly": "No Assembly Required"
-    },
-    "colors": [
-      {
-        "name": "Ivory Boucle",
-        "hex": "#f3e5f5"
-      },
-      {
-        "name": "Sage Boucle",
-        "hex": "#e8f5e9"
       }
     ]
   },
