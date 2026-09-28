@@ -24,14 +24,25 @@ function ControlDot({ position }) {
   return (
     <Html position={position} center zIndexRange={[100, 0]}>
       <div style={{
-        width: '14px',
-        height: '14px',
+        width: '18px',
+        height: '18px',
         borderRadius: '50%',
-        backgroundColor: '#ffffff',
-        border: '3px solid rgba(136, 136, 136, 0.9)',
-        boxShadow: '0 2px 6px rgba(0,0,0,0.5)',
+        backgroundColor: 'rgba(255, 255, 255, 0.35)',
+        border: '2px solid rgba(255, 255, 255, 0.95)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         pointerEvents: 'none'
-      }} />
+      }}>
+        <div style={{
+          width: '7px',
+          height: '7px',
+          borderRadius: '50%',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 0 4px rgba(0,0,0,0.6)'
+        }} />
+      </div>
     </Html>
   );
 }

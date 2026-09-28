@@ -8,9 +8,10 @@ import { ROOM_TYPE_DEFAULTS, FLOOR_TYPES } from '../../data/roomDesignerData';
 import { getProducts } from '../../data/products';
 import RoomFurniture from './RoomFurniture';
 import RoomShapeSelector from './RoomShapeSelector';
+import LivingRoomHotspotScene from './LivingRoomHotspotScene';
 import { 
   ShoppingBag, RotateCw, Copy, Trash2, RefreshCw, 
-  Plus, Minus, Paintbrush, Ruler, Eye, Video, X
+  Plus, Minus, Paintbrush, Ruler, Eye, Video, X, Sparkles
 } from 'lucide-react';
 
 function useIsMobile() {
@@ -584,7 +585,7 @@ function DimInput({ value, onChange, min, max, style }) {
   );
 }
 
-export default function RoomCanvas({ wizardMode, wizardStep }) {
+export default function RoomCanvas({ wizardMode, wizardStep, onOpenProductModal }) {
   const { state, dispatch } = useRoomDesigner();
   const [internalViewMode, setInternalViewMode] = useState('dollhouse');
   const controlsRef = useRef();
@@ -713,7 +714,16 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
 
   return (
     <div style={styles.canvasOuter} onDragOver={handleDragOver} onDrop={handleDrop} ref={canvasRef}>
-      <Canvas shadows camera={{ position: [0, 8, 12], fov: 45 }} onPointerMissed={handlePointerMissed}>
+      {viewMode === 'scene' ? (
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+          <LivingRoomHotspotScene 
+            isCompact={false} 
+            onOpenProductModal={onOpenProductModal} 
+            style={{ width: '100%', height: '100%' }}
+          />
+        </div>
+      ) : (
+        <Canvas shadows camera={{ position: [0, 8, 12], fov: 45 }} onPointerMissed={handlePointerMissed}>
         <ambientLight intensity={spotlightsEnabled ? 0.4 : 0.8} />
         <directionalLight position={[10, 15, 10]} intensity={spotlightsEnabled ? 0.6 : 1.2} castShadow shadow-mapSize={[2048, 2048]} shadow-bias={-0.0005} />
         <Environment preset="apartment" />
@@ -895,6 +905,7 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
           minDistance={1.5}
         />
       </Canvas>
+      )}
 
       <RoomShapeSelector />
 
@@ -915,6 +926,15 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
           >
             <Eye size={16} /> Top View
           </button>
+          {roomType === 'living' && (
+            <button 
+              style={{ ...styles.toolBtn, backgroundColor: viewMode === 'scene' ? '#C5A880' : '#fff', color: viewMode === 'scene' ? '#fff' : '#333' }}
+              onClick={() => setInternalViewMode('scene')}
+              title="Living Room Scene with Interactive Hotspots"
+            >
+              <Sparkles size={16} /> Scene
+            </button>
+          )}
           <div style={styles.divider} />
           <button style={styles.toolBtn} onClick={() => handleZoom('in')} title="Zoom In"><Plus size={16} /></button>
           <button style={styles.toolBtn} onClick={() => handleZoom('out')} title="Zoom Out"><Minus size={16} /></button>
@@ -945,6 +965,15 @@ export default function RoomCanvas({ wizardMode, wizardStep }) {
             <Video size={14} style={{ transform: 'rotate(-90deg)' }} />
             <span>Side views</span>
           </button>
+          {roomType === 'living' && (
+            <button 
+              onClick={() => setInternalViewMode('scene')} 
+              style={{ ...styles.navBtn, ...(viewMode === 'scene' ? styles.navBtnActive : {}) }}
+            >
+              <Sparkles size={14} />
+              <span>Scene / Hotspots</span>
+            </button>
+          )}
           <div style={styles.navDivider} />
           
           <button 

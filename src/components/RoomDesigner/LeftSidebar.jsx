@@ -3,14 +3,16 @@ import { useRoomDesigner } from './RoomDesignerContext';
 import { BHK_CONFIGS, ROOM_CATEGORY_MAP } from '../../data/roomDesignerData';
 import { categories as allCategories, getProducts } from '../../data/products';
 import {
-  Search, ChevronLeft, ChevronRight, Plus, Eye, ChevronDown, CheckCircle2
+  Search, ChevronLeft, ChevronRight, Plus, Eye, ChevronDown, CheckCircle2, ShoppingBag, X, Sparkles
 } from 'lucide-react';
+import LivingRoomHotspotScene from './LivingRoomHotspotScene';
 
 const formatPrice = (n) => '₹' + n.toLocaleString('en-IN');
 
-export default function LeftSidebar() {
+export default function LeftSidebar({ onOpenProductModal }) {
   const { state, dispatch } = useRoomDesigner();
   const [mode, setMode] = useState('rooms'); // 'rooms', 'shop', 'detail'
+  const [isSceneModalOpen, setIsSceneModalOpen] = useState(false);
   
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCatId, setActiveCatId] = useState('all');
@@ -183,31 +185,75 @@ export default function LeftSidebar() {
               
               {isActive && (
                 <div style={styles.accordionBody}>
-                  {/* Thumbnail mimicking the IKEA screenshot */}
-                  <div 
-                    style={{
-                      ...styles.roomThumbnail,
-                      backgroundImage: r.type === 'living' 
-                        ? 'url(/images/living_room_bg.jpg)' 
-                        : r.type === 'bathroom'
-                        ? 'url(/images/washroom_bg.jpg)'
-                        : r.type === 'kitchen'
-                        ? 'url(/images/kitchen_bg.jpg)'
-                        : styles.roomThumbnail.backgroundImage,
-                    }} 
-                    onClick={() => setMode('shop')}
-                  >
-                    <div style={styles.thumbnailLabel}>
-                      <span>{r.label}</span>
-                      <CheckCircle2 size={16} style={{ color: '#000', fill: '#fff' }} />
+                  {r.type === 'living' ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      <LivingRoomHotspotScene 
+                        isCompact={true} 
+                        onOpenProductModal={onOpenProductModal}
+                        onExpandView={() => setIsSceneModalOpen(true)}
+                      />
+                      <button 
+                        onClick={() => setMode('shop')} 
+                        style={styles.browseFurnitureBtn}
+                      >
+                        <ShoppingBag size={14} />
+                        <span>Browse Living Room Catalog</span>
+                      </button>
                     </div>
-                  </div>
+                  ) : (
+                    <div 
+                      style={{
+                        ...styles.roomThumbnail,
+                        backgroundImage: r.type === 'bathroom'
+                          ? 'url(/images/washroom_bg.jpg)'
+                          : r.type === 'kitchen'
+                          ? 'url(/images/kitchen_bg.jpg)'
+                          : styles.roomThumbnail.backgroundImage,
+                      }} 
+                      onClick={() => setMode('shop')}
+                    >
+                      <div style={styles.thumbnailLabel}>
+                        <span>{r.label}</span>
+                        <CheckCircle2 size={16} style={{ color: '#000', fill: '#fff' }} />
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           );
         })}
       </div>
+
+      {/* Fullscreen Interactive Living Room Scene Modal */}
+      {isSceneModalOpen && (
+        <div style={styles.sceneModalOverlay} onClick={() => setIsSceneModalOpen(false)}>
+          <div style={styles.sceneModalContent} onClick={(e) => e.stopPropagation()}>
+            <div style={styles.sceneModalHeader}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Sparkles size={18} style={{ color: '#C5A880' }} />
+                <h3 style={styles.sceneModalTitle}>Living Room Inspiration • Interactive 3D Hotspots</h3>
+              </div>
+              <button 
+                onClick={() => setIsSceneModalOpen(false)} 
+                style={styles.sceneModalCloseBtn}
+                title="Close"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div style={styles.sceneModalBody}>
+              <LivingRoomHotspotScene 
+                isCompact={false} 
+                onOpenProductModal={(p) => {
+                  setIsSceneModalOpen(false);
+                  if (onOpenProductModal) onOpenProductModal(p);
+                }} 
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -479,5 +525,77 @@ const styles = {
     fontWeight: 700,
     cursor: 'pointer',
     marginTop: '1rem',
-  }
+  },
+  browseFurnitureBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '6px',
+    padding: '8px 12px',
+    backgroundColor: '#F5F5F3',
+    color: '#1E1D1B',
+    border: '1px solid #E6E2DA',
+    borderRadius: '8px',
+    fontSize: '0.8rem',
+    fontWeight: 600,
+    cursor: 'pointer',
+    transition: 'background 0.2s',
+  },
+  sceneModalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    backdropFilter: 'blur(6px)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 9999,
+    padding: '16px',
+  },
+  sceneModalContent: {
+    backgroundColor: '#fff',
+    borderRadius: '16px',
+    maxWidth: '850px',
+    width: '100%',
+    maxHeight: '92vh',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.35)',
+  },
+  sceneModalHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '14px 20px',
+    borderBottom: '1px solid #eee',
+  },
+  sceneModalTitle: {
+    margin: 0,
+    fontSize: '1rem',
+    fontWeight: 700,
+    color: '#1E1D1B',
+    fontFamily: 'var(--font-heading)',
+  },
+  sceneModalCloseBtn: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#666',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sceneModalBody: {
+    flex: 1,
+    overflow: 'auto',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#1E1D1B',
+    minHeight: '400px',
+  },
 };

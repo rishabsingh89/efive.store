@@ -8,6 +8,7 @@ import RoomBuilderWizard from './RoomBuilderWizard';
 import RoomCanvas from './RoomCanvas';
 import RoomCustomization from './RoomCustomization';
 import DesignSummary from './DesignSummary';
+import ProductDetailsModal from '../ProductDetailsModal';
 import { getProducts, categories as allCategories } from '../../data/products';
 import { 
   ChevronLeft, ChevronRight, X, Heart, ShoppingBag, 
@@ -171,6 +172,7 @@ function DesignerContent({ initialBhkId, onClose }) {
   const { state, dispatch } = useRoomDesigner();
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const [productModalItem, setProductModalItem] = useState(null);
   const isMobile = useIsMobile();
   
   const [designName, setDesignName] = useState(() => {
@@ -302,12 +304,16 @@ function DesignerContent({ initialBhkId, onClose }) {
           {state.wizardMode ? (
             <RoomBuilderWizard />
           ) : (
-            <LeftSidebar />
+            <LeftSidebar onOpenProductModal={setProductModalItem} />
           )}
           
           <div style={styles.canvasArea}>
             {!state.wizardMode && <RoomCustomization />}
-            <RoomCanvas wizardMode={state.wizardMode} wizardStep={state.wizardStep} />
+            <RoomCanvas 
+              wizardMode={state.wizardMode} 
+              wizardStep={state.wizardStep} 
+              onOpenProductModal={setProductModalItem}
+            />
             
             {/* Sliding Summary Drawer Overlay */}
             {isSummaryOpen && (
@@ -326,6 +332,14 @@ function DesignerContent({ initialBhkId, onClose }) {
             />
           )}
         </div>
+
+        {/* Global Product Details Modal (e.g. opened from 3D Hotspot on decor) */}
+        {productModalItem && (
+          <ProductDetailsModal 
+            product={productModalItem} 
+            onClose={() => setProductModalItem(null)} 
+          />
+        )}
       </div>
     </div>
   );
