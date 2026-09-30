@@ -244,7 +244,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                 animation: isContentReady ? 'pdpSlideInRight 0.35s cubic-bezier(0.16,1,0.3,1) 0.1s both' : 'none',
               }}
             >
-              <span style={styles.categoryTag}>{category.toUpperCase()}</span>
+              {category && <span style={styles.categoryTag}>{category.toUpperCase()}</span>}
               <h1 style={styles.title}>{name}</h1>
 
               {/* Rating */}
@@ -357,7 +357,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                   <div style={styles.waBtnContent}>
                     <span style={styles.waBtnTitle}>{(product.isOutOfStock || product.isSoldOut) ? "Notify Me on WhatsApp" : "Connect on WhatsApp"}</span>
                     <span style={styles.waBtnSub}>
-                      ₹{displayPrice.toLocaleString('en-IN')} • {(product.isOutOfStock || product.isSoldOut) ? "Request Availability" : "Enquire Now"}
+                      ₹{(displayPrice || 0).toLocaleString('en-IN')} • {(product.isOutOfStock || product.isSoldOut) ? "Request Availability" : "Enquire Now"}
                     </span>
                   </div>
                 </button>

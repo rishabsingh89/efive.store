@@ -84,10 +84,10 @@ export default function BedroomHotspotScene({
   const handleWhatsApp = (e) => {
     e.stopPropagation();
     openWhatsApp({
-      name: decorProduct.name,
-      id: decorProduct.id,
+      productName: decorProduct.name,
+      productId: decorProduct.id,
       price: decorProduct.price,
-      image: decorProduct.images?.[0] || '/images/bedroom_decor_tassel.jpg'
+      colorName: decorProduct.colors?.[0]?.name
     });
   };
 
@@ -200,12 +200,8 @@ export default function BedroomHotspotScene({
           }}
           onClick={(e) => {
             e.stopPropagation();
-            // In compact view, tapping directly opens the product!
-            if (isCompact) {
-              handleOpenProduct();
-            } else {
-              setActiveHotspot(!activeHotspot);
-            }
+            // Directly open the product instead of showing a popover
+            handleOpenProduct();
           }}
         >
           {/* Circular Hotspot: Transparent outer circle + White center dot (bindu) */}
