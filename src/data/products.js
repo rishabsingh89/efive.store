@@ -312,6 +312,37 @@ export const products = [
     ]
   },
   {
+    "id": "decor-5",
+    "name": "Colorful Tassel Macrame Wall Decor",
+    "images": [
+      "/images/bedroom_decor_tassel.jpg"
+    ],
+    "category": "decor",
+    "price": 2199,
+    "originalPrice": 2899,
+    "rating": 4.9,
+    "reviews": 54,
+    "description": "Add a vibrant touch to your bedroom with this handcrafted colorful tassel macrame. Perfect for creating a focal point above the bed.",
+    "features": [
+      "Vibrant colorful tassels",
+      "Handwoven cotton cords",
+      "Bohemian bedroom aesthetic",
+      "Ready to hang"
+    ],
+    "specifications": {
+      "material": "Cotton, Wood",
+      "dimensions": "W 80cm x H 60cm",
+      "warranty": "1 Year Warranty",
+      "assembly": "Ready to Hang"
+    },
+    "colors": [
+      {
+        "name": "Multicolor",
+        "hex": "#E5D3C8"
+      }
+    ]
+  },
+  {
     "id": "decor-6",
     "name": "Artisan Woven Macrame Banner",
     "images": [

@@ -16,16 +16,16 @@ export default function BedroomHotspotScene({
   const [copied, setCopied] = useState(false);
 
   const products = getProducts();
-  const decorProduct = products.find((p) => p.id === 'decor-3') || {
-    id: 'decor-3',
-    name: 'Custom Name Macrame Nursery Wall Decor',
-    price: 1599,
-    originalPrice: 2399,
-    images: ['/InShot_20260815_195530665.jpg.jpeg'],
+  const decorProduct = products.find((p) => p.id === 'decor-5') || {
+    id: 'decor-5',
+    name: 'Colorful Tassel Macrame Wall Decor',
+    price: 2199,
+    originalPrice: 2899,
+    images: ['/images/bedroom_decor_tassel.jpg'],
     category: 'decor'
   };
 
-  const productUrl = `${window.location.origin}/?category=decor&product=decor-3`;
+  const productUrl = `${window.location.origin}/?category=decor&product=decor-5`;
 
   const handleCopyUrl = (e) => {
     e.stopPropagation();
@@ -41,7 +41,7 @@ export default function BedroomHotspotScene({
     try {
       const url = new URL(window.location.href);
       url.searchParams.set('category', 'decor');
-      url.searchParams.set('product', 'decor-3');
+      url.searchParams.set('product', 'decor-5');
       window.history.pushState({}, '', url.toString());
     } catch (err) {
       console.warn('Could not update history state', err);
@@ -51,7 +51,7 @@ export default function BedroomHotspotScene({
     if (onOpenProductModal && decorProduct) {
       onOpenProductModal(decorProduct);
     } else if (decorProduct) {
-      window.location.href = `/?category=decor&product=decor-3`;
+      window.location.href = `/?category=decor&product=decor-5`;
     }
 
     // 3. Switch sidebar to product detail if callback exists
