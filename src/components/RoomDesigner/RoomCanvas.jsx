@@ -9,6 +9,7 @@ import { getProducts } from '../../data/products';
 import RoomFurniture from './RoomFurniture';
 import RoomShapeSelector from './RoomShapeSelector';
 import LivingRoomHotspotScene from './LivingRoomHotspotScene';
+import BedroomHotspotScene from './BedroomHotspotScene';
 import { 
   ShoppingBag, RotateCw, Copy, Trash2, RefreshCw, 
   Plus, Minus, Paintbrush, Ruler, Eye, Video, X, Sparkles
@@ -716,11 +717,19 @@ export default function RoomCanvas({ wizardMode, wizardStep, onOpenProductModal 
     <div style={styles.canvasOuter} onDragOver={handleDragOver} onDrop={handleDrop} ref={canvasRef}>
       {viewMode === 'scene' ? (
         <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
-          <LivingRoomHotspotScene 
-            isCompact={false} 
-            onOpenProductModal={onOpenProductModal} 
-            style={{ width: '100%', height: '100%' }}
-          />
+          {roomType === 'bedroom' ? (
+            <BedroomHotspotScene 
+              isCompact={false} 
+              onOpenProductModal={onOpenProductModal} 
+              style={{ width: '100%', height: '100%' }}
+            />
+          ) : (
+            <LivingRoomHotspotScene 
+              isCompact={false} 
+              onOpenProductModal={onOpenProductModal} 
+              style={{ width: '100%', height: '100%' }}
+            />
+          )}
         </div>
       ) : (
         <Canvas shadows camera={{ position: [0, 8, 12], fov: 45 }} onPointerMissed={handlePointerMissed}>
