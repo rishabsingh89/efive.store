@@ -316,7 +316,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                 <div style={styles.tabContent}>
                   {activeTab === 'features' && (
                     <ul style={styles.featuresList}>
-                      {features.map((feat, idx) => (
+                      {(features || []).map((feat, idx) => (
                         <li key={idx} style={styles.featureItem}>
                           <CheckCircle size={14} style={{ color: '#C5A880', flexShrink: 0, marginTop: '2px' }} />
                           <span>{feat}</span>
@@ -324,7 +324,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                       ))}
                     </ul>
                   )}
-                  {activeTab === 'specs' && (
+                  {activeTab === 'specs' && specifications && (
                     <div style={styles.specsGrid}>
                       {[
                         { icon: <Compass size={15} style={styles.specIcon} />, label: 'Dimensions', val: specifications.dimensions },

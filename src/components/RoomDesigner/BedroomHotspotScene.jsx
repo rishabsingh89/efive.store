@@ -22,7 +22,28 @@ export default function BedroomHotspotScene({
     price: 2199,
     originalPrice: 2899,
     images: ['/images/bedroom_decor_tassel.jpg'],
-    category: 'decor'
+    category: 'decor',
+    rating: 4.9,
+    reviews: 54,
+    description: 'Add a vibrant touch to your bedroom with this handcrafted colorful tassel macrame. Perfect for creating a focal point above the bed.',
+    features: [
+      'Vibrant colorful tassels',
+      'Handwoven cotton cords',
+      'Bohemian bedroom aesthetic',
+      'Ready to hang'
+    ],
+    specifications: {
+      material: 'Cotton, Wood',
+      dimensions: 'W 80cm x H 60cm',
+      warranty: '1 Year Warranty',
+      assembly: 'Ready to Hang'
+    },
+    colors: [
+      {
+        name: 'Multicolor',
+        hex: '#E5D3C8'
+      }
+    ]
   };
 
   const productUrl = `${window.location.origin}/?category=decor&product=decor-5`;
