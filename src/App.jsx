@@ -15,7 +15,7 @@ function App() {
     >
       <h1>✨ Something Beautiful is Coming</h1>
 
-      <h2>Efive Studio</h2>
+      <h2>Efive.store</h2>
 
       <p>
         Our website is temporarily unavailable while we make exciting improvements.
