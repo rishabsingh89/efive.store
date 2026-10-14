@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Lock } from 'lucide-react';
 
 export default function AdminLogin({ onLogin }) {
@@ -15,6 +16,11 @@ export default function AdminLogin({ onLogin }) {
 
   return (
     <div style={styles.container}>
+      <Helmet>
+        <title>Admin Login | Efive Studio</title>
+        <meta name="robots" content="noindex, nofollow, noarchive" />
+        <meta name="googlebot" content="noindex, nofollow, noarchive" />
+      </Helmet>
       <div style={styles.card}>
         <div style={styles.iconWrapper}>
           <Lock size={32} color="#121212" />

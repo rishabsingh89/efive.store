@@ -21,6 +21,7 @@ export default function AboutMain() {
         title="About EFIVE" 
         description="Learn about EFIVE Studio, our sustainability efforts, and our corporate social responsibility." 
         path="/about" 
+        noindex={true}
       />
       <Navbar />
       <main style={styles.main}>

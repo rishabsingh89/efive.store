@@ -11,6 +11,7 @@ import Footer from './Footer';
 import WhyChooseUs from './WhyChooseUs';
 import { getProducts } from '../data/products';
 import { Sparkles, ChevronRight } from 'lucide-react';
+import SEO from './SEO';
 import '../App.css';
 
 export default function Storefront() {
@@ -155,6 +156,11 @@ export default function Storefront() {
 
   return (
     <div style={styles.app}>
+      <SEO 
+        title="Efive Studio | Luxury Home Decor & Furniture" 
+        description="Curating elegance for your home. Discover our premium collections of sofas, luxury beds, dining sets, modular wardrobes, recliners, and bespoke home decor at Efive Studio." 
+        path="/" 
+      />
       <div style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column' }}>
         {/* Sticky Navbar */}
         <Navbar

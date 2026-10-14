@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import AdminLogin from './AdminLogin';
 
 export default function AdminLayout() {
@@ -31,14 +32,33 @@ export default function AdminLayout() {
     setIsAuthenticated(false);
   };
 
-  if (isLoading) return <div style={styles.loading}>Loading...</div>;
+  const adminHelmet = (
+    <Helmet>
+      <title>Admin Portal | Efive Studio</title>
+      <meta name="robots" content="noindex, nofollow, noarchive" />
+      <meta name="googlebot" content="noindex, nofollow, noarchive" />
+    </Helmet>
+  );
+
+  if (isLoading) return (
+    <>
+      {adminHelmet}
+      <div style={styles.loading}>Loading...</div>
+    </>
+  );
 
   if (!isAuthenticated) {
-    return <AdminLogin onLogin={handleLogin} />;
+    return (
+      <>
+        {adminHelmet}
+        <AdminLogin onLogin={handleLogin} />
+      </>
+    );
   }
 
   return (
     <div style={styles.layout}>
+      {adminHelmet}
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <h2>Efive Studio Admin</h2>

@@ -1,3 +1,4 @@
 User-agent: *
-Allow: / 
-Sitemap: https://efive.store/sitemap.xml
+Allow: /
+
+Sitemap: https://www.efive.store/sitemap.xml

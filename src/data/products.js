@@ -312,37 +312,6 @@ export const products = [
     ]
   },
   {
-    "id": "decor-5",
-    "name": "Colorful Tassel Macrame Wall Decor",
-    "images": [
-      "/images/bedroom_decor_tassel.jpg"
-    ],
-    "category": "decor",
-    "price": 2199,
-    "originalPrice": 2899,
-    "rating": 4.9,
-    "reviews": 54,
-    "description": "Add a vibrant touch to your bedroom with this handcrafted colorful tassel macrame. Perfect for creating a focal point above the bed.",
-    "features": [
-      "Vibrant colorful tassels",
-      "Handwoven cotton cords",
-      "Bohemian bedroom aesthetic",
-      "Ready to hang"
-    ],
-    "specifications": {
-      "material": "Cotton, Wood",
-      "dimensions": "W 80cm x H 60cm",
-      "warranty": "1 Year Warranty",
-      "assembly": "Ready to Hang"
-    },
-    "colors": [
-      {
-        "name": "Multicolor",
-        "hex": "#E5D3C8"
-      }
-    ]
-  },
-  {
     "id": "decor-6",
     "name": "Artisan Woven Macrame Banner",
     "images": [
@@ -379,6 +348,11 @@ export const products = [
     "category": "study",
     "price": 28999,
     "originalPrice": 37999,
+    "discount": 24,
+    "showDiscountBadge": true,
+    "stockStatus": "sold_out",
+    "isOutOfStock": false,
+    "isSoldOut": true,
     "rating": 4.9,
     "reviews": 145,
     "description": "Promote wellness and productivity. The Athena Standing Desk features dual electric motors, a digital memory control panel with 4 presets, and a premium solid wood desktop.",
@@ -403,7 +377,9 @@ export const products = [
         "name": "Walnut Top & Black Frame",
         "hex": "#4e342e"
       }
-    ]
+    ],
+    "image": "",
+    "images": []
   },
   {
     "id": "shelves-1",
@@ -451,15 +427,14 @@ export const products = [
   {
     "id": "tvunits-1",
     "name": "Milan Floating Walnut TV Console",
-    "images": [
-      "/images/tvunits/view-1.png",
-      "/images/tvunits/view-2.png",
-      "/images/tvunits/view-3.png",
-      "/images/tvunits/view-4.png"
-    ],
     "category": "tvunits",
     "price": 29499,
     "originalPrice": 38999,
+    "discount": 24,
+    "showDiscountBadge": true,
+    "stockStatus": "out_of_stock",
+    "isOutOfStock": true,
+    "isSoldOut": false,
     "rating": 4.7,
     "reviews": 78,
     "description": "Clean up your living room floor space with the Milan Floating TV Console. Crafted with beautiful walnut veneer, soft-closing doors, and cable entry slots.",
@@ -504,20 +479,26 @@ export const products = [
         "price": 27999,
         "originalPrice": 36999
       }
+    ],
+    "image": "/images/tvunits/view-1.png",
+    "images": [
+      "/images/tvunits/view-1.png",
+      "/images/tvunits/view-2.png",
+      "/images/tvunits/view-3.png",
+      "/images/tvunits/view-4.png"
     ]
   },
   {
     "id": "tvunits-3",
     "name": "Modular Display TV Console",
-    "images": [
-      "/view-1 (1).png",
-      "/view-2 (1).png",
-      "/view-3 (1).png",
-      "/view-4 (2).png"
-    ],
     "category": "tvunits",
     "price": 34999,
     "originalPrice": 45999,
+    "discount": 24,
+    "showDiscountBadge": true,
+    "stockStatus": "out_of_stock",
+    "isOutOfStock": true,
+    "isSoldOut": false,
     "rating": 4.8,
     "reviews": 42,
     "description": "An elegant modular TV console featuring multiple distinct finish options, spacious shelving, and modern minimalist design.",
@@ -562,20 +543,26 @@ export const products = [
         "price": 34999,
         "originalPrice": 45999
       }
+    ],
+    "image": "/view-1 (1).png",
+    "images": [
+      "/view-1 (1).png",
+      "/view-2 (1).png",
+      "/view-3 (1).png",
+      "/view-4 (2).png"
     ]
   },
   {
     "id": "tvunits-2",
     "name": "Contemporary Color-Choice TV Console",
-    "images": [
-      "/view-1 (4).png",
-      "/view-2 (3).png",
-      "/view-2 (4).png",
-      "/view-3 (4).png"
-    ],
     "category": "tvunits",
     "price": 31999,
     "originalPrice": 41999,
+    "discount": 24,
+    "showDiscountBadge": true,
+    "stockStatus": "out_of_stock",
+    "isOutOfStock": true,
+    "isSoldOut": false,
     "rating": 4.9,
     "reviews": 56,
     "description": "Elevate your entertainment space with this contemporary TV console. Available in multiple bold colors, it features sleek lines and ample storage space for a modern living room.",
@@ -620,21 +607,26 @@ export const products = [
         "price": 31999,
         "originalPrice": 41999
       }
+    ],
+    "image": "/view-1 (4).png",
+    "images": [
+      "/view-1 (4).png",
+      "/view-2 (3).png",
+      "/view-2 (4).png",
+      "/view-3 (4).png"
     ]
   },
   {
     "id": "tables-1",
     "name": "Modern Frame Table",
-    "images": [
-      "/View-1 (3).png",
-      "/view-3 (5).png",
-      "/view-4 (1).png",
-      "/view-5.png",
-      "/view-2 (5).png"
-    ],
     "category": "tables",
     "price": 15999,
     "originalPrice": 22999,
+    "discount": 30,
+    "showDiscountBadge": true,
+    "stockStatus": "out_of_stock",
+    "isOutOfStock": true,
+    "isSoldOut": false,
     "rating": 4.8,
     "reviews": 42,
     "description": "A versatile and modern table perfect for any contemporary space. Features a sleek design with ample storage and customizable frame colors to match your interior styling.",
@@ -679,20 +671,27 @@ export const products = [
         "price": 15999,
         "originalPrice": 22999
       }
+    ],
+    "image": "/View-1 (3).png",
+    "images": [
+      "/View-1 (3).png",
+      "/view-3 (5).png",
+      "/view-4 (1).png",
+      "/view-5.png",
+      "/view-2 (5).png"
     ]
   },
   {
     "id": "tables-2",
     "name": "Executive Office Desk",
-    "images": [
-      "/view-1 (5).png",
-      "/view-2 (6).png",
-      "/view-3 (6).png",
-      "/view-4 (4).png"
-    ],
     "category": "tables",
     "price": 18999,
     "originalPrice": 25999,
+    "discount": 27,
+    "showDiscountBadge": true,
+    "stockStatus": "out_of_stock",
+    "isOutOfStock": true,
+    "isSoldOut": false,
     "rating": 4.9,
     "reviews": 58,
     "description": "Elevate your workspace with the Executive Office Desk. Featuring a spacious surface, built-in cable management, and a durable colorful metal frame to suit your office aesthetics.",
@@ -737,19 +736,26 @@ export const products = [
         "price": 18999,
         "originalPrice": 25999
       }
+    ],
+    "image": "/view-1 (5).png",
+    "images": [
+      "/view-1 (5).png",
+      "/view-2 (6).png",
+      "/view-3 (6).png",
+      "/view-4 (4).png"
     ]
   },
   {
     "id": "tables-3",
     "name": "Premium Wooden Office Desk",
-    "images": [
-      "/view-1 (6).png",
-      "/view-2 (7).png",
-      "/view-3 (7).png"
-    ],
     "category": "tables",
     "price": 19999,
     "originalPrice": 28999,
+    "discount": 31,
+    "showDiscountBadge": true,
+    "stockStatus": "out_of_stock",
+    "isOutOfStock": true,
+    "isSoldOut": false,
     "rating": 4.8,
     "reviews": 42,
     "description": "A classic premium wooden office desk featuring sturdy legs, ample workspace, and a beautiful natural wood finish that complements any modern or classic office space.",
@@ -773,6 +779,12 @@ export const products = [
         "price": 19999,
         "originalPrice": 28999
       }
+    ],
+    "image": "/view-1 (6).png",
+    "images": [
+      "/view-1 (6).png",
+      "/view-2 (7).png",
+      "/view-3 (7).png"
     ]
   },
   {
@@ -783,8 +795,8 @@ export const products = [
     "originalPrice": 2199,
     "discount": 33,
     "showDiscountBadge": true,
-    "stockStatus": "available",
-    "isOutOfStock": false,
+    "stockStatus": "out_of_stock",
+    "isOutOfStock": true,
     "isSoldOut": false,
     "rating": 4.9,
     "reviews": 48,

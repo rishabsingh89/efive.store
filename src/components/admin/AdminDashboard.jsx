@@ -792,16 +792,16 @@ export default function AdminDashboard() {
 
                   <div style={styles.formGroupFull}>
                     <label style={styles.label}>Product Image URL or File Upload</label>
-                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
                       <input 
                         type="text" name="photoUrl" value={formData.photoUrl} onChange={handleChange}
                         placeholder="e.g. /shelve deck-1 (1).png or http://..."
-                        style={{ ...styles.input, flex: 1 }} 
+                        style={{ ...styles.input, flex: '1 1 min(100%, 250px)' }} 
                       />
                       <span>OR</span>
                       <input 
                         type="file" accept="image/*"
-                        onChange={handleImageUpload} style={{ ...styles.input, flex: 1 }} 
+                        onChange={handleImageUpload} style={{ ...styles.input, flex: '1 1 min(100%, 250px)' }} 
                       />
                     </div>
                     {formData.photoUrl && (
@@ -1066,7 +1066,7 @@ const styles = {
   },
   formGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
     gap: '2rem'
   },
   formSection: {
@@ -1109,7 +1109,9 @@ const styles = {
     borderRadius: '8px',
     border: '1px solid #ddd',
     fontSize: '0.95rem',
-    outline: 'none'
+    outline: 'none',
+    width: '100%',
+    boxSizing: 'border-box'
   },
   textarea: {
     padding: '0.75rem 1rem',
@@ -1117,11 +1119,13 @@ const styles = {
     border: '1px solid #ddd',
     fontSize: '0.95rem',
     outline: 'none',
-    resize: 'vertical'
+    resize: 'vertical',
+    width: '100%',
+    boxSizing: 'border-box'
   },
   priceRow: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))',
     gap: '1rem'
   },
   discountSummary: {
@@ -1152,7 +1156,7 @@ const styles = {
   },
   specGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))',
     gap: '1rem'
   },
   formActions: {

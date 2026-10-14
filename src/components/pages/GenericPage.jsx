@@ -43,7 +43,12 @@ export default function GenericPage({ dataMap, basePath, categoryName }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <SEO title={data.title} description={data.description} path={`/${basePath}/${slug}`} />
+      <SEO 
+        title={data.title} 
+        description={data.description} 
+        path={`/${basePath}/${slug}`} 
+        noindex={basePath === 'about'} 
+      />
       
       <div style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column' }}>
         <Navbar />
