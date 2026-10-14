@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Storefront from './components/Storefront';
 import CostCalculator from './components/CostCalculator';
 import RoomDesigner from './components/RoomDesigner/RoomDesigner';
@@ -45,7 +45,15 @@ export default function App() {
             <Route path="/about/:slug" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
 
-            <Route path="/admin" element={<AdminLayout />}>
+            {/* Direct redirect for /admin to Homepage */}
+            <Route path="/admin" element={<Navigate to="/" replace />} />
+            <Route path="/admin/*" element={<Navigate to="/" replace />} />
+
+            {/* Admin Portal (Private & Non-indexed) */}
+            <Route path="/efive-admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+            </Route>
+            <Route path="/admin-portal" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
             </Route>
           </Routes>

@@ -1,4 +1,6 @@
 User-agent: *
+Disallow: /efive-admin
+Disallow: /admin-portal
 Allow: /
 
 Sitemap: https://www.efive.store/sitemap.xml

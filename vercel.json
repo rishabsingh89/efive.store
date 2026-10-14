@@ -1,7 +1,19 @@
 {
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
-      "source": "/admin(.*)",
+      "source": "/(efive-admin|admin-portal)(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
