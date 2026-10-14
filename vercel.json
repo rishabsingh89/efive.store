@@ -9,6 +9,16 @@
       "source": "/admin/:path*",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/about/:path*",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "headers": [

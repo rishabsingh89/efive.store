@@ -135,16 +135,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Links Column 4: About */}
-          <div style={styles.linksCol}>
-            <FooterLink to="/about" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>About EFIVE</h4></FooterLink>
-            <ul style={styles.linksList}>
-              <li><FooterLink to="/about/this-is-efive" style={styles.linkItem}>This is EFIVE</FooterLink></li>
-              <li><FooterLink to="/about/csr-policy" style={styles.linkItem}>CSR Policy</FooterLink></li>
-              <li><FooterLink to="/about/sustainability" style={styles.linkItem}>Sustainability</FooterLink></li>
-            </ul>
-          </div>
-
           {/* Newsletter Column */}
           <div style={styles.newsletterCol}>
             <h4 style={styles.colTitle}>The Efive Journal</h4>

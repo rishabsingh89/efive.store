@@ -41,13 +41,13 @@ export default function App() {
             <Route path="/services/:slug" element={<ServicePage />} />
             <Route path="/help" element={<HelpMain />} />
             <Route path="/help/:slug" element={<HelpPage />} />
-            <Route path="/about" element={<AboutMain />} />
-            <Route path="/about/:slug" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
 
-            {/* Direct redirect for /admin to Homepage */}
+            {/* Direct redirects to Homepage for /admin and /about */}
             <Route path="/admin" element={<Navigate to="/" replace />} />
             <Route path="/admin/*" element={<Navigate to="/" replace />} />
+            <Route path="/about" element={<Navigate to="/" replace />} />
+            <Route path="/about/*" element={<Navigate to="/" replace />} />
 
             {/* Admin Portal (Private & Non-indexed) */}
             <Route path="/efive-admin" element={<AdminLayout />}>
