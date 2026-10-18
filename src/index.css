@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
   --font-heading: 'Outfit', 'Playfair Display', serif;
@@ -1595,4 +1595,55 @@ svg text {
   z-index: 100;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   border-radius: 4px;
+}
+
+/* --- Modern Cost Calculator Hero Enhancements --- */
+.calc-bhk-btn {
+  user-select: none;
+}
+.calc-bhk-btn:hover:not(.active) {
+  border-color: #9E4316 !important;
+  color: #9E4316 !important;
+  background-color: #FDF9F5 !important;
+  transform: translateY(-1px);
+}
+.calc-planner-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(147, 64, 21, 0.45) !important;
+}
+.calc-back-pill:hover {
+  border-color: #9E4316 !important;
+  color: #9E4316 !important;
+  transform: translateX(-3px);
+}
+
+@media (max-width: 1024px) {
+  .hero-content-responsive {
+    flex-direction: column !important;
+    gap: 2rem !important;
+  }
+  .hero-right-col-responsive {
+    min-height: auto !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+}
+
+@media (max-width: 860px) {
+  .lower-grid-responsive {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .calc-bhk-btn {
+    min-width: 70px !important;
+    padding: 10px 10px !important;
+    font-size: 0.82rem !important;
+  }
+  .hero-right-col-responsive {
+    display: none !important;
+  }
 }

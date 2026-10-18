@@ -4,6 +4,7 @@ import {
   Home, Building2, Coffee, ChevronLeft, ArrowRight, Check, Sparkles,
   Calculator, IndianRupee, Percent, Layers, Ruler, Star, Send, Info,
   BedDouble, CookingPot, UtensilsCrossed, Tv, Sofa, DoorOpen, Paintbrush,
+  ShieldCheck, SlidersHorizontal, Box, FileText, Palette, Leaf, Sun,
 } from 'lucide-react';
 import {
   CATEGORIES, QUALITY_LEVELS, CONFIG_OPTIONS, ADDONS, ROOM_DECOR_OPTIONS,
@@ -26,8 +27,8 @@ const formatCurrency = (n) =>
 export default function CostCalculator() {
   const navigate = useNavigate();
 
-  // ── State ────────────────────────────────────────────────────────────────
-  const [viewStep, setViewStep] = useState(1);
+  // ── State (Default to viewStep 2 so users land directly on the apartment estimator) ─
+  const [viewStep, setViewStep] = useState(2);
   const [activeCat, setActiveCat] = useState(CATEGORIES[0].id);
   const [area, setArea] = useState(CATEGORIES[0].areaRange.default);
   const [qualityId, setQualityId] = useState('premium');
@@ -41,19 +42,23 @@ export default function CostCalculator() {
 
   // Derived data for active category
   const catMeta = CATEGORIES.find((c) => c.id === activeCat);
-  const qualities = QUALITY_LEVELS[activeCat];
+  const qualities = QUALITY_LEVELS[activeCat] || [];
   const configs = CONFIG_OPTIONS[activeCat];
-  const addons = ADDONS[activeCat];
+  const addons = ADDONS[activeCat] || [];
 
   // ── Category switch handler ──────────────────────────────────────────────
   const switchCategory = (id) => {
     setActiveCat(id);
     const newCat = CATEGORIES.find((c) => c.id === id);
-    setArea(newCat.areaRange.default);
+    if (newCat) {
+      setArea(newCat.areaRange.default);
+    }
     setQualityId('premium');
-    setConfigId(
-      CONFIG_OPTIONS[id].options[1]?.id || CONFIG_OPTIONS[id].options[0].id,
-    );
+    if (CONFIG_OPTIONS[id]?.options) {
+      setConfigId(
+        CONFIG_OPTIONS[id].options[1]?.id || CONFIG_OPTIONS[id].options[0].id,
+      );
+    }
     setSelectedAddons([]);
     setSelectedDecor([]);
     setViewStep(2);
@@ -95,7 +100,7 @@ export default function CostCalculator() {
   const shareOnWhatsApp = () => {
     if (!estimate) return;
     const msg = [
-      `*Efive Studio — Interior Cost Estimate*`,
+      `*DreamSpace (Efive Studio) — Interior Cost Estimate*`,
       ``,
       `Category: ${catMeta.label}`,
       `Area: ${area.toLocaleString('en-IN')} ${catMeta.areaUnit}`,
@@ -117,16 +122,21 @@ export default function CostCalculator() {
   };
 
   // ── Slider fill percentage ───────────────────────────────────────────────
-  const sliderPercent =
-    ((area - catMeta.areaRange.min) /
-      (catMeta.areaRange.max - catMeta.areaRange.min)) *
-    100;
+  const sliderPercent = catMeta?.areaRange
+    ? ((area - catMeta.areaRange.min) /
+        (catMeta.areaRange.max - catMeta.areaRange.min)) *
+      100
+    : 50;
+
+  // Active configuration label
+  const activeConfigLabel =
+    configs?.options?.find((o) => o.id === configId)?.label || '2 BHK';
 
   // ════════════════════════════════════════════════════════════════════════════
   // RENDER
   // ════════════════════════════════════════════════════════════════════════════
   return (
-    <div style={styles.page}>
+    <div style={styles.pageWrapper}>
       {/* ── Room Designer Modal ── */}
       {isRoomDesignerOpen && (
         <RoomDesigner 
@@ -135,171 +145,589 @@ export default function CostCalculator() {
         />
       )}
 
-      {/* ── Back button ── */}
+      {/* ── View Step 1: Category Selection (when user clicks Back to Categories) ── */}
       {viewStep === 1 ? (
-        <button onClick={() => navigate('/')} style={styles.backBtn}>
-          <ChevronLeft size={18} />
-          <span>Back to Store</span>
-        </button>
-      ) : (
-        <button onClick={() => setViewStep(1)} style={styles.backBtn}>
-          <ChevronLeft size={18} />
-          <span>Back to Categories</span>
-        </button>
-      )}
+        <div style={styles.categoryStepContainer}>
+          <button onClick={() => navigate('/')} style={styles.backBtnPill}>
+            <ChevronLeft size={16} />
+            <span>Back to Store</span>
+          </button>
 
-      {/* ── Hero header ── */}
-      <header style={styles.header}>
-        <div style={styles.headerBadge}>
-          <Calculator size={14} />
-          <span>INTERIOR COST ESTIMATOR</span>
-        </div>
-        <h1 style={styles.headerTitle}>
-          Calculate Your <span style={styles.headerAccent}>Interior Cost</span>
-        </h1>
-        <p style={styles.headerSub}>
-          Get an instant, transparent estimate for your dream space.
-          Choose your space type, quality, and add-ons — we handle the maths.
-        </p>
-      </header>
+          <header style={styles.header}>
+            <div style={styles.headerBadge}>
+              <Calculator size={14} />
+              <span>INTERIOR COST ESTIMATOR</span>
+            </div>
+            <h1 style={styles.headerTitle}>
+              Select Your <span style={{ color: '#9E4316' }}>Space Type</span>
+            </h1>
+            <p style={styles.headerSub}>
+              Choose the category of space you want to calculate estimated costs for.
+            </p>
+          </header>
 
-      {/* ── View Step 1: Category Selection ── */}
-      {viewStep === 1 ? (
-        <div className="calc-cat-large-grid">
-          {CATEGORIES.map((cat) => {
-            const Icon = ICON_MAP[cat.icon];
-            return (
-              <button
-                key={cat.id}
-                onClick={() => switchCategory(cat.id)}
-                style={{
-                  backgroundImage: `linear-gradient(to top, rgba(15,15,15,0.95) 0%, rgba(15,15,15,0.6) 45%, rgba(15,15,15,0.1) 100%), url("${cat.image}")`,
-                }}
-                className="calc-cat-large"
-              >
-                <div style={styles.catCardContent}>
-                  <div style={styles.catCardIconWrapper} className="calc-cat-icon-wrapper">
-                    <Icon size={36} color="#C5A880" className="calc-cat-icon" />
+          <div className="calc-cat-large-grid" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+            {CATEGORIES.map((cat) => {
+              const Icon = ICON_MAP[cat.icon];
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => switchCategory(cat.id)}
+                  style={{
+                    backgroundImage: `linear-gradient(to top, rgba(15,15,15,0.95) 0%, rgba(15,15,15,0.6) 45%, rgba(15,15,15,0.1) 100%), url("${cat.image}")`,
+                    minHeight: '340px',
+                    borderRadius: '18px',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    cursor: 'pointer',
+                    padding: '2rem',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    textAlign: 'left',
+                    boxShadow: '0 12px 30px rgba(0,0,0,0.12)',
+                    transition: 'all 0.3s ease',
+                  }}
+                  className="calc-cat-large"
+                >
+                  <div style={styles.catCardContent}>
+                    <div style={styles.catCardIconWrapper} className="calc-cat-icon-wrapper">
+                      <Icon size={34} color="#C5A880" />
+                    </div>
+                    <h3 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#fff', marginBottom: '0.4rem', fontFamily: 'var(--font-heading)' }}>
+                      {cat.label}
+                    </h3>
+                    <p style={{ fontSize: '0.92rem', color: 'rgba(255,255,255,0.8)', margin: 0, lineHeight: 1.5 }}>
+                      {cat.description}
+                    </p>
                   </div>
-                  <h3 className="calc-cat-title-large">{cat.label}</h3>
-                  <p className="calc-cat-desc-large">{cat.description}</p>
-                </div>
-              </button>
-            );
-          })}
+                </button>
+              );
+            })}
+          </div>
         </div>
       ) : activeCat === 'office' ? (
-        <OfficeDesigns />
+        <div style={{ padding: '2rem' }}>
+          <button onClick={() => setViewStep(1)} style={styles.backBtnPill}>
+            <ChevronLeft size={16} />
+            <span>Back to Categories</span>
+          </button>
+          <OfficeDesigns />
+        </div>
       ) : (
-      <div style={styles.mainGrid}>
-        {/* ── View Step 2: Form & Estimate ── */}
-        {/* LEFT — INPUTS */}
-        <div style={styles.formCol}>
+        /* ── View Step 2: HERO ESTIMATOR (Matching Image 1 perfectly) ── */
+        <div style={{ width: '100%' }}>
           
-          {/* Configuration select */}
-          <div style={styles.card}>
-            <div style={styles.cardHeader}>
-              <Layers size={16} style={{ color: 'hsl(34,40%,64%)' }} />
-              <h3 style={styles.cardTitle}>{configs.label}</h3>
-            </div>
-            <div style={{
-              ...styles.configGrid,
-              ...(activeCat === 'apartment' ? { display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', gap: '1rem' } : {})
-            }}>
-              {configs.options.map((opt) => {
-                const isActive = opt.id === configId;
-                return (
-                  <button
-                    key={opt.id}
-                    onClick={() => setConfigId(opt.id)}
-                    style={{
-                      ...styles.configBtn,
-                      ...(activeCat === 'apartment' ? { flex: 1, padding: '1rem 0.5rem', justifyContent: 'center', fontSize: '0.95rem' } : {}),
-                      ...(isActive ? styles.configBtnActive : {}),
-                    }}
-                    className="calc-config-btn"
-                  >
-                    {isActive && <Check size={14} style={styles.configCheck} />}
-                    {opt.label}
-                  </button>
-                );
-              })}
-            </div>
+          {/* ══════════ HERO SECTION ══════════ */}
+          <section style={styles.heroSection}>
+            {/* Background Image Container */}
+            <div style={styles.heroBgImage} />
+            {/* Ambient Left Gradient Overlay for crisp typography */}
+            <div style={styles.heroOverlay} />
 
-            {/* Design Room CTA for Apartments */}
-            {activeCat === 'apartment' && (
-              <button 
-                onClick={() => setIsRoomDesignerOpen(true)}
-                style={styles.designRoomBtn}
-                className="calc-design-btn"
-              >
-                <Sparkles size={16} />
-                <span>Design this {configs.options.find(o => o.id === configId)?.label || 'Room'} in Interactive Planner</span>
-              </button>
-            )}
+            {/* ── Top Bar / Navbar (Image 1 Navbar with Home/About removed as requested) ── */}
+            <header style={styles.topNavbar}>
+              <div style={styles.navContainer}>
+                {/* Brand Logo on Left */}
+                <div style={styles.brandLogo} onClick={() => navigate('/')}>
+                  <div style={styles.brandLogoIconBox}>
+                    <Home size={19} color="#9E4316" strokeWidth={2.4} />
+                  </div>
+                  <div>
+                    <div style={styles.brandLogoTitle}>DreamSpace</div>
+                    <div style={styles.brandLogoSubtitle}>Interior Solutions</div>
+                  </div>
+                </div>
+
+                {/* Center links: "Home", "How It Works", "Inspiration", "About" REMOVED per user instructions */}
+                <div style={{ flex: 1 }} />
+
+                {/* Right Side: Sun Theme icon + Get Started Button */}
+                <div style={styles.navRightGroup}>
+                  <button
+                    style={styles.navThemeBtn}
+                    title="Toggle Theme"
+                    aria-label="Toggle theme"
+                  >
+                    <Sun size={18} color="#9E4316" strokeWidth={2.2} />
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      const el = document.getElementById('decor-section');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    style={styles.navGetStartedBtn}
+                  >
+                    <span>Get Started</span>
+                    <ArrowRight size={15} />
+                  </button>
+                </div>
+              </div>
+            </header>
+
+            {/* ── Main Hero Content Area ── */}
+            <div style={styles.heroContentContainer}>
+              
+              {/* LEFT COLUMN: Headings, Badges, Configuration Card & Feature Bar */}
+              <div style={styles.heroLeftCol}>
+                
+                {/* Back to Categories Button */}
+                <button
+                  onClick={() => setViewStep(1)}
+                  style={styles.backBtnPill}
+                  className="calc-back-pill"
+                >
+                  <ChevronLeft size={16} />
+                  <span>Back to Categories</span>
+                </button>
+
+                {/* Interior Cost Estimator Pill Badge */}
+                <div style={styles.heroBadge}>
+                  <Home size={13} color="#9E4316" strokeWidth={2.4} />
+                  <span>INTERIOR COST ESTIMATOR</span>
+                </div>
+
+                {/* Main Headline */}
+                <h1 style={styles.heroTitle}>
+                  Calculate Your<br />
+                  <span style={styles.heroTitleAccent}>Interior Cost</span>
+                </h1>
+
+                {/* Subtitle */}
+                <p style={styles.heroSubtitle}>
+                  Get an instant, transparent estimate for your dream space. Choose your space type, quality, and add-ons — we handle the maths.
+                </p>
+
+                {/* 3 Feature Pills Row */}
+                <div style={styles.featurePillsRow}>
+                  <div style={styles.featurePill}>
+                    <ShieldCheck size={16} color="#9E4316" strokeWidth={2.2} />
+                    <span>Accurate Estimate</span>
+                  </div>
+                  <div style={styles.featurePill}>
+                    <SlidersHorizontal size={16} color="#9E4316" strokeWidth={2.2} />
+                    <span>Customizable Options</span>
+                  </div>
+                  <div style={styles.featurePill}>
+                    <ShieldCheck size={16} color="#9E4316" strokeWidth={2.2} />
+                    <span>Transparent Pricing</span>
+                  </div>
+                </div>
+
+                {/* ── Select Configuration Card ── */}
+                <div style={styles.configCard}>
+                  {/* Card Header */}
+                  <div style={styles.configCardHeader}>
+                    <Home size={18} color="#9E4316" strokeWidth={2.2} />
+                    <h3 style={styles.configCardTitle}>Select Configuration</h3>
+                  </div>
+
+                  {/* 5 BHK Selection Buttons */}
+                  <div style={styles.bhkGrid}>
+                    {configs.options.map((opt) => {
+                      const isActive = opt.id === configId;
+                      return (
+                        <button
+                          key={opt.id}
+                          onClick={() => setConfigId(opt.id)}
+                          style={{
+                            ...styles.bhkBtn,
+                            ...(isActive ? styles.bhkBtnActive : styles.bhkBtnInactive),
+                          }}
+                          className={`calc-bhk-btn ${isActive ? 'active' : ''}`}
+                        >
+                          {isActive ? (
+                            <Check size={16} color="#FFFFFF" strokeWidth={2.6} />
+                          ) : (
+                            <Home size={16} color="#78716C" strokeWidth={2} />
+                          )}
+                          <span>{opt.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Design in Interactive Planner Full-Width CTA */}
+                  <button
+                    onClick={() => setIsRoomDesignerOpen(true)}
+                    style={styles.plannerCtaBtn}
+                    className="calc-planner-cta"
+                  >
+                    <Sparkles size={17} color="#FFFFFF" />
+                    <span>Design this {activeConfigLabel} in Interactive Planner</span>
+                    <ArrowRight size={17} color="#FFFFFF" />
+                  </button>
+                </div>
+
+                {/* ── Glassmorphic Bottom Feature Bar ── */}
+                <div style={styles.glassFeatureBar}>
+                  <div style={styles.glassFeatureItem}>
+                    <Box size={17} color="#9E4316" strokeWidth={2.2} />
+                    <span>3D Visualization</span>
+                  </div>
+                  <div style={styles.glassDivider} />
+                  <div style={styles.glassFeatureItem}>
+                    <FileText size={17} color="#9E4316" strokeWidth={2.2} />
+                    <span>Detailed Estimate</span>
+                  </div>
+                  <div style={styles.glassDivider} />
+                  <div style={styles.glassFeatureItem}>
+                    <Palette size={17} color="#9E4316" strokeWidth={2.2} />
+                    <span>Multiple Styles</span>
+                  </div>
+                  <div style={styles.glassDivider} />
+                  <div style={styles.glassFeatureItem}>
+                    <ShieldCheck size={17} color="#9E4316" strokeWidth={2.2} />
+                    <span>Trusted by Homeowners</span>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* RIGHT COLUMN: Script Calligraphy & Pebble Badge */}
+              <div style={styles.heroRightCol}>
+                
+                {/* "Beautiful Spaces Within Your Budget" Handwritten Script with Arrow */}
+                <div style={styles.scriptAccentWrapper}>
+                  <div style={styles.scriptText}>
+                    Beautiful<br />
+                    Spaces<br />
+                    Within Your<br />
+                    Budget
+                  </div>
+                  {/* Curved Hand-drawn SVG Arrow */}
+                  <svg
+                    width="44"
+                    height="68"
+                    viewBox="0 0 44 68"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{ marginTop: '8px', marginLeft: '26px' }}
+                  >
+                    <path
+                      d="M 10 6 C 30 18, 36 40, 20 58"
+                      stroke="#6B2E10"
+                      strokeWidth="2.3"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 13 49 L 20 58 L 26 51"
+                      stroke="#6B2E10"
+                      strokeWidth="2.3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+
+                {/* Bottom-Right Organic Pebble Badge */}
+                <div style={styles.pebbleBadge}>
+                  <Leaf size={26} color="rgba(255,255,255,0.92)" strokeWidth={1.5} />
+                  <div style={styles.pebbleBadgeText}>
+                    Your Dream<br />Home, Our<br />Expertise
+                  </div>
+                  <div style={styles.pebbleDivider} />
+                </div>
+
+              </div>
+
+            </div>
+          </section>
+
+
+          {/* ══════════ BELOW HERO: ROOM DÉCOR & ESTIMATE OPTIONS ══════════ */}
+          <div id="decor-section" style={styles.lowerContentWrapper}>
+            <div style={styles.lowerGrid}>
+              
+              {/* Left Column: Room Décor, Area Slider, Quality & Add-ons */}
+              <div style={styles.lowerLeftCol}>
+
+                {/* Room Decoration & Furniture Options */}
+                {activeCat === 'apartment' && (
+                  <div style={styles.card}>
+                    <div style={styles.cardHeader}>
+                      <Sparkles size={18} style={{ color: '#9E4316' }} />
+                      <div>
+                        <h3 style={styles.cardTitle}>Room Décor & Furniture</h3>
+                        <p style={styles.addonHint}>Select the rooms and décor you want to include in your estimate</p>
+                      </div>
+                    </div>
+                    
+                    <div style={styles.decorGrid}>
+                      {ROOM_DECOR_OPTIONS.map((item) => {
+                        const Icon = DECOR_ICON_MAP[item.icon];
+                        const isSelected = selectedDecor.includes(item.id);
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => toggleDecor(item.id)}
+                            style={{
+                              ...styles.decorCard,
+                              borderColor: isSelected ? '#9E4316' : '#EAE4DC',
+                              boxShadow: isSelected
+                                ? '0 8px 24px rgba(158,67,22,0.18)'
+                                : '0 2px 8px rgba(30,29,27,0.03)',
+                            }}
+                            className="calc-decor-card"
+                          >
+                            {/* Selected badge */}
+                            {isSelected && (
+                              <div style={styles.decorSelectedBadge}>
+                                <Check size={12} color="#fff" strokeWidth={2.8} />
+                              </div>
+                            )}
+                            {/* Image */}
+                            <div
+                              style={{
+                                ...styles.decorImage,
+                                backgroundImage: `url("${item.image}")`,
+                              }}
+                            />
+                            {/* Info */}
+                            <div style={styles.decorInfo}>
+                              <div style={styles.decorTitleRow}>
+                                {Icon && <Icon size={16} style={{ color: '#9E4316', flexShrink: 0 }} />}
+                                <span style={styles.decorLabel}>{item.label}</span>
+                              </div>
+                              <p style={styles.decorDesc}>{item.description}</p>
+                              <span style={styles.decorPrice}>{formatCurrency(item.price)}</span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Area Slider */}
+                <div style={styles.card}>
+                  <div style={styles.cardHeader}>
+                    <Ruler size={18} style={{ color: '#9E4316' }} />
+                    <div>
+                      <h3 style={styles.cardTitle}>Carpet Area</h3>
+                      <p style={styles.addonHint}>Adjust the total square footage of your space</p>
+                    </div>
+                  </div>
+                  <div style={styles.sliderRow}>
+                    <span style={styles.sliderVal}>
+                      {area.toLocaleString('en-IN')}{' '}
+                      <small style={{ fontSize: '1rem', fontWeight: 500, color: '#78716C' }}>
+                        {catMeta.areaUnit}
+                      </small>
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min={catMeta.areaRange.min}
+                    max={catMeta.areaRange.max}
+                    step={catMeta.areaRange.step}
+                    value={area}
+                    onChange={(e) => setArea(Number(e.target.value))}
+                    style={{
+                      ...styles.slider,
+                      background: `linear-gradient(to right, #9E4316 0%, #9E4316 ${sliderPercent}%, #E5E7EB ${sliderPercent}%, #E5E7EB 100%)`,
+                    }}
+                    className="calc-slider"
+                  />
+                  <div style={styles.sliderLabels}>
+                    <span>{catMeta.areaRange.min.toLocaleString('en-IN')} {catMeta.areaUnit}</span>
+                    <span>{catMeta.areaRange.max.toLocaleString('en-IN')} {catMeta.areaUnit}</span>
+                  </div>
+                </div>
+
+                {/* Quality Tier Selector */}
+                <div style={styles.card}>
+                  <div style={styles.cardHeader}>
+                    <Star size={18} style={{ color: '#9E4316' }} />
+                    <div>
+                      <h3 style={styles.cardTitle}>Material & Finish Quality</h3>
+                      <p style={styles.addonHint}>Select your preferred material grades and craftsmanship</p>
+                    </div>
+                  </div>
+                  <div style={styles.qualityGrid}>
+                    {qualities.map((q) => {
+                      const isActive = q.id === qualityId;
+                      return (
+                        <button
+                          key={q.id}
+                          onClick={() => setQualityId(q.id)}
+                          style={{
+                            ...styles.qualityCard,
+                            borderColor: isActive ? '#9E4316' : '#EAE4DC',
+                            backgroundColor: isActive ? '#FDF9F5' : '#FFFFFF',
+                          }}
+                          className="calc-quality-card"
+                        >
+                          <div style={styles.qualityTop}>
+                            <span
+                              style={{
+                                ...styles.qualityDot,
+                                backgroundColor: isActive ? '#9E4316' : q.color,
+                              }}
+                            />
+                            <span style={styles.qualityLabel}>{q.label}</span>
+                            {isActive && (
+                              <Check
+                                size={15}
+                                color="#9E4316"
+                                strokeWidth={2.5}
+                                style={{ marginLeft: 'auto' }}
+                              />
+                            )}
+                          </div>
+                          <span style={styles.qualityRate}>
+                            {formatCurrency(q.ratePerSqft)}
+                            <small style={styles.qualityRateUnit}> /sq ft</small>
+                          </span>
+                          <ul style={styles.specList}>
+                            {q.specs.map((s) => (
+                              <li key={s} style={styles.specItem}>
+                                <Check size={11} color="#9E4316" style={{ flexShrink: 0 }} />
+                                <span>{s}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Luxury Add-ons */}
+                {addons.length > 0 && (
+                  <div style={styles.card}>
+                    <div style={styles.cardHeader}>
+                      <Sparkles size={18} style={{ color: '#9E4316' }} />
+                      <div>
+                        <h3 style={styles.cardTitle}>Luxury Add-ons</h3>
+                        <p style={styles.addonHint}>Select additional premium features to elevate your home</p>
+                      </div>
+                    </div>
+                    <div style={styles.addonGrid}>
+                      {addons.map((a) => {
+                        const isSelected = selectedAddons.includes(a.id);
+                        return (
+                          <button
+                            key={a.id}
+                            onClick={() => toggleAddon(a.id)}
+                            style={{
+                              ...styles.addonBtn,
+                              borderColor: isSelected ? '#9E4316' : '#EAE4DC',
+                              backgroundColor: isSelected ? '#FDF9F5' : '#FFFFFF',
+                            }}
+                            className="calc-addon-btn"
+                          >
+                            <div style={styles.addonCheckbox}>
+                              {isSelected ? (
+                                <div style={styles.addonChecked}>
+                                  <Check size={12} color="#fff" strokeWidth={2.8} />
+                                </div>
+                              ) : (
+                                <div style={styles.addonUnchecked} />
+                              )}
+                            </div>
+                            <div style={styles.addonInfo}>
+                              <span style={styles.addonLabel}>{a.label}</span>
+                              <span style={styles.addonPrice}>{formatCurrency(a.price)}</span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
+              {/* Right Column: Sticky Estimate Breakdown Panel */}
+              <div style={styles.lowerRightCol}>
+                <div style={styles.estimateCard}>
+                  <div style={styles.estimateHeader}>
+                    <IndianRupee size={20} color="#9E4316" />
+                    <h3 style={styles.estimateTitle}>Estimate Summary</h3>
+                  </div>
+
+                  {estimate ? (
+                    <>
+                      <div style={styles.breakdownSection}>
+                        <Row
+                          label={`Base Material & Labor (${formatCurrency(estimate.ratePerSqft)}/sqft × ${area.toLocaleString('en-IN')})`}
+                          value={estimate.materialAndLabor}
+                        />
+                        <Row
+                          label={`${estimate.configLabel} Overhead`}
+                          value={estimate.configOverhead}
+                        />
+                        {estimate.decorTotal > 0 && (
+                          <Row
+                            label={`Room Décor & Furniture (${selectedDecor.length} items)`}
+                            value={estimate.decorTotal}
+                          />
+                        )}
+                        {estimate.addonsTotal > 0 && (
+                          <Row
+                            label={`Selected Add-ons (${selectedAddons.length} items)`}
+                            value={estimate.addonsTotal}
+                          />
+                        )}
+                        
+                        <div style={styles.divider} />
+                        <Row label="Subtotal" value={estimate.subtotal} bold />
+                        <Row
+                          label="Design & Consultation (8%)"
+                          value={estimate.designFee}
+                        />
+                        <Row label="GST (18%)" value={estimate.gst} />
+                      </div>
+
+                      {/* Grand Total */}
+                      <div style={styles.grandTotalBox}>
+                        <span style={styles.grandTotalLabel}>Estimated Total</span>
+                        <span style={styles.grandTotalVal}>
+                          {formatCurrency(estimate.grandTotal)}
+                        </span>
+                      </div>
+
+                      {/* Disclaimer */}
+                      <div style={styles.disclaimer}>
+                        <Info size={14} style={{ flexShrink: 0, marginTop: 2, color: '#9E4316' }} />
+                        <span>
+                          Indicative estimate based on selected {activeConfigLabel} layout and specs. Final quote confirmed post site measurement.
+                        </span>
+                      </div>
+
+                      {/* Actions */}
+                      <button
+                        onClick={shareOnWhatsApp}
+                        style={styles.whatsappBtn}
+                        className="calc-wa-btn"
+                      >
+                        <Send size={16} />
+                        <span>Share Quote on WhatsApp</span>
+                      </button>
+
+                      <button
+                        onClick={() => navigate('/')}
+                        style={styles.browseBtn}
+                        className="calc-browse-btn"
+                      >
+                        <ArrowRight size={16} />
+                        <span>Browse Furniture Store</span>
+                      </button>
+                    </>
+                  ) : (
+                    <p style={{ padding: '2rem', textAlign: 'center', color: '#999' }}>
+                      Select valid options to calculate estimate.
+                    </p>
+                  )}
+                </div>
+              </div>
+
+            </div>
           </div>
 
-          {/* Room Decoration Options (Apartment only) */}
-          {activeCat === 'apartment' && (
-            <div style={styles.card}>
-              <div style={styles.cardHeader}>
-                <Sparkles size={16} style={{ color: 'hsl(34,40%,64%)' }} />
-                <h3 style={styles.cardTitle}>Room Décor & Furniture</h3>
-                <span style={styles.addonHint}>Select what you need</span>
-              </div>
-              <div style={styles.decorGrid}>
-                {ROOM_DECOR_OPTIONS.map((item) => {
-                  const Icon = DECOR_ICON_MAP[item.icon];
-                  const isSelected = selectedDecor.includes(item.id);
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => toggleDecor(item.id)}
-                      style={{
-                        ...styles.decorCard,
-                        borderColor: isSelected
-                          ? 'hsl(34,40%,64%)'
-                          : 'hsl(40,13%,88%)',
-                        boxShadow: isSelected
-                          ? '0 4px 16px rgba(197,168,128,0.2)'
-                          : '0 2px 8px rgba(30,29,27,0.03)',
-                      }}
-                      className="calc-decor-card"
-                    >
-                      {/* Selected badge */}
-                      {isSelected && (
-                        <div style={styles.decorSelectedBadge}>
-                          <Check size={12} color="#fff" />
-                        </div>
-                      )}
-                      {/* Image */}
-                      <div
-                        style={{
-                          ...styles.decorImage,
-                          backgroundImage: `url("${item.image}")`,
-                        }}
-                      />
-                      {/* Info */}
-                      <div style={styles.decorInfo}>
-                        <div style={styles.decorTitleRow}>
-                          {Icon && <Icon size={16} style={{ color: 'hsl(34,40%,64%)', flexShrink: 0 }} />}
-                          <span style={styles.decorLabel}>{item.label}</span>
-                        </div>
-                        <p style={styles.decorDesc}>{item.description}</p>
-                        <span style={styles.decorPrice}>{formatCurrency(item.price)}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-
         </div>
-
-
-      </div>
       )}
     </div>
   );
@@ -312,7 +740,8 @@ function Row({ label, value, bold }) {
       <span
         style={{
           ...styles.breakdownLabel,
-          fontWeight: bold ? 600 : 400,
+          fontWeight: bold ? 700 : 400,
+          color: bold ? '#1C1917' : '#57534E',
         }}
       >
         {label}
@@ -320,7 +749,8 @@ function Row({ label, value, bold }) {
       <span
         style={{
           ...styles.breakdownVal,
-          fontWeight: bold ? 700 : 500,
+          fontWeight: bold ? 800 : 600,
+          color: bold ? '#9E4316' : '#292524',
         }}
       >
         {formatCurrency(value)}
@@ -333,468 +763,454 @@ function Row({ label, value, bold }) {
 // STYLES
 // ══════════════════════════════════════════════════════════════════════════════
 const styles = {
-  page: {
+  pageWrapper: {
     minHeight: '100vh',
-    backgroundColor: 'hsl(36,33%,97%)',
-    padding: '2rem 2rem 5rem',
-    maxWidth: '1400px',
-    margin: '0 auto',
-  },
-
-  /* Back */
-  backBtn: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '0.35rem',
-    background: 'none',
-    border: '1px solid hsl(40,13%,88%)',
-    borderRadius: '8px',
-    padding: '0.5rem 1rem',
-    fontSize: '0.85rem',
+    backgroundColor: '#FAF8F5',
+    color: '#1C1917',
     fontFamily: 'var(--font-body)',
-    color: 'hsl(40,9%,11%)',
-    cursor: 'pointer',
-    marginBottom: '1.5rem',
-    transition: 'all .2s ease',
+    width: '100%',
+    overflowX: 'hidden',
   },
 
-  /* Header */
-  header: {
-    textAlign: 'center',
-    marginBottom: '2.5rem',
-  },
-  headerBadge: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    backgroundColor: 'hsl(34,40%,64%,0.12)',
-    color: 'hsl(34,40%,52%)',
-    padding: '0.35rem 1rem',
-    borderRadius: '20px',
-    fontSize: '0.7rem',
-    fontWeight: 700,
-    letterSpacing: '0.15em',
-    textTransform: 'uppercase',
-    marginBottom: '1rem',
-  },
-  headerTitle: {
-    fontFamily: 'var(--font-heading)',
-    fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-    fontWeight: 600,
-    color: 'hsl(40,9%,11%)',
-    lineHeight: 1.2,
-    marginBottom: '0.75rem',
-  },
-  headerAccent: {
-    color: 'hsl(34,40%,52%)',
-  },
-  headerSub: {
-    fontSize: '1rem',
-    color: 'hsl(40,4%,43%)',
-    maxWidth: '600px',
+  categoryStepContainer: {
+    maxWidth: '1300px',
     margin: '0 auto',
-    lineHeight: 1.6,
+    padding: '3rem 2rem 5rem',
   },
 
-  /* Category Grid Large (Step 1) - Managed in CSS */
-  catGridLarge: {},
-  catCardLarge: {},
-  catCardContent: {
+  /* ── Hero Section ── */
+  heroSection: {
+    position: 'relative',
+    width: '100%',
+    minHeight: '740px',
+    backgroundColor: '#FDFBF7',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
+  },
+  heroBgImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundImage: 'url("/images/calc_hero_bg.jpg")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center right',
+    backgroundRepeat: 'no-repeat',
+    zIndex: 1,
+  },
+  heroOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'linear-gradient(to right, rgba(254, 252, 248, 0.98) 0%, rgba(254, 252, 248, 0.94) 42%, rgba(254, 252, 248, 0.65) 60%, rgba(254, 252, 248, 0.1) 85%, rgba(254, 252, 248, 0) 100%)',
+    zIndex: 2,
+  },
+
+  /* ── Top Navbar ── */
+  topNavbar: {
     position: 'relative',
     zIndex: 10,
-    color: '#fff',
-    paddingTop: '1rem',
+    width: '100%',
+    padding: '1.25rem 2rem 0.5rem',
   },
-  catCardIconWrapper: {
+  navContainer: {
+    maxWidth: '1440px',
+    margin: '0 auto',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  brandLogo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    cursor: 'pointer',
+    userSelect: 'none',
+  },
+  brandLogoIconBox: {
+    width: '42px',
+    height: '42px',
+    borderRadius: '12px',
+    backgroundColor: '#F7EDE4',
+    border: '1.5px solid #EACDB8',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '0 2px 8px rgba(158,67,22,0.12)',
+  },
+  brandLogoTitle: {
+    fontFamily: 'var(--font-heading)',
+    fontSize: '1.3rem',
+    fontWeight: 800,
+    color: '#1C1917',
+    lineHeight: 1.1,
+    letterSpacing: '-0.01em',
+  },
+  brandLogoSubtitle: {
+    fontSize: '0.72rem',
+    color: '#78716C',
+    fontWeight: 500,
+    letterSpacing: '0.04em',
+  },
+  navRightGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '14px',
+  },
+  navThemeBtn: {
+    width: '38px',
+    height: '38px',
+    borderRadius: '50%',
+    border: '1px solid #E7DFD5',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    backdropFilter: 'blur(8px)',
+    transition: 'all 0.2s ease',
+  },
+  navGetStartedBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    backgroundColor: '#934015',
+    backgroundImage: 'linear-gradient(135deg, #9C4316 0%, #85370F 100%)',
+    color: '#FFFFFF',
+    border: 'none',
+    borderRadius: '9999px',
+    padding: '10px 22px',
+    fontSize: '0.9rem',
+    fontWeight: 600,
+    cursor: 'pointer',
+    boxShadow: '0 4px 14px rgba(147, 64, 21, 0.35)',
+    transition: 'all 0.2s ease',
+  },
+
+  /* ── Hero Content Layout ── */
+  heroContentContainer: {
+    position: 'relative',
+    zIndex: 10,
+    maxWidth: '1440px',
+    width: '100%',
+    margin: '0 auto',
+    padding: '1.5rem 2rem 3rem',
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: '2rem',
+  },
+  heroLeftCol: {
+    flex: '1 1 660px',
+    maxWidth: '680px',
+  },
+  heroRightCol: {
+    flex: '1 1 380px',
+    position: 'relative',
+    minHeight: '560px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    pointerEvents: 'none',
+  },
+
+  /* Back Button Pill */
+  backBtnPill: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    border: '1px solid #E5E7EB',
+    borderRadius: '9999px',
+    padding: '7px 18px',
+    fontSize: '0.84rem',
+    fontWeight: 600,
+    color: '#1F2937',
+    cursor: 'pointer',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
+    marginBottom: '16px',
+    transition: 'all 0.2s ease',
+  },
+
+  /* Hero Badge */
+  heroBadge: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '7px',
+    backgroundColor: '#FBF5EE',
+    border: '1px solid #EAD8C7',
+    color: '#9E4316',
+    borderRadius: '9999px',
+    padding: '6px 14px',
+    fontSize: '0.72rem',
+    fontWeight: 700,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
+    marginBottom: '14px',
+  },
+
+  /* Title & Subtitle */
+  heroTitle: {
+    fontFamily: 'var(--font-heading)',
+    fontSize: 'clamp(2.4rem, 4.2vw, 3.8rem)',
+    fontWeight: 800,
+    lineHeight: 1.1,
+    color: '#1C1917',
+    marginBottom: '14px',
+    letterSpacing: '-0.025em',
+  },
+  heroTitleAccent: {
+    color: '#9E4316',
+  },
+  heroSubtitle: {
+    fontSize: '1rem',
+    lineHeight: 1.6,
+    color: '#57534E',
+    maxWidth: '560px',
+    marginBottom: '20px',
+  },
+
+  /* Feature Pills */
+  featurePillsRow: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '10px',
+    marginBottom: '24px',
+  },
+  featurePill: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    border: '1px solid rgba(220, 205, 185, 0.65)',
+    borderRadius: '9999px',
+    padding: '8px 16px',
+    fontSize: '0.82rem',
+    fontWeight: 600,
+    color: '#383431',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+  },
+
+  /* ── Configuration Card ── */
+  configCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: '22px',
+    padding: '24px',
+    boxShadow: '0 12px 36px rgba(40, 25, 10, 0.07)',
+    border: '1px solid #EFEAE3',
+    maxWidth: '640px',
+  },
+  configCardHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    marginBottom: '16px',
+  },
+  configCardTitle: {
+    fontSize: '1.05rem',
+    fontWeight: 700,
+    color: '#1C1917',
+    margin: 0,
+    fontFamily: 'var(--font-heading)',
+  },
+  bhkGrid: {
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap',
+  },
+  bhkBtn: {
+    flex: '1 1 0',
+    minWidth: '85px',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '64px',
-    height: '64px',
+    gap: '7px',
+    padding: '12px 14px',
     borderRadius: '12px',
-    backgroundColor: 'rgba(197, 168, 128, 0.15)',
-    backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(197, 168, 128, 0.3)',
-    marginBottom: '1.25rem',
+    fontSize: '0.92rem',
+    cursor: 'pointer',
+    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
   },
-  catCardTitleLarge: {},
-  catCardDescLarge: {},
+  bhkBtnInactive: {
+    border: '1.5px solid #E5E7EB',
+    backgroundColor: '#FFFFFF',
+    color: '#1F2937',
+    fontWeight: 600,
+  },
+  bhkBtnActive: {
+    border: '1.5px solid #934015',
+    backgroundColor: '#934015',
+    color: '#FFFFFF',
+    fontWeight: 700,
+    boxShadow: '0 4px 14px rgba(147, 64, 21, 0.35)',
+  },
+  plannerCtaBtn: {
+    width: '100%',
+    marginTop: '18px',
+    backgroundColor: '#934015',
+    backgroundImage: 'linear-gradient(135deg, #9C4316 0%, #85370F 100%)',
+    color: '#FFFFFF',
+    border: 'none',
+    borderRadius: '9999px',
+    padding: '15px 24px',
+    fontSize: '0.98rem',
+    fontWeight: 600,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '10px',
+    cursor: 'pointer',
+    boxShadow: '0 6px 18px rgba(147, 64, 21, 0.35)',
+    transition: 'all 0.2s ease',
+  },
 
-  /* Main grid */
-  mainGrid: {
-    display: 'grid',
-    gridTemplateColumns: '1fr',
-    gap: '2rem',
-    alignItems: 'start',
+  /* ── Glassmorphic Bottom Feature Bar ── */
+  glassFeatureBar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '16px',
+    flexWrap: 'wrap',
+    backgroundColor: 'rgba(255, 255, 255, 0.76)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: '1px solid rgba(255, 255, 255, 0.85)',
+    borderRadius: '16px',
+    padding: '12px 24px',
+    maxWidth: '640px',
+    marginTop: '22px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
   },
-  formCol: {
+  glassFeatureItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    fontSize: '0.82rem',
+    fontWeight: 600,
+    color: '#292524',
+  },
+  glassDivider: {
+    width: '1px',
+    height: '18px',
+    backgroundColor: '#E7DFD5',
+  },
+
+  /* ── Script Accent (Right side) ── */
+  scriptAccentWrapper: {
+    marginTop: '20px',
+    marginRight: '70px',
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.5rem',
+    alignItems: 'center',
   },
-  estimateCol: {
+  scriptText: {
+    fontFamily: "'Caveat', cursive",
+    fontSize: '2.4rem',
+    fontWeight: 700,
+    lineHeight: 1.15,
+    color: '#292524',
+    textAlign: 'center',
+    transform: 'rotate(-4deg)',
+    textShadow: '0 1px 2px rgba(255,255,255,0.7)',
+  },
+
+  /* ── Pebble Badge (Bottom Right) ── */
+  pebbleBadge: {
+    background: 'linear-gradient(135deg, #A85A2D 0%, #87411B 100%)',
+    borderRadius: '65px 45px 75px 35px',
+    padding: '24px 28px',
+    color: '#FFFFFF',
+    boxShadow: '0 12px 32px rgba(135, 65, 27, 0.35)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    marginBottom: '10px',
+    marginRight: '20px',
+  },
+  pebbleBadgeText: {
+    fontFamily: 'var(--font-heading)',
+    fontWeight: 700,
+    fontSize: '1.18rem',
+    lineHeight: 1.25,
+    marginTop: '8px',
+    color: '#FFFFFF',
+  },
+  pebbleDivider: {
+    width: '44px',
+    height: '3px',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    borderRadius: '2px',
+    marginTop: '12px',
+  },
+
+  /* ── Lower Content Section ── */
+  lowerContentWrapper: {
+    maxWidth: '1440px',
+    margin: '0 auto',
+    padding: '3rem 2rem 5rem',
+  },
+  lowerGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(0, 1fr) 380px',
+    gap: '2.5rem',
+    alignItems: 'start',
+  },
+  lowerLeftCol: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem',
+  },
+  lowerRightCol: {
     position: 'sticky',
-    top: '5rem',
+    top: '2rem',
   },
 
   /* Cards */
   card: {
-    backgroundColor: '#fff',
-    border: '1px solid hsl(40,13%,88%)',
-    borderRadius: '12px',
-    padding: '1.5rem',
-    boxShadow: '0 2px 8px rgba(30,29,27,0.03)',
+    backgroundColor: '#FFFFFF',
+    border: '1px solid #EFEAE3',
+    borderRadius: '18px',
+    padding: '1.75rem',
+    boxShadow: '0 4px 18px rgba(0, 0, 0, 0.03)',
   },
   cardHeader: {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.5rem',
-    marginBottom: '1.25rem',
+    gap: '0.75rem',
+    marginBottom: '1.5rem',
   },
   cardTitle: {
-    fontSize: '0.95rem',
-    fontWeight: 600,
-    color: 'hsl(40,9%,11%)',
-    fontFamily: 'var(--font-heading)',
-  },
-
-  /* Slider */
-  sliderRow: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: '0.75rem',
-  },
-  sliderVal: {
-    fontSize: '1.6rem',
+    fontSize: '1.15rem',
     fontWeight: 700,
-    color: 'hsl(34,40%,52%)',
+    color: '#1C1917',
     fontFamily: 'var(--font-heading)',
-  },
-  slider: {
-    width: '100%',
-    height: '6px',
-    borderRadius: '3px',
-    outline: 'none',
-    appearance: 'none',
-    WebkitAppearance: 'none',
-    cursor: 'pointer',
-  },
-  sliderLabels: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    fontSize: '0.7rem',
-    color: 'hsl(40,4%,43%)',
-    marginTop: '0.5rem',
-  },
-
-  /* Config buttons */
-  configGrid: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '0.5rem',
-  },
-  configBtn: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '0.4rem',
-    padding: '0.55rem 1rem',
-    borderRadius: '8px',
-    border: '1.5px solid hsl(40,13%,88%)',
-    backgroundColor: '#fff',
-    fontSize: '0.82rem',
-    fontWeight: 500,
-    fontFamily: 'var(--font-body)',
-    color: 'hsl(40,9%,11%)',
-    cursor: 'pointer',
-    transition: 'all .2s ease',
-  },
-  configBtnActive: {
-    borderColor: 'hsl(34,40%,64%)',
-    backgroundColor: 'hsl(34,40%,64%,0.08)',
-    fontWeight: 600,
-  },
-  configCheck: {
-    color: 'hsl(34,40%,52%)',
-  },
-  designRoomBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.5rem',
-    width: '100%',
-    marginTop: '1.5rem',
-    padding: '0.85rem',
-    borderRadius: '8px',
-    border: 'none',
-    backgroundColor: '#1E1D1B',
-    color: '#fff',
-    fontSize: '0.9rem',
-    fontWeight: 600,
-    fontFamily: 'var(--font-heading)',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-  },
-
-  /* Quality cards */
-  qualityGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '1rem',
-  },
-  qualityCard: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '1.25rem 1rem',
-    borderRadius: '10px',
-    border: '2px solid',
-    cursor: 'pointer',
-    transition: 'all .2s ease',
-    textAlign: 'left',
-    fontFamily: 'var(--font-body)',
-    background: '#fff',
-  },
-  qualityTop: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    marginBottom: '0.75rem',
-  },
-  qualityDot: {
-    width: '10px',
-    height: '10px',
-    borderRadius: '50%',
-  },
-  qualityLabel: {
-    fontSize: '0.85rem',
-    fontWeight: 600,
-    color: 'hsl(40,9%,11%)',
-  },
-  qualityRate: {
-    fontSize: '1.1rem',
-    fontWeight: 700,
-    color: 'hsl(40,9%,11%)',
-    marginBottom: '0.75rem',
-  },
-  qualityRateUnit: {
-    fontSize: '0.7rem',
-    fontWeight: 400,
-    color: 'hsl(40,4%,43%)',
-    marginLeft: '2px',
-  },
-  specList: {
-    listStyle: 'none',
-    padding: 0,
     margin: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.4rem',
   },
-  specItem: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    gap: '0.4rem',
-    fontSize: '0.72rem',
-    color: 'hsl(40,4%,43%)',
-    lineHeight: 1.4,
-  },
-
-  /* Add-ons */
   addonHint: {
-    marginLeft: 'auto',
-    fontSize: '0.7rem',
-    color: 'hsl(40,4%,43%)',
-    fontStyle: 'italic',
-  },
-  addonGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '0.75rem',
-  },
-  addonBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.75rem',
-    padding: '0.85rem 1rem',
-    borderRadius: '10px',
-    border: '1.5px solid',
-    cursor: 'pointer',
-    transition: 'all .2s ease',
-    fontFamily: 'var(--font-body)',
-    textAlign: 'left',
-    background: '#fff',
-  },
-  addonCheckbox: {
-    flexShrink: 0,
-  },
-  addonChecked: {
-    width: '20px',
-    height: '20px',
-    borderRadius: '5px',
-    backgroundColor: 'hsl(34,40%,64%)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addonUnchecked: {
-    width: '20px',
-    height: '20px',
-    borderRadius: '5px',
-    border: '2px solid hsl(40,13%,88%)',
-  },
-  addonInfo: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.15rem',
-  },
-  addonLabel: {
-    fontSize: '0.82rem',
-    fontWeight: 500,
-    color: 'hsl(40,9%,11%)',
-  },
-  addonPrice: {
-    fontSize: '0.72rem',
-    fontWeight: 600,
-    color: 'hsl(34,40%,52%)',
-  },
-
-  /* Estimate panel */
-  estimateCard: {
-    backgroundColor: '#fff',
-    border: '1px solid hsl(40,13%,88%)',
-    borderRadius: '14px',
-    overflow: 'hidden',
-    boxShadow: '0 8px 30px rgba(30,29,27,0.06)',
-  },
-  estimateHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-    padding: '1.25rem 1.5rem',
-    borderBottom: '1px solid hsl(40,13%,88%)',
-    backgroundColor: 'hsl(40,20%,94%)',
-    color: 'hsl(40,9%,11%)',
-  },
-  estimateTitle: {
-    fontSize: '1rem',
-    fontWeight: 600,
-    fontFamily: 'var(--font-heading)',
-  },
-
-  /* Breakdown */
-  breakdownSection: {
-    padding: '1.25rem 1.5rem',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.6rem',
-  },
-  breakdownRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    gap: '1rem',
-  },
-  breakdownLabel: {
-    fontSize: '0.78rem',
-    color: 'hsl(40,4%,43%)',
-    lineHeight: 1.4,
-    flex: 1,
-  },
-  breakdownVal: {
-    fontSize: '0.82rem',
-    color: 'hsl(40,9%,11%)',
-    fontFamily: 'var(--font-heading)',
-    whiteSpace: 'nowrap',
-  },
-  divider: {
-    height: '1px',
-    backgroundColor: 'hsl(40,13%,88%)',
-    margin: '0.25rem 0',
-  },
-
-  /* Grand total */
-  grandTotalBox: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '1.25rem 1.5rem',
-    backgroundColor: 'hsl(34,40%,64%,0.08)',
-    borderTop: '2px solid hsl(34,40%,64%)',
-  },
-  grandTotalLabel: {
-    fontSize: '0.85rem',
-    fontWeight: 600,
-    color: 'hsl(40,9%,11%)',
-    textTransform: 'uppercase',
-    letterSpacing: '0.06em',
-  },
-  grandTotalVal: {
-    fontSize: '1.6rem',
-    fontWeight: 700,
-    color: 'hsl(34,40%,52%)',
-    fontFamily: 'var(--font-heading)',
-  },
-
-  /* Disclaimer */
-  disclaimer: {
-    display: 'flex',
-    gap: '0.5rem',
-    padding: '1rem 1.5rem',
-    fontSize: '0.7rem',
-    color: 'hsl(40,4%,43%)',
-    lineHeight: 1.5,
-    borderTop: '1px solid hsl(40,13%,88%)',
-  },
-
-  /* CTA buttons */
-  whatsappBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.6rem',
-    width: 'calc(100% - 3rem)',
-    margin: '0 1.5rem',
-    padding: '0.85rem',
-    borderRadius: '10px',
-    border: 'none',
-    backgroundColor: '#25D366',
-    color: '#fff',
-    fontSize: '0.85rem',
-    fontWeight: 600,
-    fontFamily: 'var(--font-body)',
-    cursor: 'pointer',
-    transition: 'all .2s ease',
-    marginTop: '0.25rem',
-  },
-  browseBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.5rem',
-    width: 'calc(100% - 3rem)',
-    margin: '0.75rem 1.5rem 1.5rem',
-    padding: '0.75rem',
-    borderRadius: '10px',
-    border: '1.5px solid hsl(40,13%,88%)',
-    backgroundColor: 'transparent',
-    color: 'hsl(40,9%,11%)',
-    fontSize: '0.82rem',
-    fontWeight: 500,
-    fontFamily: 'var(--font-body)',
-    cursor: 'pointer',
-    transition: 'all .2s ease',
+    fontSize: '0.8rem',
+    color: '#78716C',
+    marginTop: '2px',
+    display: 'block',
   },
 
   /* Room Decor Grid (Apartment) */
   decorGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '1rem',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+    gap: '1.25rem',
   },
   decorCard: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    borderRadius: '12px',
+    borderRadius: '14px',
     border: '2px solid',
     overflow: 'hidden',
     cursor: 'pointer',
@@ -812,45 +1228,355 @@ const styles = {
     width: '24px',
     height: '24px',
     borderRadius: '50%',
-    backgroundColor: 'hsl(34,40%,64%)',
+    backgroundColor: '#9E4316',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
   },
   decorImage: {
     width: '100%',
-    height: '120px',
+    height: '140px',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    backgroundColor: 'hsl(40,20%,94%)',
+    backgroundColor: '#F3EFEA',
   },
   decorInfo: {
-    padding: '0.85rem',
+    padding: '1rem',
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.3rem',
+    gap: '0.35rem',
   },
   decorTitleRow: {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.4rem',
+    gap: '0.5rem',
   },
   decorLabel: {
-    fontSize: '0.85rem',
-    fontWeight: 600,
-    color: 'hsl(40,9%,11%)',
+    fontSize: '0.92rem',
+    fontWeight: 700,
+    color: '#1C1917',
   },
   decorDesc: {
-    fontSize: '0.7rem',
-    color: 'hsl(40,4%,43%)',
-    lineHeight: 1.4,
+    fontSize: '0.75rem',
+    color: '#78716C',
+    lineHeight: 1.45,
     margin: 0,
   },
   decorPrice: {
-    fontSize: '0.85rem',
+    fontSize: '0.92rem',
     fontWeight: 700,
-    color: 'hsl(34,40%,52%)',
-    marginTop: '0.25rem',
+    color: '#9E4316',
+    marginTop: '0.35rem',
+  },
+
+  /* Slider */
+  sliderRow: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '1rem',
+  },
+  sliderVal: {
+    fontSize: '1.8rem',
+    fontWeight: 700,
+    color: '#9E4316',
+    fontFamily: 'var(--font-heading)',
+  },
+  slider: {
+    width: '100%',
+    height: '7px',
+    borderRadius: '4px',
+    outline: 'none',
+    appearance: 'none',
+    WebkitAppearance: 'none',
+    cursor: 'pointer',
+  },
+  sliderLabels: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontSize: '0.78rem',
+    color: '#78716C',
+    marginTop: '0.65rem',
+    fontWeight: 500,
+  },
+
+  /* Quality cards */
+  qualityGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gap: '1rem',
+  },
+  qualityCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '1.25rem',
+    borderRadius: '14px',
+    border: '2px solid',
+    cursor: 'pointer',
+    textAlign: 'left',
+    transition: 'all .2s ease',
+    fontFamily: 'var(--font-body)',
+  },
+  qualityTop: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    marginBottom: '0.5rem',
+  },
+  qualityDot: {
+    width: '9px',
+    height: '9px',
+    borderRadius: '50%',
+  },
+  qualityLabel: {
+    fontSize: '0.92rem',
+    fontWeight: 700,
+    color: '#1C1917',
+  },
+  qualityRate: {
+    fontSize: '1.25rem',
+    fontWeight: 700,
+    color: '#9E4316',
+    fontFamily: 'var(--font-heading)',
+    marginBottom: '0.75rem',
+  },
+  qualityRateUnit: {
+    fontSize: '0.75rem',
+    fontWeight: 400,
+    color: '#78716C',
+  },
+  specList: {
+    listStyle: 'none',
+    padding: 0,
+    margin: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.4rem',
+  },
+  specItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '0.4rem',
+    fontSize: '0.74rem',
+    color: '#57534E',
+    lineHeight: 1.35,
+  },
+
+  /* Addon buttons */
+  addonGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+    gap: '0.75rem',
+  },
+  addonBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    padding: '0.85rem 1rem',
+    borderRadius: '12px',
+    border: '1.5px solid',
+    cursor: 'pointer',
+    textAlign: 'left',
+    fontFamily: 'var(--font-body)',
+    transition: 'all .2s ease',
+  },
+  addonCheckbox: {
+    flexShrink: 0,
+  },
+  addonChecked: {
+    width: '18px',
+    height: '18px',
+    borderRadius: '5px',
+    backgroundColor: '#9E4316',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addonUnchecked: {
+    width: '18px',
+    height: '18px',
+    borderRadius: '5px',
+    border: '1.5px solid #D1D5DB',
+  },
+  addonInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.15rem',
+  },
+  addonLabel: {
+    fontSize: '0.84rem',
+    fontWeight: 600,
+    color: '#1C1917',
+  },
+  addonPrice: {
+    fontSize: '0.76rem',
+    fontWeight: 700,
+    color: '#9E4316',
+  },
+
+  /* ── Estimate Sidebar Card ── */
+  estimateCard: {
+    backgroundColor: '#FFFFFF',
+    border: '1px solid #EFEAE3',
+    borderRadius: '20px',
+    overflow: 'hidden',
+    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
+  },
+  estimateHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.6rem',
+    padding: '1.25rem 1.5rem',
+    borderBottom: '1px solid #F3EFEA',
+    backgroundColor: '#FDFBF8',
+  },
+  estimateTitle: {
+    fontSize: '1.1rem',
+    fontWeight: 700,
+    color: '#1C1917',
+    fontFamily: 'var(--font-heading)',
+    margin: 0,
+  },
+  breakdownSection: {
+    padding: '1.25rem 1.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+  },
+  breakdownRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    fontSize: '0.84rem',
+    gap: '0.5rem',
+  },
+  breakdownLabel: {
+    lineHeight: 1.4,
+  },
+  breakdownVal: {
+    fontVariantNumeric: 'tabular-nums',
+    flexShrink: 0,
+  },
+  divider: {
+    height: '1px',
+    backgroundColor: '#EAE4DC',
+    margin: '0.5rem 0',
+  },
+  grandTotalBox: {
+    margin: '0 1.5rem 1rem',
+    padding: '1rem 1.25rem',
+    borderRadius: '12px',
+    backgroundColor: '#FBF5EE',
+    border: '1.5px solid #EAD8C7',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  grandTotalLabel: {
+    fontSize: '0.92rem',
+    fontWeight: 700,
+    color: '#1C1917',
+  },
+  grandTotalVal: {
+    fontSize: '1.45rem',
+    fontWeight: 800,
+    color: '#9E4316',
+    fontFamily: 'var(--font-heading)',
+  },
+  disclaimer: {
+    display: 'flex',
+    gap: '0.5rem',
+    padding: '0 1.5rem 1.25rem',
+    fontSize: '0.74rem',
+    color: '#78716C',
+    lineHeight: 1.45,
+  },
+  whatsappBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.6rem',
+    width: 'calc(100% - 3rem)',
+    margin: '0 1.5rem',
+    padding: '0.9rem',
+    borderRadius: '12px',
+    border: 'none',
+    backgroundColor: '#25D366',
+    color: '#fff',
+    fontSize: '0.9rem',
+    fontWeight: 700,
+    cursor: 'pointer',
+    transition: 'all .2s ease',
+    boxShadow: '0 4px 14px rgba(37, 211, 102, 0.3)',
+  },
+  browseBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.5rem',
+    width: 'calc(100% - 3rem)',
+    margin: '0.75rem 1.5rem 1.5rem',
+    padding: '0.75rem',
+    borderRadius: '12px',
+    border: '1.5px solid #E5E7EB',
+    backgroundColor: 'transparent',
+    color: '#1F2937',
+    fontSize: '0.84rem',
+    fontWeight: 600,
+    cursor: 'pointer',
+    transition: 'all .2s ease',
+  },
+
+  /* Step 1 Category styles */
+  header: {
+    textAlign: 'center',
+    marginBottom: '2.5rem',
+  },
+  headerBadge: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    backgroundColor: '#FBF5EE',
+    color: '#9E4316',
+    padding: '0.35rem 1rem',
+    borderRadius: '20px',
+    fontSize: '0.7rem',
+    fontWeight: 700,
+    letterSpacing: '0.15em',
+    textTransform: 'uppercase',
+    marginBottom: '1rem',
+    border: '1px solid #EAD8C7',
+  },
+  headerTitle: {
+    fontFamily: 'var(--font-heading)',
+    fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+    fontWeight: 700,
+    color: '#1C1917',
+    lineHeight: 1.2,
+    marginBottom: '0.75rem',
+  },
+  headerSub: {
+    fontSize: '1rem',
+    color: '#57534E',
+    maxWidth: '600px',
+    margin: '0 auto',
+    lineHeight: 1.6,
+  },
+  catCardContent: {
+    position: 'relative',
+    zIndex: 10,
+    color: '#fff',
+  },
+  catCardIconWrapper: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '60px',
+    height: '60px',
+    borderRadius: '14px',
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    backdropFilter: 'blur(8px)',
+    border: '1px solid rgba(255, 255, 255, 0.25)',
+    marginBottom: '1.25rem',
   },
 };
