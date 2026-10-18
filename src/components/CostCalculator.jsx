@@ -27,8 +27,8 @@ const formatCurrency = (n) =>
 export default function CostCalculator() {
   const navigate = useNavigate();
 
-  // ── State (Default to viewStep 2 so users land directly on the apartment estimator) ─
-  const [viewStep, setViewStep] = useState(2);
+  // ── State (Default to viewStep 1 so users land on Select Your Space Type first) ──
+  const [viewStep, setViewStep] = useState(1);
   const [activeCat, setActiveCat] = useState(CATEGORIES[0].id);
   const [area, setArea] = useState(CATEGORIES[0].areaRange.default);
   const [qualityId, setQualityId] = useState('premium');
@@ -62,6 +62,7 @@ export default function CostCalculator() {
     setSelectedAddons([]);
     setSelectedDecor([]);
     setViewStep(2);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // ── Toggle addon ─────────────────────────────────────────────────────────
@@ -145,17 +146,17 @@ export default function CostCalculator() {
         />
       )}
 
-      {/* ── View Step 1: Category Selection (when user clicks Back to Categories) ── */}
+      {/* ── View Step 1: Category Selection (Select Your Space Type - Image 2) ── */}
       {viewStep === 1 ? (
         <div style={styles.categoryStepContainer}>
-          <button onClick={() => navigate('/')} style={styles.backBtnPill}>
+          <button onClick={() => navigate('/')} style={styles.backBtnPill} className="calc-back-pill">
             <ChevronLeft size={16} />
             <span>Back to Store</span>
           </button>
 
           <header style={styles.header}>
             <div style={styles.headerBadge}>
-              <Calculator size={14} />
+              <Calculator size={14} color="#9E4316" />
               <span>INTERIOR COST ESTIMATOR</span>
             </div>
             <h1 style={styles.headerTitle}>
@@ -166,7 +167,7 @@ export default function CostCalculator() {
             </p>
           </header>
 
-          <div className="calc-cat-large-grid" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+          <div className="calc-cat-large-grid" style={{ maxWidth: '1240px', margin: '2rem auto 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
             {CATEGORIES.map((cat) => {
               const Icon = ICON_MAP[cat.icon];
               return (
@@ -174,30 +175,30 @@ export default function CostCalculator() {
                   key={cat.id}
                   onClick={() => switchCategory(cat.id)}
                   style={{
-                    backgroundImage: `linear-gradient(to top, rgba(15,15,15,0.95) 0%, rgba(15,15,15,0.6) 45%, rgba(15,15,15,0.1) 100%), url("${cat.image}")`,
-                    minHeight: '340px',
-                    borderRadius: '18px',
-                    border: '1px solid rgba(255,255,255,0.12)',
+                    backgroundImage: `linear-gradient(to top, rgba(12,12,12,0.92) 0%, rgba(15,15,15,0.48) 50%, rgba(15,15,15,0.06) 100%), url("${cat.image}")`,
+                    minHeight: '440px',
+                    borderRadius: '24px',
+                    border: '1px solid rgba(255,255,255,0.15)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     cursor: 'pointer',
-                    padding: '2rem',
+                    padding: '2.25rem 2rem',
                     display: 'flex',
                     alignItems: 'flex-end',
                     textAlign: 'left',
-                    boxShadow: '0 12px 30px rgba(0,0,0,0.12)',
-                    transition: 'all 0.3s ease',
+                    boxShadow: '0 16px 36px rgba(0,0,0,0.12)',
+                    transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
                   className="calc-cat-large"
                 >
                   <div style={styles.catCardContent}>
                     <div style={styles.catCardIconWrapper} className="calc-cat-icon-wrapper">
-                      <Icon size={34} color="#C5A880" />
+                      <Icon size={26} color="#FFFFFF" strokeWidth={2} />
                     </div>
-                    <h3 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#fff', marginBottom: '0.4rem', fontFamily: 'var(--font-heading)' }}>
+                    <h3 style={{ fontSize: '1.65rem', fontWeight: 700, color: '#fff', marginBottom: '0.4rem', fontFamily: 'var(--font-heading)' }}>
                       {cat.label}
                     </h3>
-                    <p style={{ fontSize: '0.92rem', color: 'rgba(255,255,255,0.8)', margin: 0, lineHeight: 1.5 }}>
+                    <p style={{ fontSize: '0.92rem', color: 'rgba(255,255,255,0.85)', margin: 0, lineHeight: 1.45 }}>
                       {cat.description}
                     </p>
                   </div>
@@ -208,7 +209,7 @@ export default function CostCalculator() {
         </div>
       ) : activeCat === 'office' ? (
         <div style={{ padding: '2rem' }}>
-          <button onClick={() => setViewStep(1)} style={styles.backBtnPill}>
+          <button onClick={() => { setViewStep(1); window.scrollTo({ top: 0, behavior: 'smooth' }); }} style={styles.backBtnPill} className="calc-back-pill">
             <ChevronLeft size={16} />
             <span>Back to Categories</span>
           </button>
@@ -274,7 +275,7 @@ export default function CostCalculator() {
                 
                 {/* Back to Categories Button */}
                 <button
-                  onClick={() => setViewStep(1)}
+                  onClick={() => { setViewStep(1); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   style={styles.backBtnPill}
                   className="calc-back-pill"
                 >
@@ -775,7 +776,24 @@ const styles = {
   categoryStepContainer: {
     maxWidth: '1300px',
     margin: '0 auto',
-    padding: '3rem 2rem 5rem',
+    padding: '2.5rem 2rem 5rem',
+  },
+
+  backBtnPill: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '8px 18px',
+    borderRadius: '9999px',
+    backgroundColor: '#FFFFFF',
+    border: '1px solid #E5E7EB',
+    color: '#1F2937',
+    fontSize: '0.85rem',
+    fontWeight: 600,
+    cursor: 'pointer',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
+    transition: 'all 0.2s ease',
+    marginBottom: '1.5rem',
   },
 
   /* ── Hero Section ── */
@@ -1571,12 +1589,12 @@ const styles = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '60px',
-    height: '60px',
-    borderRadius: '14px',
-    backgroundColor: 'rgba(255, 255, 255, 0.12)',
-    backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(255, 255, 255, 0.25)',
-    marginBottom: '1.25rem',
+    width: '48px',
+    height: '48px',
+    borderRadius: '12px',
+    backgroundColor: 'rgba(255, 255, 255, 0.16)',
+    backdropFilter: 'blur(10px)',
+    border: '1px solid rgba(255, 255, 255, 0.28)',
+    marginBottom: '1rem',
   },
 };
