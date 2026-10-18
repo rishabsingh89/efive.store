@@ -1,109 +1,188 @@
 import React from 'react';
-import { Home, Briefcase, Coffee, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Home,
+  Building2,
+  Coffee,
+  ArrowRight,
+  Play,
+  PenTool,
+  ShieldCheck,
+  Clock,
+  Headphones,
+} from 'lucide-react';
 import { openWhatsAppInteriorInquiry } from '../whatsapp';
 
-// Inline WhatsApp icon
-function WhatsAppIcon({ size = 16 }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-    </svg>
-  );
-}
-
 export default function InteriorSection() {
+  const navigate = useNavigate();
+
   const services = [
     {
       id: 'apartment',
       name: 'Apartment Interior',
-      image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80',
-      description: 'Turn your apartment into a sanctuary. We craft bespoke living rooms, space-maximizing modular kitchens, and elegant bedroom retreats.',
+      image: '/images/card_apartment_lux.jpg',
+      description:
+        'Turn your apartment into a sanctuary with bespoke designs and space-saving solutions.',
       icon: Home,
-      bullets: ['Bespoke Living', 'Modular Kitchen', 'Luxury Bedrooms', 'Custom Wardrobes'],
+      bullets: ['Bespoke Living', 'Modular Kitchen', 'Custom Wardrobes'],
+      targetCat: 'apartment',
     },
     {
       id: 'office',
       name: 'Office Interior',
-      image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80',
-      description: 'Boost productivity and inspire collaboration. From ergonomic desk layouts to modern executive cabins and lounge spaces.',
-      icon: Briefcase,
-      bullets: ['Ergonomic Desking', 'Collaboration Hubs', 'Executive Cabins', 'Lounge & Reception'],
+      image: '/images/card_office_lux.jpg',
+      description:
+        'Boost productivity with modern, functional and elegant workspaces for your team.',
+      icon: Building2,
+      bullets: ['Ergonomic Desking', 'Executive Cabins', 'Collaboration Hubs'],
+      targetCat: 'office',
     },
     {
       id: 'cafe-restaurant',
       name: 'Cafe Restaurant Interior',
-      image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80',
-      description: 'Create an unforgettable experience for your guests. We design mood lighting, theme concepts, and space-optimized seating plans.',
+      image: '/images/card_cafe_lux.jpg',
+      description:
+        'Create unforgettable dining experiences with unique themes and mood lighting.',
       icon: Coffee,
-      bullets: ['Concept Branding', 'Theme Lighting', 'Space Optimizing', 'Bar & Counter Designs'],
+      bullets: ['Theme Lighting', 'Space Optimizing', 'Bar & Counter Designs'],
+      targetCat: 'cafe',
     },
   ];
 
+  const trustItems = [
+    {
+      icon: PenTool,
+      title: 'Custom Designs',
+      desc: 'Tailored to your lifestyle',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Premium Materials',
+      desc: 'Quality that lasts',
+    },
+    {
+      icon: Clock,
+      title: 'On-Time Delivery',
+      desc: 'Hassle-free experience',
+    },
+    {
+      icon: Headphones,
+      title: 'End-to-End Support',
+      desc: 'From concept to completion',
+    },
+  ];
+
+  const handleCardClick = (targetCat) => {
+    navigate('/calculate-cost', { state: { category: targetCat } });
+  };
+
+  const scrollToServices = () => {
+    const el = document.getElementById('lux-services-dock');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section style={styles.section}>
-      <div className="container">
-        {/* Section Header */}
-        <div style={styles.header}>
-          <span style={styles.tag}>TAILORED SPACE DESIGN</span>
-          <h2 style={styles.title}>Luxury Interior Solutions</h2>
-          <p style={styles.subtitle}>
-            We design spaces that inspire. Tailored layouts, curated materials, and flawless execution for your home, workspace, or commercial venue.
-          </p>
+    <section className="lux-interiors-wrapper">
+      {/* ─── Hero Section with Rich Terracotta Architectural Background ─── */}
+      <div className="lux-hero-banner">
+        <div className="lux-hero-bg-overlay" />
+
+        {/* Top Floating "Get a Quote" Button */}
+        <div className="lux-hero-top-bar">
+          <button
+            onClick={() => openWhatsAppInteriorInquiry('Luxury Interior Consultation')}
+            className="lux-quote-pill-btn"
+          >
+            <span>Get a Quote</span>
+            <ArrowRight size={14} />
+          </button>
         </div>
 
-        {/* Services Grid */}
-        <div className="interior-grid">
+        {/* Hero Left Content & Arch Calligraphy */}
+        <div className="lux-hero-content-row">
+          <div className="lux-hero-text-col">
+            <span className="lux-hero-badge">LUXURY INTERIOR SOLUTIONS</span>
+            <h2 className="lux-hero-title">
+              Inspired<br />
+              Interiors<br />
+              for Every Space
+            </h2>
+            <p className="lux-hero-sub">
+              From cozy homes to dynamic workplaces and vibrant cafes,
+              we craft interiors that reflect your vision, lifestyle, and soul.
+            </p>
+
+            <div className="lux-hero-cta-group">
+              <button onClick={scrollToServices} className="lux-cta-primary-btn">
+                <span>Explore Our Services</span>
+                <ArrowRight size={15} />
+              </button>
+
+              <button
+                onClick={() => openWhatsAppInteriorInquiry('Watch Our Story & Portfolio Inquiry')}
+                className="lux-story-btn"
+              >
+                <div className="lux-play-circle">
+                  <Play size={14} fill="#FFFFFF" color="#FFFFFF" style={{ marginLeft: 2 }} />
+                </div>
+                <span>Watch Our Story</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Arch Cursive Script Accent */}
+          <div className="lux-arch-script-wrapper">
+            <span className="lux-cursive-accent">Interiors with a Soul</span>
+          </div>
+        </div>
+
+        {/* ─── 3 Floating Horizontal Cards Dock ─── */}
+        <div id="lux-services-dock" className="lux-cards-dock">
           {services.map((service) => {
-            const IconComponent = service.icon;
+            const Icon = service.icon;
             return (
-              <div key={service.id} className="interior-card" style={styles.card}>
-                {/* Image Wrapper */}
-                <div className="interior-img-wrapper" style={styles.imageSection}>
+              <div
+                key={service.id}
+                onClick={() => handleCardClick(service.targetCat)}
+                className="lux-service-card"
+                role="button"
+                tabIndex={0}
+              >
+                {/* Image Section */}
+                <div className="lux-card-img-box">
                   <img
                     src={service.image}
                     alt={service.name}
-                    style={styles.image}
-                    className="interior-image"
+                    className="lux-card-img"
                   />
-                  <div style={styles.overlay} />
+                  <div className="lux-card-img-gradient" />
                   
-                  {/* Category Float Badge */}
-                  <div style={styles.badge}>
-                    <IconComponent size={18} style={styles.badgeIcon} />
+                  {/* Floating White Icon Box on top-left of image */}
+                  <div className="lux-card-icon-box">
+                    <Icon size={18} color="#1E1D1B" strokeWidth={2.4} />
                   </div>
                 </div>
 
-                {/* Card Content */}
-                <div style={styles.details}>
-                  <h3 style={styles.cardTitle}>{service.name}</h3>
-                  <p style={styles.cardDesc}>{service.description}</p>
+                {/* Content Section */}
+                <div className="lux-card-body">
+                  <div className="lux-card-header-row">
+                    <h3 className="lux-card-title">{service.name}</h3>
+                    {/* Floating circular arrow button */}
+                    <div className="lux-circle-arrow-btn">
+                      <ArrowRight size={15} color="#1E1D1B" strokeWidth={2.4} />
+                    </div>
+                  </div>
 
-                  {/* Bullet Tags Grid */}
-                  <div style={styles.tagsContainer}>
+                  <p className="lux-card-desc">{service.description}</p>
+
+                  {/* Pills / Tags */}
+                  <div className="lux-card-tags">
                     {service.bullets.map((bullet) => (
-                      <span key={bullet} style={styles.tagBadge}>
+                      <span key={bullet} className="lux-tag-pill">
                         {bullet}
                       </span>
                     ))}
                   </div>
-
-                  {/* CTA Consultation Button */}
-                  <button
-                    onClick={() => openWhatsAppInteriorInquiry(service.name)}
-                    style={styles.ctaBtn}
-                    className="interior-cta-btn"
-                  >
-                    <WhatsAppIcon size={16} />
-                    <span style={styles.ctaText}>Consult Design</span>
-                    <ArrowRight size={14} className="arrow-icon" style={styles.arrow} />
-                  </button>
                 </div>
               </div>
             );
@@ -111,203 +190,601 @@ export default function InteriorSection() {
         </div>
       </div>
 
-      {/* Hover & Responsiveness Styles */}
+      {/* ─── Bottom Trust & Value Bar with Terracotta Wave Card ─── */}
+      <div className="lux-trust-banner-container">
+        <div className="lux-trust-banner">
+          {/* Left: 4 Trust Value Props */}
+          <div className="lux-trust-items-grid">
+            {trustItems.map((item, idx) => {
+              const ItemIcon = item.icon;
+              return (
+                <div key={idx} className="lux-trust-item">
+                  <div className="lux-trust-icon-box">
+                    <ItemIcon size={19} color="#8F3C12" strokeWidth={2} />
+                  </div>
+                  <div className="lux-trust-text">
+                    <h4 className="lux-trust-title">{item.title}</h4>
+                    <p className="lux-trust-desc">{item.desc}</p>
+                  </div>
+                  {idx < trustItems.length - 1 && <div className="lux-trust-divider" />}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Right: Terracotta Wave Banner Card */}
+          <div className="lux-contact-wave-card">
+            <div className="lux-wave-content">
+              <span className="lux-wave-title">Let's Create Your Dream Space</span>
+              <button
+                onClick={() => openWhatsAppInteriorInquiry('Dream Space Direct Inquiry')}
+                className="lux-wave-btn"
+              >
+                <span>Contact Us</span>
+                <ArrowRight size={13} />
+              </button>
+            </div>
+
+            {/* Subtle decorative leaf silhouette */}
+            <svg
+              className="lux-leaf-bg"
+              viewBox="0 0 120 120"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 110C35 80 50 40 110 10C80 50 70 85 10 110Z"
+                stroke="rgba(255,255,255,0.18)"
+                strokeWidth="1.5"
+              />
+              <path
+                d="M30 90C45 70 55 45 90 25"
+                stroke="rgba(255,255,255,0.14)"
+                strokeWidth="1.2"
+              />
+              <path
+                d="M45 78C60 62 75 42 105 22"
+                stroke="rgba(255,255,255,0.14)"
+                strokeWidth="1.2"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Stylesheet ─── */}
       <style>{`
-        .interior-grid {
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Caveat:wght@500;600;700&display=swap');
+
+        .lux-interiors-wrapper {
+          width: 100%;
+          position: relative;
+          background-color: #FAF8F5;
+          overflow: hidden;
+        }
+
+        .lux-hero-banner {
+          position: relative;
+          width: 100%;
+          min-height: 820px;
+          background-image: url('/images/inspired_interiors_bg.jpg');
+          background-size: cover;
+          background-position: center top;
+          background-repeat: no-repeat;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 2rem 3.5rem 2.5rem;
+        }
+
+        .lux-hero-bg-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to right,
+            rgba(130, 52, 17, 0.72) 0%,
+            rgba(130, 52, 17, 0.45) 42%,
+            rgba(130, 52, 17, 0.15) 75%,
+            rgba(0, 0, 0, 0.05) 100%
+          );
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .lux-hero-top-bar {
+          position: relative;
+          z-index: 5;
+          display: flex;
+          justify-content: flex-end;
+          width: 100%;
+        }
+
+        .lux-quote-pill-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background-color: #FFFFFF;
+          color: #1E1D1B;
+          border: none;
+          border-radius: 9999px;
+          padding: 10px 22px;
+          font-family: var(--font-body);
+          font-size: 0.85rem;
+          font-weight: 700;
+          cursor: pointer;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lux-quote-pill-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+          background-color: #FDFBF7;
+        }
+
+        .lux-hero-content-row {
+          position: relative;
+          z-index: 5;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 1rem;
+          margin-bottom: 2.5rem;
+        }
+
+        .lux-hero-text-col {
+          max-width: 580px;
+        }
+
+        .lux-hero-badge {
+          display: inline-block;
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.22em;
+          color: #F8EFE6;
+          text-transform: uppercase;
+          margin-bottom: 1.25rem;
+          opacity: 0.95;
+        }
+
+        .lux-hero-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(2.8rem, 4.8vw, 4.5rem);
+          font-weight: 600;
+          color: #FFFDF9;
+          line-height: 1.08;
+          letter-spacing: -0.015em;
+          margin-bottom: 1.25rem;
+          text-shadow: 0 2px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        .lux-hero-sub {
+          font-family: var(--font-body);
+          font-size: 0.98rem;
+          color: rgba(255, 252, 248, 0.9);
+          line-height: 1.65;
+          margin-bottom: 2rem;
+          max-width: 520px;
+          text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .lux-hero-cta-group {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          flex-wrap: wrap;
+        }
+
+        .lux-cta-primary-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          background-color: #FFFFFF;
+          color: #1E1D1B;
+          border: none;
+          border-radius: 9999px;
+          padding: 13px 28px;
+          font-family: var(--font-body);
+          font-size: 0.88rem;
+          font-weight: 700;
+          cursor: pointer;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lux-cta-primary-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+          background-color: #FAF7F2;
+        }
+
+        .lux-story-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          background: transparent;
+          border: none;
+          color: #FFFFFF;
+          font-family: var(--font-body);
+          font-size: 0.92rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .lux-story-btn:hover {
+          opacity: 0.88;
+          transform: translateX(2px);
+        }
+
+        .lux-play-circle {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(255, 255, 255, 0.85);
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.25s ease;
+        }
+        .lux-story-btn:hover .lux-play-circle {
+          background: rgba(255, 255, 255, 0.3);
+          transform: scale(1.08);
+        }
+
+        /* Archway Cursive Accent on Right */
+        .lux-arch-script-wrapper {
+          position: relative;
+          padding-right: 3rem;
+          pointer-events: none;
+        }
+
+        .lux-cursive-accent {
+          font-family: 'Caveat', cursive;
+          font-size: clamp(2rem, 3.2vw, 3rem);
+          color: #381507;
+          display: block;
+          transform: rotate(-7deg);
+          letter-spacing: 0.02em;
+          text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+          font-weight: 700;
+        }
+
+        /* ─── 3 Floating Cards Dock ─── */
+        .lux-cards-dock {
+          position: relative;
+          z-index: 6;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 2.25rem;
+          gap: 1.75rem;
+          width: 100%;
+          margin-top: 1rem;
         }
 
-        @media (max-width: 1024px) {
-          .interior-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+        .lux-service-card {
+          background: rgba(20, 16, 14, 0.72);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+          cursor: pointer;
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          display: flex;
+          flex-direction: column;
+        }
+        .lux-service-card:hover {
+          transform: translateY(-6px);
+          background: rgba(20, 16, 14, 0.85);
+          border-color: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+        }
+
+        .lux-card-img-box {
+          position: relative;
+          width: 100%;
+          height: 200px;
+          overflow: hidden;
+        }
+
+        .lux-card-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lux-service-card:hover .lux-card-img {
+          transform: scale(1.05);
+        }
+
+        .lux-card-img-gradient {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(20, 16, 14, 0.6) 100%
+          );
+        }
+
+        .lux-card-icon-box {
+          position: absolute;
+          top: 14px;
+          left: 14px;
+          width: 38px;
+          height: 38px;
+          border-radius: 10px;
+          background-color: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          z-index: 2;
+        }
+
+        .lux-card-body {
+          padding: 1.4rem 1.5rem 1.6rem;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+        }
+
+        .lux-card-header-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+        }
+
+        .lux-card-title {
+          font-family: var(--font-heading);
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0;
+          letter-spacing: -0.01em;
+        }
+
+        .lux-circle-arrow-btn {
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          background-color: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: transform 0.25s ease, background-color 0.25s ease;
+        }
+        .lux-service-card:hover .lux-circle-arrow-btn {
+          transform: translateX(3px) scale(1.06);
+          background-color: #FAF5EE;
+        }
+
+        .lux-card-desc {
+          font-family: var(--font-body);
+          font-size: 0.84rem;
+          color: rgba(255, 255, 255, 0.78);
+          line-height: 1.5;
+          margin: 0 0 1.25rem 0;
+          flex-grow: 1;
+        }
+
+        .lux-card-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
+
+        .lux-tag-pill {
+          background-color: #FFFFFF;
+          color: #1E1D1B;
+          border-radius: 9999px;
+          padding: 5px 12px;
+          font-size: 0.72rem;
+          font-weight: 600;
+          white-space: nowrap;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          transition: background-color 0.2s ease;
+        }
+
+        /* ─── Bottom Trust Banner ─── */
+        .lux-trust-banner-container {
+          width: 100%;
+          padding: 1.5rem 3.5rem 2.5rem;
+          background-color: #FAF8F5;
+        }
+
+        .lux-trust-banner {
+          background-color: #FFFFFF;
+          border-radius: 20px;
+          border: 1px solid #ECE7DE;
+          box-shadow: 0 10px 30px rgba(30, 29, 27, 0.05);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          overflow: hidden;
+        }
+
+        .lux-trust-items-grid {
+          display: flex;
+          align-items: center;
+          flex-grow: 1;
+          padding: 1.25rem 2rem;
+          gap: 1.5rem;
+        }
+
+        .lux-trust-item {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          position: relative;
+          flex: 1;
+        }
+
+        .lux-trust-icon-box {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background-color: #FAF1E8;
+          border: 1px solid #ECDCCB;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .lux-trust-text {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .lux-trust-title {
+          font-family: var(--font-heading);
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #1E1D1B;
+          margin: 0 0 2px 0;
+          line-height: 1.2;
+        }
+
+        .lux-trust-desc {
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          color: #78716C;
+          margin: 0;
+          line-height: 1.3;
+          white-space: nowrap;
+        }
+
+        .lux-trust-divider {
+          position: absolute;
+          right: -12px;
+          top: 15%;
+          height: 70%;
+          width: 1px;
+          background-color: #EFE9E0;
+        }
+
+        /* Right Terracotta Wave Card */
+        .lux-contact-wave-card {
+          position: relative;
+          background: linear-gradient(135deg, #A2491F 0%, #83350F 100%);
+          padding: 1.25rem 2.25rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          min-width: 320px;
+          align-self: stretch;
+          border-top-left-radius: 40px;
+          border-bottom-left-radius: 40px;
+        }
+
+        .lux-wave-content {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        .lux-wave-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 1.05rem;
+          font-weight: 600;
+          color: #FFFFFF;
+          letter-spacing: -0.01em;
+        }
+
+        .lux-wave-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background-color: #FFFFFF;
+          color: #8F3C12;
+          border: none;
+          border-radius: 9999px;
+          padding: 6px 16px;
+          font-family: var(--font-body);
+          font-size: 0.78rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .lux-wave-btn:hover {
+          transform: translateX(2px);
+          background-color: #FAF5EE;
+        }
+
+        .lux-leaf-bg {
+          position: absolute;
+          right: -10px;
+          bottom: -15px;
+          width: 90px;
+          height: 90px;
+          pointer-events: none;
+          opacity: 0.6;
+        }
+
+        /* ── Responsive Queries ── */
+        @media (max-width: 1200px) {
+          .lux-hero-banner {
+            padding: 2rem 2rem 2rem;
+          }
+          .lux-trust-banner-container {
+            padding: 1rem 2rem 2rem;
+          }
+          .lux-cards-dock {
+            gap: 1.25rem;
           }
         }
 
-        @media (max-width: 768px) {
-          .interior-grid {
+        @media (max-width: 992px) {
+          .lux-cards-dock {
+            grid-template-columns: 1fr;
+          }
+          .lux-trust-banner {
+            flex-direction: column;
+          }
+          .lux-trust-items-grid {
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            width: 100%;
+          }
+          .lux-trust-divider {
+            display: none;
+          }
+          .lux-contact-wave-card {
+            width: 100%;
+            border-radius: 0;
+            padding: 1.5rem;
+          }
+          .lux-arch-script-wrapper {
+            display: none;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .lux-hero-banner {
+            padding: 1.5rem 1.25rem;
+          }
+          .lux-hero-title {
+            font-size: 2.4rem;
+          }
+          .lux-trust-banner-container {
+            padding: 1rem 1.25rem 2rem;
+          }
+          .lux-trust-items-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
+            padding: 1.25rem;
           }
-          .interior-card {
-            min-width: auto;
-          }
-        }
-
-        .interior-card {
-          transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .interior-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 16px 36px rgba(30, 29, 27, 0.08);
-          border-color: #C5A880 !important;
-        }
-
-        .interior-card:hover .interior-image {
-          transform: scale(1.06);
-        }
-
-        .interior-cta-btn {
-          position: relative;
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-
-        .interior-card:hover .interior-cta-btn {
-          background-color: #C5A880 !important;
-          color: #ffffff !important;
-          border-color: #C5A880 !important;
-        }
-
-        .interior-card:hover .arrow-icon {
-          transform: translateX(4px);
         }
       `}</style>
     </section>
   );
 }
-
-const styles = {
-  section: {
-    padding: '5rem 0 3rem 0',
-    backgroundColor: 'transparent', // Inherit lighter green background
-    borderBottom: '1px solid rgba(197, 168, 128, 0.15)',
-  },
-  header: {
-    textAlign: 'center',
-    marginBottom: '3.5rem',
-    maxWidth: '700px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  tag: {
-    fontSize: '0.75rem',
-    fontWeight: 600,
-    letterSpacing: '0.2em',
-    color: '#C5A880', // Matches primary-color
-    marginBottom: '0.75rem',
-    display: 'block',
-  },
-  title: {
-    fontFamily: 'var(--font-heading)',
-    fontSize: '2.5rem',
-    fontWeight: 600,
-    color: '#1E1D1B',
-    marginBottom: '1rem',
-    lineHeight: 1.2,
-  },
-  subtitle: {
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.95rem',
-    color: '#706D67',
-    lineHeight: 1.6,
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    border: '1px solid #E6E2DA', // Matches border-color
-    borderRadius: 'var(--radius-lg)',
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'relative',
-    height: '100%',
-  },
-  imageSection: {
-    height: '240px',
-    position: 'relative',
-    overflow: 'hidden',
-    backgroundColor: '#F5F2EA', // Matches card-bg
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-  },
-  overlay: {
-    position: 'absolute',
-    inset: 0,
-    background: 'linear-gradient(to bottom, rgba(30,29,27,0) 50%, rgba(30,29,27,0.3) 100%)',
-    pointerEvents: 'none',
-  },
-  badge: {
-    position: 'absolute',
-    top: '1rem',
-    right: '1rem',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    width: '38px',
-    height: '38px',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-    zIndex: 10,
-  },
-  badgeIcon: {
-    color: '#C5A880',
-  },
-  details: {
-    padding: '1.75rem',
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1,
-  },
-  cardTitle: {
-    fontFamily: 'var(--font-heading)',
-    fontSize: '1.35rem',
-    fontWeight: 600,
-    color: '#1E1D1B',
-    marginBottom: '0.75rem',
-  },
-  cardDesc: {
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.875rem',
-    color: '#706D67',
-    lineHeight: 1.6,
-    marginBottom: '1.25rem',
-  },
-  tagsContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '0.5rem',
-    marginBottom: '2rem',
-  },
-  tagBadge: {
-    fontSize: '0.75rem',
-    fontWeight: 500,
-    color: '#706D67',
-    backgroundColor: '#F5F2EA',
-    padding: '0.3rem 0.75rem',
-    borderRadius: '30px',
-    border: '1px solid rgba(197, 168, 128, 0.1)',
-  },
-  ctaBtn: {
-    marginTop: 'auto',
-    width: '100%',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.6rem',
-    padding: '0.8rem 1.5rem',
-    backgroundColor: 'transparent',
-    border: '1px solid #E6E2DA',
-    borderRadius: 'var(--radius-md)',
-    color: '#1E1D1B',
-    fontSize: '0.85rem',
-    fontWeight: 600,
-    textTransform: 'uppercase',
-    letterSpacing: '0.05em',
-    cursor: 'pointer',
-  },
-  ctaText: {
-    fontFamily: 'var(--font-body)',
-  },
-  arrow: {
-    transition: 'transform 0.25s ease',
-  },
-};
