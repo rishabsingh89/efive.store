@@ -89,8 +89,8 @@ export default function InteriorSection() {
       <style>{`
         .lux-section-wrapper {
           width: 100%;
-          background-color: #FAF8F5;
-          padding: 1.5rem 1rem 2.5rem;
+          background-color: transparent;
+          padding: 1.5rem 0.5rem 2.5rem;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -98,8 +98,8 @@ export default function InteriorSection() {
         }
 
         .lux-container {
-          width: 100%;
-          max-width: 1360px;
+          width: 96%;
+          max-width: 1480px;
           margin: 0 auto;
           display: flex;
           justify-content: center;
@@ -109,7 +109,6 @@ export default function InteriorSection() {
           position: relative;
           width: 100%;
           aspect-ratio: 16 / 9;
-          max-height: calc(100vh - 90px);
           border-radius: 20px;
           overflow: hidden;
           box-shadow: 0 16px 48px rgba(30, 29, 27, 0.12), 0 4px 16px rgba(30, 29, 27, 0.06);
