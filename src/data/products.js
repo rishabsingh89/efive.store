@@ -837,7 +837,7 @@ export const products = [
 export const getProducts = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v33');
+      const stored = localStorage.getItem('efive_products_v37');
       const deletedIds = JSON.parse(localStorage.getItem('efive_deleted_products') || '[]');
 
       if (stored) {
@@ -878,12 +878,12 @@ export const getProducts = () => {
         });
 
         const merged = Array.from(map.values());
-        localStorage.setItem('efive_products_v33', JSON.stringify(merged));
+        localStorage.setItem('efive_products_v37', JSON.stringify(merged));
         return merged;
       }
       
       const combined = products.filter(p => !deletedIds.includes(p.id));
-      localStorage.setItem('efive_products_v33', JSON.stringify(combined));
+      localStorage.setItem('efive_products_v37', JSON.stringify(combined));
       return combined;
     }
   } catch (e) {
@@ -895,7 +895,7 @@ export const getProducts = () => {
 export const saveProducts = (updatedProducts) => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_products_v33');
+      const stored = localStorage.getItem('efive_products_v37');
       if (stored) {
         const parsedStored = JSON.parse(stored);
         const updatedIds = updatedProducts.map(p => p.id);
@@ -912,7 +912,7 @@ export const saveProducts = (updatedProducts) => {
         }
       }
 
-      localStorage.setItem('efive_products_v33', JSON.stringify(updatedProducts));
+      localStorage.setItem('efive_products_v37', JSON.stringify(updatedProducts));
       
       window.dispatchEvent(new CustomEvent('efive_products_updated', { detail: updatedProducts }));
       window.dispatchEvent(new CustomEvent('efive_cms_updated', { detail: { products: updatedProducts } }));
@@ -931,11 +931,11 @@ export const saveProducts = (updatedProducts) => {
 export const getCategories = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_categories_v33');
+      const stored = localStorage.getItem('efive_categories_v37');
       if (stored) {
         return JSON.parse(stored);
       }
-      localStorage.setItem('efive_categories_v33', JSON.stringify(categories));
+      localStorage.setItem('efive_categories_v37', JSON.stringify(categories));
     }
   } catch (e) {
     console.error('Could not load categories', e);
@@ -946,7 +946,7 @@ export const getCategories = () => {
 export const saveCategories = (updatedCategories) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_categories_v33', JSON.stringify(updatedCategories));
+      localStorage.setItem('efive_categories_v37', JSON.stringify(updatedCategories));
       window.dispatchEvent(new CustomEvent('efive_categories_updated', { detail: updatedCategories }));
       window.dispatchEvent(new CustomEvent('efive_cms_updated', { detail: { categories: updatedCategories } }));
 
@@ -964,11 +964,11 @@ export const saveCategories = (updatedCategories) => {
 export const getHeroCMS = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_hero_cms_v33');
+      const stored = localStorage.getItem('efive_hero_cms_v37');
       if (stored) {
         return JSON.parse(stored);
       }
-      localStorage.setItem('efive_hero_cms_v33', JSON.stringify(initialHeroCMS));
+      localStorage.setItem('efive_hero_cms_v37', JSON.stringify(initialHeroCMS));
     }
   } catch (e) {
     console.error('Could not load hero CMS', e);
@@ -979,7 +979,7 @@ export const getHeroCMS = () => {
 export const saveHeroCMS = (updatedHero) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_hero_cms_v33', JSON.stringify(updatedHero));
+      localStorage.setItem('efive_hero_cms_v37', JSON.stringify(updatedHero));
       window.dispatchEvent(new CustomEvent('efive_hero_updated', { detail: updatedHero }));
       window.dispatchEvent(new CustomEvent('efive_cms_updated', { detail: { heroCMS: updatedHero } }));
 
