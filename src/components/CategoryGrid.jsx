@@ -96,7 +96,7 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     marginBottom: '2rem',
-    borderBottom: '1px solid rgba(197, 168, 128, 0.25)',
+    borderBottom: '1px solid rgba(212, 180, 131, 0.25)',
     paddingBottom: '1rem',
     flexWrap: 'wrap',
     gap: '1rem',
@@ -108,13 +108,13 @@ const styles = {
     fontFamily: 'var(--font-heading)',
     fontSize: '2rem',
     fontWeight: 600,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     marginBottom: '0.25rem',
   },
   subtitle: {
     fontFamily: 'var(--font-body)',
     fontSize: '0.9rem',
-    color: '#706D67',
+    color: '#4A6350',
     fontWeight: 400,
   },
   resetBtn: {
@@ -123,19 +123,19 @@ const styles = {
     gap: '0.5rem',
     padding: '0.6rem 1.2rem',
     backgroundColor: '#ffffff',
-    border: '1px solid #E6E2DA',
+    border: '1px solid #B5C8B6',
     borderRadius: '20px',
-    color: '#706D67',
+    color: '#4A6350',
     fontSize: '0.85rem',
     fontWeight: 600,
     cursor: 'pointer',
     transition: 'all 0.25s ease',
   },
   resetBtnActive: {
-    backgroundColor: '#C5A880',
-    borderColor: '#C5A880',
+    backgroundColor: '#D4B483',
+    borderColor: '#D4B483',
     color: '#ffffff',
-    boxShadow: '0 4px 10px rgba(197, 168, 128, 0.25)',
+    boxShadow: '0 4px 10px rgba(212, 180, 131, 0.25)',
   },
   imageContainer: {
     position: 'relative',
@@ -156,7 +156,7 @@ const styles = {
   activeOverlay: {
     position: 'absolute',
     inset: 0,
-    backgroundColor: 'rgba(197, 168, 128, 0.2)',
+    backgroundColor: 'rgba(212, 180, 131, 0.2)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -168,7 +168,7 @@ const styles = {
   labelPanel: {
     width: '100%',
     padding: '0.85rem 0.5rem',
-    backgroundColor: '#1E1D1B', // Consistent dark footer panel inside card
+    backgroundColor: '#2F3E34', // Consistent dark footer panel inside card
     borderTop: '1px solid rgba(255, 255, 255, 0.05)',
     textAlign: 'center',
   },

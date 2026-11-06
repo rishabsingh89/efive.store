@@ -63,7 +63,7 @@ export const QUALITY_LEVELS = {
       id: 'premium',
       label: 'Premium',
       ratePerSqft: 1800,
-      color: '#C5A880',
+      color: '#D4B483',
       specs: [
         'Veneer & lacquer cabinetry',
         'Vitrified / porcelain flooring',
@@ -101,7 +101,7 @@ export const QUALITY_LEVELS = {
       id: 'premium',
       label: 'Premium',
       ratePerSqft: 2200,
-      color: '#C5A880',
+      color: '#D4B483',
       specs: [
         'Glass cabin partitions',
         'Engineered wood flooring',
@@ -139,7 +139,7 @@ export const QUALITY_LEVELS = {
       id: 'premium',
       label: 'Premium',
       ratePerSqft: 2600,
-      color: '#C5A880',
+      color: '#D4B483',
       specs: [
         'Custom bar & display counter',
         'Wooden plank flooring',

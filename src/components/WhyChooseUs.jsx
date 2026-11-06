@@ -158,7 +158,7 @@ const styles = {
   },
   premiumCard: {
     border: '1px solid hsl(var(--primary-color))',
-    backgroundColor: 'rgba(197, 168, 128, 0.03)',
+    backgroundColor: 'rgba(212, 180, 131, 0.03)',
   },
   badge: {
     position: 'absolute',

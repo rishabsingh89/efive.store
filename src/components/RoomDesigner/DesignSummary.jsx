@@ -33,7 +33,7 @@ export default function DesignSummary({ onClose }) {
       {!isOpen ? (
         <button onClick={() => setIsOpen(true)} style={styles.summaryBar} className="rd-summary-bar">
           <div style={styles.summaryLeft}>
-            <Receipt size={18} style={{ color: '#C5A880' }} />
+            <Receipt size={18} style={{ color: '#D4B483' }} />
             <div style={styles.summaryInfo}>
               <span style={styles.summaryTitle}>Your Room</span>
               <span style={styles.summaryCount}>{furnitureList.length} items</span>
@@ -46,7 +46,7 @@ export default function DesignSummary({ onClose }) {
         <div style={onClose ? { ...styles.panel, height: '100%', maxHeight: 'none', border: 'none', borderRadius: 0 } : styles.panel}>
           <div style={styles.header}>
             <div style={styles.headerLeft}>
-              <Receipt size={16} style={{ color: '#C5A880' }} />
+              <Receipt size={16} style={{ color: '#D4B483' }} />
               <h4 style={styles.title}>Room Summary</h4>
             </div>
             <button onClick={() => { setIsOpen(false); if (onClose) onClose(); }} style={styles.closeBtn}>
@@ -288,8 +288,8 @@ const styles = {
     backgroundColor: '#fff',
   },
   saveBtn: {
-    backgroundColor: '#C5A880',
-    borderColor: '#C5A880',
+    backgroundColor: '#D4B483',
+    borderColor: '#D4B483',
     color: '#fff',
   },
   confirmBox: {

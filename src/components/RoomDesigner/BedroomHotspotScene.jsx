@@ -156,7 +156,7 @@ export default function BedroomHotspotScene({
           position: 'relative',
           borderRadius: isCompact ? '12px' : '0px',
           overflow: 'hidden',
-          backgroundColor: '#1E1D1B',
+          backgroundColor: '#2F3E34',
           cursor: isCompact ? 'pointer' : 'default'
         }}
         onClick={isCompact ? handleOpenProduct : undefined}
@@ -172,7 +172,7 @@ export default function BedroomHotspotScene({
         {!isCompact && (
           <div style={styles.topBadgeBar}>
             <div style={styles.badgePill}>
-              <Sparkles size={14} style={{ color: '#C5A880' }} />
+              <Sparkles size={14} style={{ color: '#D4B483' }} />
               <span>Interactive 3D Bedroom • Touch Decor to Shop</span>
             </div>
           </div>
@@ -373,7 +373,7 @@ const styles = {
     borderRadius: '20px',
     fontSize: '0.8rem',
     fontWeight: 600,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
   },
   expandBtn: {
@@ -419,7 +419,7 @@ const styles = {
     borderRadius: '14px',
     padding: '14px',
     boxShadow: '0 12px 32px rgba(0,0,0,0.3)',
-    border: '1px solid rgba(197, 168, 128, 0.4)',
+    border: '1px solid rgba(212, 180, 131, 0.4)',
   },
   popoverHeader: {
     display: 'flex',
@@ -463,7 +463,7 @@ const styles = {
   productName: {
     fontSize: '0.82rem',
     fontWeight: 700,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     margin: '0 0 3px 0',
     lineHeight: 1.25,
   },
@@ -475,7 +475,7 @@ const styles = {
   price: {
     fontSize: '0.95rem',
     fontWeight: 800,
-    color: '#1E1D1B',
+    color: '#2F3E34',
   },
   origPrice: {
     fontSize: '0.75rem',
@@ -486,7 +486,7 @@ const styles = {
     fontSize: '0.65rem',
     fontWeight: 700,
     color: '#2e7d32',
-    backgroundColor: '#e8f5e9',
+    backgroundColor: '#C8D8C9',
     padding: '1px 5px',
     borderRadius: '4px',
   },
@@ -571,7 +571,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#FFFFFF',
-    border: '1px solid #E6E2DA',
+    border: '1px solid #B5C8B6',
     borderRadius: '10px',
     padding: '8px 10px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
@@ -596,7 +596,7 @@ const styles = {
   compactTitle: {
     fontSize: '0.78rem',
     fontWeight: 700,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',

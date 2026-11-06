@@ -151,7 +151,7 @@ const styles = {
     backdropFilter: 'blur(4px)',
   },
   modal: {
-    backgroundColor: '#FAF7F2',
+    backgroundColor: '#E8F0E9',
     borderRadius: '12px',
     padding: '2rem',
     width: '90%',

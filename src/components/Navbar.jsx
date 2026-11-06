@@ -147,7 +147,7 @@ export default function Navbar({ searchQuery = '', onSearchChange, onSearchSubmi
                   key={index}
                   style={styles.dropdownItem}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(197, 168, 128, 0.08)'}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(212, 180, 131, 0.08)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
                   <Search size={14} style={styles.dropdownIcon} />
@@ -191,14 +191,14 @@ export default function Navbar({ searchQuery = '', onSearchChange, onSearchSubmi
                 <div style={styles.userDropdownHeader}>Hello! User</div>
                 <div 
                   style={styles.userDropdownItem}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(197, 168, 128, 0.08)'}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(212, 180, 131, 0.08)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
                   Login
                 </div>
                 <div 
                   style={styles.userDropdownItem}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(197, 168, 128, 0.08)'}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(212, 180, 131, 0.08)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                   onClick={() => {
                     setIsContactModalOpen(true);
@@ -237,7 +237,7 @@ const styles = {
     position: 'sticky',
     top: 0,
     zIndex: 100,
-    backgroundColor: 'rgba(250, 247, 242, 0.95)',
+    backgroundColor: 'rgba(232, 240, 233, 0.95)',
     backdropFilter: 'blur(10px)',
     borderBottom: '1px solid hsl(var(--border-color))',
     padding: '0.85rem 0',

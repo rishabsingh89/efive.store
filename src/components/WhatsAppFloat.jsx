@@ -166,7 +166,7 @@ const styles = {
     right: 0,
     zIndex: 500,
     padding: '0.75rem 1.5rem',
-    backgroundColor: 'rgba(250, 247, 242, 0.96)',
+    backgroundColor: 'rgba(232, 240, 233, 0.96)',
     backdropFilter: 'blur(12px)',
     borderTop: '1px solid rgba(37, 211, 102, 0.2)',
     boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',

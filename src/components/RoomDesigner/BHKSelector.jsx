@@ -31,7 +31,7 @@ export default function BHKSelector() {
               className="rd-bhk-card"
             >
               <div style={styles.iconCircle}>
-                <Icon size={32} color="#C5A880" />
+                <Icon size={32} color="#D4B483" />
               </div>
               <h3 style={styles.cardTitle}>{bhk.label}</h3>
               <p style={styles.cardDesc}>{bhk.description}</p>
@@ -66,7 +66,7 @@ const styles = {
     display: 'inline-flex',
     alignItems: 'center',
     gap: '0.5rem',
-    backgroundColor: 'rgba(197,168,128,0.12)',
+    backgroundColor: 'rgba(212, 180, 131,0.12)',
     color: 'hsl(34,40%,52%)',
     padding: '0.35rem 1rem',
     borderRadius: '20px',
@@ -117,7 +117,7 @@ const styles = {
     width: '70px',
     height: '70px',
     borderRadius: '50%',
-    backgroundColor: 'rgba(197,168,128,0.1)',
+    backgroundColor: 'rgba(212, 180, 131,0.1)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -138,7 +138,7 @@ const styles = {
     fontSize: '0.75rem',
     fontWeight: 700,
     color: 'hsl(34,40%,52%)',
-    backgroundColor: 'rgba(197,168,128,0.1)',
+    backgroundColor: 'rgba(212, 180, 131,0.1)',
     padding: '0.25rem 0.75rem',
     borderRadius: '12px',
   },

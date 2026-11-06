@@ -123,7 +123,7 @@ function ItemOptionsPanel({ activeItem, dispatch, onClose }) {
                 style={{
                   ...styles.colorCircleBtn,
                   backgroundColor: c.hex,
-                  border: activeItem.color === c.hex ? '2px solid #C5A880' : '1px solid #ddd',
+                  border: activeItem.color === c.hex ? '2px solid #D4B483' : '1px solid #ddd',
                   transform: activeItem.color === c.hex ? 'scale(1.1)' : 'scale(1)',
                 }}
                 title={c.name}
@@ -279,7 +279,7 @@ function DesignerContent({ initialBhkId, onClose }) {
             </button>
             
             <div style={styles.headerBag}>
-              <ShoppingBag size={14} style={{ color: '#1E1D1B' }} />
+              <ShoppingBag size={14} style={{ color: '#2F3E34' }} />
               <span style={styles.headerPrice}>₹{totalDesignPrice.toLocaleString('en-IN')}</span>
             </div>
 
@@ -427,15 +427,15 @@ const styles = {
   designNameText: {
     fontSize: '0.9rem',
     fontWeight: '700',
-    color: '#1E1D1B',
+    color: '#2F3E34',
     fontFamily: 'var(--font-heading)',
   },
   titleInput: {
     fontSize: '0.9rem',
     fontWeight: '700',
-    color: '#1E1D1B',
+    color: '#2F3E34',
     fontFamily: 'var(--font-heading)',
-    border: '1px solid #C5A880',
+    border: '1px solid #D4B483',
     outline: 'none',
     padding: '2px 8px',
     borderRadius: '4px',
@@ -468,7 +468,7 @@ const styles = {
   headerPrice: {
     fontSize: '0.82rem',
     fontWeight: '800',
-    color: '#1E1D1B',
+    color: '#2F3E34',
   },
   summaryBtn: {
     display: 'flex',
@@ -538,7 +538,7 @@ const styles = {
     fontSize: '0.9rem',
     fontWeight: 700,
     fontFamily: 'var(--font-heading)',
-    color: '#1E1D1B',
+    color: '#2F3E34',
     margin: 0,
   },
   closeBtn: {
@@ -631,7 +631,7 @@ const styles = {
     fontFamily: 'var(--font-heading)',
     fontSize: '1.25rem',
     fontWeight: 700,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     margin: 0,
   },
   productDesc: {

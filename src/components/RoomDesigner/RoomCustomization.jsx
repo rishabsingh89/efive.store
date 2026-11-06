@@ -20,7 +20,7 @@ export default function RoomCustomization() {
     <div style={styles.container}>
       <button onClick={() => setIsOpen(!isOpen)} style={styles.toggleBtn} className="rd-cust-toggle">
         <div style={styles.toggleLeft}>
-          <PaintBucket size={16} style={{ color: '#C5A880' }} />
+          <PaintBucket size={16} style={{ color: '#D4B483' }} />
           <span>Customize Room Style</span>
         </div>
         {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -40,7 +40,7 @@ export default function RoomCustomization() {
                   style={{
                     ...styles.swatch,
                     backgroundColor: c.hex,
-                    border: room.wallColor === c.hex ? '2px solid #C5A880' : '1px solid #ddd',
+                    border: room.wallColor === c.hex ? '2px solid #D4B483' : '1px solid #ddd',
                   }}
                 >
                   {room.wallColor === c.hex && <Check size={12} color={c.hex === '#FFFFFF' ? '#000' : '#fff'} />}
@@ -59,8 +59,8 @@ export default function RoomCustomization() {
                   onClick={() => handleStyleChange('floorType', f.id)}
                   style={{
                     ...styles.floorBtn,
-                    borderColor: room.floorType === f.id ? '#C5A880' : '#eee',
-                    backgroundColor: room.floorType === f.id ? 'rgba(197,168,128,0.1)' : '#fff',
+                    borderColor: room.floorType === f.id ? '#D4B483' : '#eee',
+                    backgroundColor: room.floorType === f.id ? 'rgba(212, 180, 131,0.1)' : '#fff',
                   }}
                 >
                   <div style={{
@@ -86,7 +86,7 @@ export default function RoomCustomization() {
                   style={{
                     ...styles.swatch,
                     backgroundColor: c.hex,
-                    border: room.ceilingColor === c.hex ? '2px solid #C5A880' : '1px solid #ddd',
+                    border: room.ceilingColor === c.hex ? '2px solid #D4B483' : '1px solid #ddd',
                   }}
                 >
                   {room.ceilingColor === c.hex && <Check size={12} color={c.hex === '#FFFFFF' ? '#000' : '#fff'} />}
@@ -103,8 +103,8 @@ export default function RoomCustomization() {
                 onClick={() => handleStyleChange('ceilingLights', 'spotlights')}
                 style={{
                   ...styles.optionBtn,
-                  borderColor: room.ceilingLights !== 'none' ? '#C5A880' : '#eee',
-                  backgroundColor: room.ceilingLights !== 'none' ? 'rgba(197,168,128,0.1)' : '#fff',
+                  borderColor: room.ceilingLights !== 'none' ? '#D4B483' : '#eee',
+                  backgroundColor: room.ceilingLights !== 'none' ? 'rgba(212, 180, 131,0.1)' : '#fff',
                 }}
               >
                 On
@@ -113,8 +113,8 @@ export default function RoomCustomization() {
                 onClick={() => handleStyleChange('ceilingLights', 'none')}
                 style={{
                   ...styles.optionBtn,
-                  borderColor: room.ceilingLights === 'none' ? '#C5A880' : '#eee',
-                  backgroundColor: room.ceilingLights === 'none' ? 'rgba(197,168,128,0.1)' : '#fff',
+                  borderColor: room.ceilingLights === 'none' ? '#D4B483' : '#eee',
+                  backgroundColor: room.ceilingLights === 'none' ? 'rgba(212, 180, 131,0.1)' : '#fff',
                 }}
               >
                 Off
@@ -136,8 +136,8 @@ export default function RoomCustomization() {
                   onClick={() => handleStyleChange('doorStyle', opt.id)}
                   style={{
                     ...styles.styleBtn,
-                    borderColor: (room.doorStyle || 'white') === opt.id ? '#C5A880' : '#eee',
-                    backgroundColor: (room.doorStyle || 'white') === opt.id ? 'rgba(197,168,128,0.1)' : '#fff',
+                    borderColor: (room.doorStyle || 'white') === opt.id ? '#D4B483' : '#eee',
+                    backgroundColor: (room.doorStyle || 'white') === opt.id ? 'rgba(212, 180, 131,0.1)' : '#fff',
                   }}
                 >
                   {opt.label}
@@ -159,8 +159,8 @@ export default function RoomCustomization() {
                   onClick={() => handleStyleChange('windowStyle', opt.id)}
                   style={{
                     ...styles.styleBtn,
-                    borderColor: (room.windowStyle || 'sliding') === opt.id ? '#C5A880' : '#eee',
-                    backgroundColor: (room.windowStyle || 'sliding') === opt.id ? 'rgba(197,168,128,0.1)' : '#fff',
+                    borderColor: (room.windowStyle || 'sliding') === opt.id ? '#D4B483' : '#eee',
+                    backgroundColor: (room.windowStyle || 'sliding') === opt.id ? 'rgba(212, 180, 131,0.1)' : '#fff',
                   }}
                 >
                   {opt.label}

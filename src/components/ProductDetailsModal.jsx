@@ -183,7 +183,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                             decoding="async"
                             style={{
                               ...styles.thumbnailImg,
-                              border: activeImageIdx === idx ? '2px solid #C5A880' : '1px solid rgba(0,0,0,0.06)',
+                              border: activeImageIdx === idx ? '2px solid #D4B483' : '1px solid rgba(0,0,0,0.06)',
                               opacity: activeImageIdx === idx ? 1 : 0.6,
                             }}
                           />
@@ -221,7 +221,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                               ...styles.colorDot,
                               backgroundColor: col.hex,
                               boxShadow: isSelected
-                                ? `0 0 0 2.5px #fff, 0 0 0 4px #C5A880, 0 4px 15px rgba(197,168,128,0.35), inset 0 -2px 4px rgba(0,0,0,0.15)`
+                                ? `0 0 0 2.5px #fff, 0 0 0 4px #D4B483, 0 4px 15px rgba(212, 180, 131,0.35), inset 0 -2px 4px rgba(0,0,0,0.15)`
                                 : `0 3px 8px rgba(0,0,0,0.18), inset 0 -2px 4px rgba(0,0,0,0.12), inset 0 1px 2px rgba(255,255,255,0.25)`,
                               transform: isSelected ? 'scale(1.15) translateY(-2px)' : 'scale(1)',
                             }}
@@ -254,8 +254,8 @@ export default function ProductDetailsModal({ product, onClose }) {
                     <Star
                       key={i}
                       size={16}
-                      fill={i < Math.floor(rating) ? '#C5A880' : 'none'}
-                      stroke={i < Math.floor(rating) ? '#C5A880' : '#bdbdbd'}
+                      fill={i < Math.floor(rating) ? '#D4B483' : 'none'}
+                      stroke={i < Math.floor(rating) ? '#D4B483' : '#bdbdbd'}
                     />
                   ))}
                 </div>
@@ -283,15 +283,15 @@ export default function ProductDetailsModal({ product, onClose }) {
               {/* Trust Indicators */}
               <div style={styles.trustRow}>
                 <div style={styles.trustItem}>
-                  <Truck size={16} style={{ color: '#C5A880' }} />
+                  <Truck size={16} style={{ color: '#D4B483' }} />
                   <span>Free Delivery</span>
                 </div>
                 <div style={styles.trustItem}>
-                  <Shield size={16} style={{ color: '#C5A880' }} />
+                  <Shield size={16} style={{ color: '#D4B483' }} />
                   <span>{specifications.warranty}</span>
                 </div>
                 <div style={styles.trustItem}>
-                  <RotateCcw size={16} style={{ color: '#C5A880' }} />
+                  <RotateCcw size={16} style={{ color: '#D4B483' }} />
                   <span>Easy Returns</span>
                 </div>
               </div>
@@ -318,7 +318,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                     <ul style={styles.featuresList}>
                       {(features || []).map((feat, idx) => (
                         <li key={idx} style={styles.featureItem}>
-                          <CheckCircle size={14} style={{ color: '#C5A880', flexShrink: 0, marginTop: '2px' }} />
+                          <CheckCircle size={14} style={{ color: '#D4B483', flexShrink: 0, marginTop: '2px' }} />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -445,7 +445,7 @@ export default function ProductDetailsModal({ product, onClose }) {
         .pdp-color-bar-3d {
           background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(248,250,252,0.9)) !important;
           backdrop-filter: blur(12px) saturate(1.5);
-          border-top: 1px solid rgba(197,168,128,0.15) !important;
+          border-top: 1px solid rgba(212, 180, 131,0.15) !important;
           position: relative;
         }
 
@@ -581,7 +581,7 @@ const styles = {
     backgroundColor: '#ffffff',
     border: '1px solid rgba(0,0,0,0.06)',
     borderRadius: '100px',
-    color: '#1E1D1B',
+    color: '#2F3E34',
     fontSize: '0.85rem',
     fontWeight: 600,
     cursor: 'pointer',
@@ -610,7 +610,7 @@ const styles = {
     borderRadius: '50%',
     backgroundColor: '#ffffff',
     border: '1px solid rgba(0,0,0,0.06)',
-    color: '#1E1D1B',
+    color: '#2F3E34',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
@@ -678,7 +678,7 @@ const styles = {
     alignItems: 'center',
     gap: '1rem',
     padding: '1.25rem 1.5rem',
-    borderTop: '1px solid rgba(197,168,128,0.15)',
+    borderTop: '1px solid rgba(212, 180, 131,0.15)',
     backgroundColor: 'rgba(255,255,255,0.85)',
   },
   colorPreviewLabel: {
@@ -744,7 +744,7 @@ const styles = {
   ratingScore: {
     fontSize: '0.9rem',
     fontWeight: 600,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     marginLeft: '0.25rem',
   },
   ratingDivider: {
@@ -753,12 +753,12 @@ const styles = {
   },
   reviewCount: {
     fontSize: '0.85rem',
-    color: '#706D67',
+    color: '#4A6350',
   },
   priceSection: {
     padding: '1.25rem 0',
-    borderTop: '1px solid #E6E2DA',
-    borderBottom: '1px solid #E6E2DA',
+    borderTop: '1px solid #B5C8B6',
+    borderBottom: '1px solid #B5C8B6',
     marginBottom: '1.25rem',
   },
   priceRow: {
@@ -770,14 +770,14 @@ const styles = {
   currentPrice: {
     fontSize: '1.85rem',
     fontWeight: 500, // Lighter, not bold
-    color: '#C5A880', // Primary color
+    color: '#D4B483', // Primary color
     fontFamily: 'var(--font-heading)',
     transition: 'color 0.25s ease',
   },
   originalPrice: {
     fontSize: '1.1rem',
     textDecoration: 'line-through',
-    color: '#706D67',
+    color: '#4A6350',
   },
   saveBadge: {
     fontSize: '0.75rem',
@@ -789,7 +789,7 @@ const styles = {
   },
   taxNote: {
     fontSize: '0.8rem',
-    color: '#706D67',
+    color: '#4A6350',
   },
   description: {
     fontSize: '1rem',
@@ -814,7 +814,7 @@ const styles = {
     gap: '0.4rem',
     fontSize: '0.8rem',
     fontWeight: 500,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     flex: '1 1 0',
     justifyContent: 'center',
   },
@@ -823,7 +823,7 @@ const styles = {
   },
   tabsList: {
     display: 'flex',
-    borderBottom: '2px solid #E6E2DA',
+    borderBottom: '2px solid #B5C8B6',
     marginBottom: '1.25rem',
   },
   tabBtn: {
@@ -834,7 +834,7 @@ const styles = {
     marginBottom: '-2px',
     fontSize: '0.85rem',
     fontWeight: 600,
-    color: '#706D67',
+    color: '#4A6350',
     cursor: 'pointer',
     transition: 'all 0.25s ease',
     fontFamily: 'var(--font-body)',
@@ -842,8 +842,8 @@ const styles = {
     textTransform: 'uppercase',
   },
   tabBtnActive: {
-    color: '#1E1D1B',
-    borderBottomColor: '#C5A880',
+    color: '#2F3E34',
+    borderBottomColor: '#D4B483',
   },
   tabContent: {
     minHeight: '100px',
@@ -860,7 +860,7 @@ const styles = {
     display: 'flex',
     gap: '0.6rem',
     fontSize: '0.9rem',
-    color: '#1E1D1B',
+    color: '#2F3E34',
     lineHeight: 1.5,
     alignItems: 'flex-start',
   },
@@ -876,10 +876,10 @@ const styles = {
     padding: '0.75rem 1rem',
     backgroundColor: '#ffffff',
     borderRadius: '8px',
-    border: '1px solid #E6E2DA',
+    border: '1px solid #B5C8B6',
   },
   specIcon: {
-    color: '#C5A880',
+    color: '#D4B483',
     marginTop: '2px',
     flexShrink: 0,
   },
@@ -887,7 +887,7 @@ const styles = {
     display: 'block',
     fontSize: '0.7rem',
     fontWeight: 600,
-    color: '#706D67',
+    color: '#4A6350',
     textTransform: 'uppercase',
     letterSpacing: '0.05em',
     marginBottom: '0.15rem',
@@ -895,13 +895,13 @@ const styles = {
   specValue: {
     display: 'block',
     fontSize: '0.9rem',
-    color: '#1E1D1B',
+    color: '#2F3E34',
   },
 
   // ── WhatsApp CTA ──────────────────────────────────────────────────────────
   actionSection: {
     padding: '1.5rem 0 0.5rem',
-    borderTop: '1px solid #E6E2DA',
+    borderTop: '1px solid #B5C8B6',
     marginTop: '1.5rem',
     position: 'relative',
   },
@@ -910,7 +910,7 @@ const styles = {
   },
   hintText: {
     fontSize: '0.8rem',
-    color: '#706D67',
+    color: '#4A6350',
     fontStyle: 'italic',
   },
   waBtn: {

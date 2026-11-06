@@ -100,7 +100,7 @@ export const products = [
     "colors": [
       {
         "name": "Luxury Bronze",
-        "hex": "#C5A880"
+        "hex": "#D4B483"
       }
     ]
   },

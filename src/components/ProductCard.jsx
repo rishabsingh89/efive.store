@@ -118,7 +118,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
             cursor: 'pointer'
           }}
         >
-          <Heart size={16} fill={isWishlisted ? '#ff4757' : 'none'} color={isWishlisted ? '#ff4757' : '#706D67'} />
+          <Heart size={16} fill={isWishlisted ? '#ff4757' : 'none'} color={isWishlisted ? '#ff4757' : '#4A6350'} />
         </button>
 
         {product.images && product.images.length > 0 ? (
@@ -137,8 +137,8 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
               <Star
                 key={i}
                 size={12}
-                fill={i < Math.floor(rating) ? '#C5A880' : 'none'}
-                stroke={i < Math.floor(rating) ? '#C5A880' : '#E6E2DA'}
+                fill={i < Math.floor(rating) ? '#D4B483' : 'none'}
+                stroke={i < Math.floor(rating) ? '#D4B483' : '#B5C8B6'}
                 className="star-icon"
               />
             ))}
@@ -163,7 +163,7 @@ const ProductCard = React.memo(function ProductCard({ product, onQuickView }) {
                   style={{
                     backgroundColor: col.hex,
                     border: isSelected ? '2px solid #fff' : '1px solid rgba(0,0,0,0.15)',
-                    boxShadow: isSelected ? '0 0 0 2px #C5A880' : 'inset 0 1px 2px rgba(0,0,0,0.1)',
+                    boxShadow: isSelected ? '0 0 0 2px #D4B483' : 'inset 0 1px 2px rgba(0,0,0,0.1)',
                     transform: isSelected ? 'scale(1.1)' : 'scale(1)'
                   }}
                   className="product-swatch-dot"

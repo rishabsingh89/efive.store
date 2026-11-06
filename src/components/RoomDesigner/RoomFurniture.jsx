@@ -365,11 +365,11 @@ function FurnitureModel({ category, w, d, color, imageUrl }) {
           </mesh>
           <mesh position={[-0.05, height / 2, d / 2 + 0.015]} castShadow>
             <boxGeometry args={[0.02, 0.12, 0.015]} />
-            <meshStandardMaterial color="#C5A880" metalness={0.8} roughness={0.2} />
+            <meshStandardMaterial color="#D4B483" metalness={0.8} roughness={0.2} />
           </mesh>
           <mesh position={[0.05, height / 2, d / 2 + 0.015]} castShadow>
             <boxGeometry args={[0.02, 0.12, 0.015]} />
-            <meshStandardMaterial color="#C5A880" metalness={0.8} roughness={0.2} />
+            <meshStandardMaterial color="#D4B483" metalness={0.8} roughness={0.2} />
           </mesh>
         </group>
       );
@@ -620,7 +620,7 @@ const styles = {
     opacity: 0.9,
   },
   floatingPrice: {
-    color: '#C5A880',
+    color: '#D4B483',
     fontWeight: '800',
   }
 };

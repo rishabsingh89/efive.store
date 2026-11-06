@@ -178,8 +178,8 @@ export default function OfficeDesigns() {
                         <Star
                           key={i}
                           size={16}
-                          fill={i < Math.floor(selectedDesign.rating) ? '#C5A880' : 'none'}
-                          stroke={i < Math.floor(selectedDesign.rating) ? '#C5A880' : '#bdbdbd'}
+                          fill={i < Math.floor(selectedDesign.rating) ? '#D4B483' : 'none'}
+                          stroke={i < Math.floor(selectedDesign.rating) ? '#D4B483' : '#bdbdbd'}
                         />
                       ))}
                     </div>
@@ -205,15 +205,15 @@ export default function OfficeDesigns() {
                   {/* Trust Indicators */}
                   <div style={styles.trustRow}>
                     <div style={styles.trustItem}>
-                      <Truck size={16} style={{ color: '#C5A880' }} />
+                      <Truck size={16} style={{ color: '#D4B483' }} />
                       <span>On-Time Delivery</span>
                     </div>
                     <div style={styles.trustItem}>
-                      <Shield size={16} style={{ color: '#C5A880' }} />
+                      <Shield size={16} style={{ color: '#D4B483' }} />
                       <span>10 Year Warranty</span>
                     </div>
                     <div style={styles.trustItem}>
-                      <RotateCcw size={16} style={{ color: '#C5A880' }} />
+                      <RotateCcw size={16} style={{ color: '#D4B483' }} />
                       <span>Quality Assured</span>
                     </div>
                   </div>
@@ -224,7 +224,7 @@ export default function OfficeDesigns() {
                     <ul style={styles.featuresList}>
                       {selectedDesign.features.map((feat, idx) => (
                         <li key={idx} style={styles.featureItem}>
-                          <CheckCircle size={16} style={{ color: '#C5A880', flexShrink: 0, marginTop: '2px' }} />
+                          <CheckCircle size={16} style={{ color: '#D4B483', flexShrink: 0, marginTop: '2px' }} />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -289,7 +289,7 @@ const styles = {
     fontFamily: 'var(--font-heading)',
     fontSize: '2rem',
     fontWeight: 600,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     marginBottom: '2rem',
     textAlign: 'center',
   },
@@ -325,11 +325,11 @@ const styles = {
     fontFamily: 'var(--font-heading)',
     fontSize: '1.1rem',
     fontWeight: 600,
-    color: '#1E1D1B',
+    color: '#2F3E34',
   },
   cardPrice: {
     fontSize: '1rem',
-    color: '#C5A880',
+    color: '#D4B483',
     fontWeight: 600,
     fontFamily: 'var(--font-heading)',
   },
@@ -384,7 +384,7 @@ const styles = {
     backgroundColor: '#ffffff',
     border: '1px solid rgba(0,0,0,0.06)',
     borderRadius: '100px',
-    color: '#1E1D1B',
+    color: '#2F3E34',
     fontSize: '0.85rem',
     fontWeight: 600,
     cursor: 'pointer',
@@ -411,7 +411,7 @@ const styles = {
     borderRadius: '50%',
     backgroundColor: '#ffffff',
     border: '1px solid rgba(0,0,0,0.06)',
-    color: '#1E1D1B',
+    color: '#2F3E34',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
@@ -474,7 +474,7 @@ const styles = {
   ratingScore: {
     fontSize: '0.9rem',
     fontWeight: 600,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     marginLeft: '0.25rem',
   },
   ratingDivider: {
@@ -483,12 +483,12 @@ const styles = {
   },
   reviewCount: {
     fontSize: '0.85rem',
-    color: '#706D67',
+    color: '#4A6350',
   },
   priceSection: {
     padding: '1.25rem 0',
-    borderTop: '1px solid #E6E2DA',
-    borderBottom: '1px solid #E6E2DA',
+    borderTop: '1px solid #B5C8B6',
+    borderBottom: '1px solid #B5C8B6',
     marginBottom: '1.25rem',
   },
   priceRow: {
@@ -500,13 +500,13 @@ const styles = {
   currentPrice: {
     fontSize: '1.85rem',
     fontWeight: 500,
-    color: '#C5A880',
+    color: '#D4B483',
     fontFamily: 'var(--font-heading)',
   },
   originalPrice: {
     fontSize: '1.1rem',
     textDecoration: 'line-through',
-    color: '#706D67',
+    color: '#4A6350',
   },
   saveBadge: {
     fontSize: '0.75rem',
@@ -518,7 +518,7 @@ const styles = {
   },
   taxNote: {
     fontSize: '0.8rem',
-    color: '#706D67',
+    color: '#4A6350',
   },
   description: {
     fontSize: '1rem',
@@ -546,7 +546,7 @@ const styles = {
   featuresTitle: {
     fontSize: '1.1rem',
     fontWeight: 600,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     marginBottom: '1rem',
     fontFamily: 'var(--font-heading)',
   },
@@ -574,7 +574,7 @@ const styles = {
   },
   hintText: {
     fontSize: '0.85rem',
-    color: '#706D67',
+    color: '#4A6350',
     fontStyle: 'italic',
   },
   waBtn: {

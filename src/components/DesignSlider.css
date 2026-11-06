@@ -4,7 +4,7 @@
 
 .ds-section {
   padding: 5rem 0 6rem;
-  background: #FAF7F2;
+  background: #E8F0E9;
 }
 
 /* ─── Header ─── */
@@ -28,7 +28,7 @@
   font-family: var(--font-heading);
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
-  color: #1E1D1B;
+  color: #2F3E34;
   letter-spacing: -0.02em;
   margin: 0 0 0.6rem 0;
 }
@@ -36,7 +36,7 @@
 .ds-title-line {
   width: 48px;
   height: 3px;
-  background: linear-gradient(to right, #C5A880, transparent);
+  background: linear-gradient(to right, #D4B483, transparent);
   border-radius: 2px;
   margin: 0 auto;
 }
@@ -70,7 +70,7 @@
 .ds-progress-fill {
   height: 100%;
   width: 0;
-  background: #C5A880;
+  background: #D4B483;
   animation: ds-progress linear forwards;
 }
 
@@ -136,11 +136,11 @@
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.25em;
-  color: #C5A880;
+  color: #D4B483;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
-  background: rgba(197, 168, 128, 0.15);
-  border: 1px solid rgba(197, 168, 128, 0.35);
+  background: rgba(212, 180, 131, 0.15);
+  border: 1px solid rgba(212, 180, 131, 0.35);
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   backdrop-filter: blur(4px);
@@ -217,7 +217,7 @@
 .ds-dot--active {
   width: 24px;
   border-radius: 4px;
-  background: #C5A880;
+  background: #D4B483;
 }
 
 /* ─── Pause Badge ─── */

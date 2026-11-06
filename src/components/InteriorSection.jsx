@@ -173,7 +173,7 @@ export default function InteriorSection() {
 
                   {/* Top-Left Floating Icon Badge */}
                   <div className="lux-pop-icon-badge">
-                    <Icon size={18} color="#1E1D1B" strokeWidth={2.4} />
+                    <Icon size={18} color="#2F3E34" strokeWidth={2.4} />
                   </div>
 
                   {/* Card Content Overlay */}
@@ -181,7 +181,7 @@ export default function InteriorSection() {
                     <div className="lux-pop-header">
                       <h3 className="lux-pop-title">{service.title}</h3>
                       <div className="lux-pop-arrow-btn" aria-hidden="true">
-                        <ArrowRight size={15} color="#1E1D1B" strokeWidth={2.5} />
+                        <ArrowRight size={15} color="#2F3E34" strokeWidth={2.5} />
                       </div>
                     </div>
 
@@ -278,7 +278,7 @@ export default function InteriorSection() {
       <style>{`
         .lux-section-wrapper {
           width: 100%;
-          background-color: #1E1D1B;
+          background-color: #2F3E34;
           padding: 0;
           margin: 0;
           display: flex;
@@ -292,7 +292,7 @@ export default function InteriorSection() {
           width: 100%;
           border-radius: 0;
           overflow: hidden;
-          background-color: #1E1D1B;
+          background-color: #2F3E34;
           min-height: calc(100vh - 72px);
           display: flex;
           flex-direction: column;
@@ -353,7 +353,7 @@ export default function InteriorSection() {
           align-items: center;
           gap: 7px;
           background-color: rgba(255, 255, 255, 0.94);
-          color: #1E1D1B;
+          color: #2F3E34;
           border: 1px solid rgba(255, 255, 255, 0.6);
           padding: 8px 20px;
           border-radius: 9999px;
@@ -420,7 +420,7 @@ export default function InteriorSection() {
           align-items: center;
           gap: 8px;
           background-color: #FFFFFF;
-          color: #1E1D1B;
+          color: #2F3E34;
           border: none;
           border-radius: 9999px;
           padding: 11px 24px;
@@ -655,7 +655,7 @@ export default function InteriorSection() {
 
         .lux-pop-tag-pill {
           background-color: #FFFFFF;
-          color: #1E1D1B;
+          color: #2F3E34;
           border-radius: 9999px;
           padding: 4px 12px;
           font-size: 0.72rem;
@@ -724,7 +724,7 @@ export default function InteriorSection() {
           font-family: var(--font-heading);
           font-size: 0.95rem;
           font-weight: 700;
-          color: #1E1D1B;
+          color: #2F3E34;
           margin: 0 0 2px 0;
           line-height: 1.2;
           white-space: nowrap;

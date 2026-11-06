@@ -1028,7 +1028,7 @@ const styles = {
     textDecoration: 'line-through'
   },
   discountBadge: {
-    backgroundColor: '#e8f5e9',
+    backgroundColor: '#C8D8C9',
     color: '#2e7d32',
     padding: '0.25rem 0.5rem',
     borderRadius: '4px',
@@ -1178,7 +1178,7 @@ const styles = {
     gap: '0.5rem'
   },
   successBanner: {
-    backgroundColor: '#e8f5e9',
+    backgroundColor: '#C8D8C9',
     color: '#2e7d32',
     padding: '1rem',
     borderRadius: '10px',

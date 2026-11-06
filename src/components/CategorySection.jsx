@@ -100,7 +100,7 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
 
           <div style={styles.headerCenter}>
             <div style={styles.categoryBadge}>
-              <Sparkles size={14} style={{ color: '#C5A880' }} />
+              <Sparkles size={14} style={{ color: '#D4B483' }} />
               <span>{category.name}</span>
             </div>
           </div>
@@ -128,7 +128,7 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
           </p>
           <div style={styles.divider}>
             <div style={styles.dividerLine} />
-            <ShoppingBag size={16} style={{ color: '#C5A880' }} />
+            <ShoppingBag size={16} style={{ color: '#D4B483' }} />
             <div style={styles.dividerLine} />
           </div>
         </div>
@@ -209,13 +209,13 @@ export default function CategorySection({ categoryId, onClose, onQuickView }) {
           font-family: var(--font-heading);
           font-size: 3.5rem;
           font-weight: 700;
-          background: linear-gradient(135deg, #ffffff 0%, #C5A880 100%);
+          background: linear-gradient(135deg, #ffffff 0%, #D4B483 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           margin-bottom: 1.25rem;
           letter-spacing: -0.02em;
           line-height: 1.15;
-          text-shadow: 0 4px 24px rgba(197, 168, 128, 0.2);
+          text-shadow: 0 4px 24px rgba(212, 180, 131, 0.2);
         }
         
         .premium-hero-subtitle {
@@ -252,12 +252,12 @@ const styles = {
     inset: 0,
     zIndex: 0,
     overflow: 'hidden',
-    backgroundColor: '#1E1D1B',
+    backgroundColor: '#2F3E34',
   },
   bgSolid: {
     width: '100%',
     height: '100%',
-    background: 'radial-gradient(circle at top, #2C2A27 0%, #1E1D1B 80%)',
+    background: 'radial-gradient(circle at top, #2C2A27 0%, #2F3E34 80%)',
   },
   bgOverlayGradient: {
     position: 'absolute',
@@ -297,7 +297,7 @@ const styles = {
     marginRight: '-2rem',
     paddingLeft: '2rem',
     paddingRight: '2rem',
-    borderBottom: '1px solid rgba(197, 168, 128, 0.15)',
+    borderBottom: '1px solid rgba(212, 180, 131, 0.15)',
   },
   headerLeft: {
     flex: '1 1 0',
@@ -335,10 +335,10 @@ const styles = {
     alignItems: 'center',
     gap: '0.4rem',
     padding: '0.4rem 1rem',
-    backgroundColor: 'rgba(197, 168, 128, 0.15)',
-    border: '1px solid rgba(197, 168, 128, 0.3)',
+    backgroundColor: 'rgba(212, 180, 131, 0.15)',
+    border: '1px solid rgba(212, 180, 131, 0.3)',
     borderRadius: '20px',
-    color: '#C5A880',
+    color: '#D4B483',
     fontSize: '0.8rem',
     fontWeight: 600,
     letterSpacing: '0.05em',
@@ -392,7 +392,7 @@ const styles = {
   dividerLine: {
     width: '60px',
     height: '1px',
-    backgroundColor: 'rgba(197, 168, 128, 0.35)',
+    backgroundColor: 'rgba(212, 180, 131, 0.35)',
   },
 
   // Grid

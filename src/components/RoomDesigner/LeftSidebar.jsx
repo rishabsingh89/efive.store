@@ -249,7 +249,7 @@ export default function LeftSidebar({ onOpenProductModal }) {
           <div style={styles.sceneModalContent} onClick={(e) => e.stopPropagation()}>
             <div style={styles.sceneModalHeader}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Sparkles size={18} style={{ color: '#C5A880' }} />
+                <Sparkles size={18} style={{ color: '#D4B483' }} />
                 <h3 style={styles.sceneModalTitle}>Living Room Inspiration • Interactive 3D Hotspots</h3>
               </div>
               <button 
@@ -571,8 +571,8 @@ const styles = {
     gap: '6px',
     padding: '8px 12px',
     backgroundColor: '#F5F5F3',
-    color: '#1E1D1B',
-    border: '1px solid #E6E2DA',
+    color: '#2F3E34',
+    border: '1px solid #B5C8B6',
     borderRadius: '8px',
     fontSize: '0.8rem',
     fontWeight: 600,
@@ -615,7 +615,7 @@ const styles = {
     margin: 0,
     fontSize: '1rem',
     fontWeight: 700,
-    color: '#1E1D1B',
+    color: '#2F3E34',
     fontFamily: 'var(--font-heading)',
   },
   sceneModalCloseBtn: {
@@ -633,7 +633,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1E1D1B',
+    backgroundColor: '#2F3E34',
     minHeight: '400px',
   },
 };

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, ChevronDown, ChevronLeft, ChevronRight, Settings, Leaf, Users, ShieldCheck, Play, Pause } from 'lucide-react';
+import { ArrowRight, Sparkles, ChevronDown, Settings, Leaf, Users, ShieldCheck } from 'lucide-react';
 import { getHeroCMS } from '../data/products';
 
 const Hero = React.memo(function Hero({ onExploreClick }) {
   const [heroCMS, setHeroCMS] = useState(getHeroCMS());
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const totalSlides = 5;
 
   useEffect(() => {
@@ -22,21 +22,14 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
     };
   }, []);
 
-  // Auto-play
+  // Auto-play: cycles slides every 6s, pauses when mouse hovers over slider
   useEffect(() => {
-    let timer;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % totalSlides);
-      }, 6000);
-    }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [isPlaying]);
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+    if (isHovered) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isHovered]);
 
   const heroRef = useRef(null);
   const imageRef = useRef(null);
@@ -80,23 +73,13 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
     };
   }, []);
 
-  const sliderBtnStyle = {
-    width: '44px',
-    height: '44px',
-    borderRadius: '50%',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    border: '1px solid rgba(0,0,0,0.1)',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
-    color: '#333',
-    transition: 'transform 0.2s',
-  };
-
   return (
-    <div className="hero-slider-container" style={{ position: 'relative', overflow: 'hidden' }}>
+    <div 
+      className="hero-slider-container" 
+      style={{ position: 'relative', overflow: 'hidden' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div 
         className="hero-slider-track"
         style={{
@@ -199,10 +182,10 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
                   { icon: <ShieldCheck size={22} />, label: 'Quality\nAssured' }
                 ].map((item, idx) => (
                   <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-                    <div style={{ padding: '0.6rem', backgroundColor: '#e8f5e9', borderRadius: '50%', color: '#2e7d32' }}>
+                    <div style={{ padding: '0.6rem', backgroundColor: '#C8D8C9', borderRadius: '50%', color: '#2e7d32' }}>
                       {item.icon}
                     </div>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 600, textAlign: 'center', color: '#55534E', whiteSpace: 'pre-line' }}>{item.label}</span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, textAlign: 'center', color: '#2F3E34', whiteSpace: 'pre-line' }}>{item.label}</span>
                   </div>
                 ))}
               </div>
@@ -344,48 +327,6 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
         </div>
       </div>
 
-      {/* Slider Controls */}
-      <div style={{ 
-        position: 'absolute', 
-        top: '50%', 
-        left: '0', 
-        right: '0', 
-        transform: 'translateY(-50%)',
-        zIndex: 50, 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        padding: '0 2rem',
-        pointerEvents: 'none' 
-      }}>
-        <div style={{ display: 'flex', gap: '1rem', pointerEvents: 'auto' }}>
-          <button 
-            onClick={(e) => { e.stopPropagation(); setIsPlaying(!isPlaying); }} 
-            style={sliderBtnStyle}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            aria-label={isPlaying ? 'Pause slider' : 'Play slider'}
-          >
-            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-          </button>
-          <button 
-            onClick={(e) => { e.stopPropagation(); prevSlide(); }} 
-            style={sliderBtnStyle}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
-            <ChevronLeft size={24}/>
-          </button>
-        </div>
-        <button 
-          onClick={(e) => { e.stopPropagation(); nextSlide(); }} 
-          style={{...sliderBtnStyle, pointerEvents: 'auto'}}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-        >
-          <ChevronRight size={24}/>
-        </button>
-      </div>
-
       {/* Dots */}
       <div style={{
         position: 'absolute',
@@ -405,7 +346,7 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
               width: currentSlide === idx ? '32px' : '10px',
               height: '10px',
               borderRadius: '10px',
-              backgroundColor: currentSlide === idx ? '#C5A880' : 'rgba(0,0,0,0.2)',
+              backgroundColor: currentSlide === idx ? '#D4B483' : 'rgba(0,0,0,0.2)',
               border: 'none',
               cursor: 'pointer',
               transition: 'all 0.3s ease'

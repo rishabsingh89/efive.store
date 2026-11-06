@@ -922,14 +922,14 @@ export default function RoomCanvas({ wizardMode, wizardStep, onOpenProductModal 
       {!wizardMode && (
         <div style={{ ...styles.toolbar, transform: isMobile ? 'scale(0.8)' : 'none', transformOrigin: 'top right' }}>
           <button 
-            style={{ ...styles.toolBtn, backgroundColor: viewMode === 'dollhouse' ? '#C5A880' : '#fff', color: viewMode === 'dollhouse' ? '#fff' : '#333' }}
+            style={{ ...styles.toolBtn, backgroundColor: viewMode === 'dollhouse' ? '#D4B483' : '#fff', color: viewMode === 'dollhouse' ? '#fff' : '#333' }}
             onClick={() => setInternalViewMode('dollhouse')}
             title="3D View"
           >
             <Video size={16} /> 3D View
           </button>
           <button 
-            style={{ ...styles.toolBtn, backgroundColor: viewMode === 'top' ? '#C5A880' : '#fff', color: viewMode === 'top' ? '#fff' : '#333' }}
+            style={{ ...styles.toolBtn, backgroundColor: viewMode === 'top' ? '#D4B483' : '#fff', color: viewMode === 'top' ? '#fff' : '#333' }}
             onClick={() => setInternalViewMode('top')}
             title="Top View"
           >
@@ -937,7 +937,7 @@ export default function RoomCanvas({ wizardMode, wizardStep, onOpenProductModal 
           </button>
           {roomType === 'living' && (
             <button 
-              style={{ ...styles.toolBtn, backgroundColor: viewMode === 'scene' ? '#C5A880' : '#fff', color: viewMode === 'scene' ? '#fff' : '#333' }}
+              style={{ ...styles.toolBtn, backgroundColor: viewMode === 'scene' ? '#D4B483' : '#fff', color: viewMode === 'scene' ? '#fff' : '#333' }}
               onClick={() => setInternalViewMode('scene')}
               title="Living Room Scene with Interactive Hotspots"
             >
@@ -1002,9 +1002,9 @@ export default function RoomCanvas({ wizardMode, wizardStep, onOpenProductModal 
               onClick={() => setIsDimensionEditing(!isDimensionEditing)} 
               style={{ 
                 ...styles.navIconBtn, 
-                backgroundColor: isDimensionEditing ? '#111' : '#C5A880',
+                backgroundColor: isDimensionEditing ? '#111' : '#D4B483',
                 color: isDimensionEditing ? '#fff' : '#fff',
-                boxShadow: isDimensionEditing ? 'none' : '0 4px 12px rgba(197, 168, 128, 0.4)',
+                boxShadow: isDimensionEditing ? 'none' : '0 4px 12px rgba(212, 180, 131, 0.4)',
                 transform: isDimensionEditing ? 'scale(0.95)' : 'scale(1.05)',
                 transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
               }}
@@ -1170,7 +1170,7 @@ const styles = {
     transition: 'all 0.2s ease',
   },
   navBtnActive: {
-    backgroundColor: '#1E1D1B',
+    backgroundColor: '#2F3E34',
     color: '#fff',
   },
   navDivider: {

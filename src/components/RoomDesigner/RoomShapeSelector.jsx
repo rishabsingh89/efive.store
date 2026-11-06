@@ -191,15 +191,15 @@ export default function RoomShapeSelector() {
             onClick={(e) => handleShapeSelect(shape.id, e)}
             style={{
               ...styles.shapeBtn,
-              borderColor: isSelected ? '#C5A880' : 'transparent',
-              backgroundColor: isSelected ? 'rgba(197, 168, 128, 0.1)' : 'transparent',
+              borderColor: isSelected ? '#D4B483' : 'transparent',
+              backgroundColor: isSelected ? 'rgba(212, 180, 131, 0.1)' : 'transparent',
             }}
             title={shape.label}
           >
-            <ShapeIcon shapeId={shape.id} color={isSelected ? '#C5A880' : '#d5d5d5'} />
+            <ShapeIcon shapeId={shape.id} color={isSelected ? '#D4B483' : '#d5d5d5'} />
             <span style={{
               ...styles.shapeLabel,
-              color: isSelected ? '#1E1D1B' : '#888',
+              color: isSelected ? '#2F3E34' : '#888',
               fontWeight: isSelected ? '700' : '500',
             }}>
               {shape.label}
