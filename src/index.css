@@ -1071,6 +1071,18 @@ svg text {
   transform: scale(1.02);
 }
 
+.beds-img-container img {
+  object-fit: cover;
+  object-position: center 58%;
+  padding: 0;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  filter: contrast(102%) brightness(101%);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
 .shelves-img-container img {
   padding: 0;
   object-fit: cover;
@@ -1082,6 +1094,10 @@ svg text {
 
 .product-card-enhanced:hover .decor-img-container img {
   transform: scale(1.08);
+}
+
+.product-card-enhanced:hover .beds-img-container img {
+  transform: scale(1.05) translateZ(0);
 }
 
 .product-card-enhanced:hover .shelves-img-container img {

@@ -129,7 +129,7 @@ export default function ProductDetailsModal({ product, onClose }) {
                 {product.images && product.images.length > 0 ? (
                   <>
                     <div className="pdp-image-showcase">
-                      <div style={{ position: 'relative', width: '100%', height: '100%', padding: '1rem' }}>
+                      <div style={{ position: 'relative', width: '100%', height: '100%', padding: category === 'beds' || category === 'bed' ? '0.25rem' : '1rem' }}>
                         <ProductImageMagnifier
                           src={product.images[activeImageIdx]} 
                           alt={name}
@@ -666,6 +666,7 @@ const styles = {
     width: '100px',
     height: '75px',
     objectFit: 'cover',
+    objectPosition: 'center 58%',
     padding: '0',
     backgroundColor: '#ffffff',
     borderRadius: '8px',
