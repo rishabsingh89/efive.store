@@ -1,4 +1,5 @@
 User-agent: *
+Disallow: /admin
 Disallow: /efive-admin
 Disallow: /admin-portal
 Allow: /

@@ -6,16 +6,6 @@
       "permanent": true
     },
     {
-      "source": "/admin",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/admin/:path*",
-      "destination": "/",
-      "permanent": true
-    },
-    {
       "source": "/about",
       "destination": "/",
       "permanent": true
@@ -28,7 +18,7 @@
   ],
   "headers": [
     {
-      "source": "/(efive-admin|admin-portal)(.*)",
+      "source": "/(admin|efive-admin|admin-portal)(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
