@@ -991,16 +991,25 @@ export const saveCategories = (updatedCategories) => {
 export const getHeroCMS = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_hero_cms_v38');
-      if (stored) {
-        const parsed = JSON.parse(stored);
+      // First try the newer version key
+      const storedV38 = localStorage.getItem('efive_hero_cms_v38');
+      if (storedV38) {
+        const parsed = JSON.parse(storedV38);
         if (parsed?.slides && parsed.slides.length >= 5) {
           return parsed;
         }
       }
-      // Migrate or reset to 5 slides
-      localStorage.removeItem('efive_hero_cms_v37');
+      // Fallback to older version key for backward compatibility
+      const storedV37 = localStorage.getItem('efive_hero_cms_v37');
+      if (storedV37) {
+        const parsed = JSON.parse(storedV37);
+        if (parsed?.slides && parsed.slides.length >= 5) {
+          return parsed;
+        }
+      }
+      // If none exist or insufficient slides, reset to initial data
       localStorage.setItem('efive_hero_cms_v38', JSON.stringify(initialHeroCMS));
+      localStorage.setItem('efive_hero_cms_v37', JSON.stringify(initialHeroCMS));
     }
   } catch (e) {
     console.error('Could not load hero CMS', e);
@@ -1011,7 +1020,10 @@ export const getHeroCMS = () => {
 export const saveHeroCMS = (updatedHero) => {
   try {
     if (typeof window !== 'undefined') {
+      // Store under the current version key
       localStorage.setItem('efive_hero_cms_v38', JSON.stringify(updatedHero));
+      // Also keep backward compatible key for any old code paths
+      localStorage.setItem('efive_hero_cms_v37', JSON.stringify(updatedHero));
       window.dispatchEvent(new CustomEvent('efive_hero_updated', { detail: updatedHero }));
       window.dispatchEvent(new CustomEvent('efive_cms_updated', { detail: { heroCMS: updatedHero } }));
 
