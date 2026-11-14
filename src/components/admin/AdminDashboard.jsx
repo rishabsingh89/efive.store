@@ -303,6 +303,35 @@ export default function AdminDashboard() {
     });
   };
 
+  const handleAddSlide = () => {
+    setHeroCMSState(prev => ({
+      ...prev,
+      slides: [
+        ...(prev.slides || []),
+        {
+          id: Date.now(),
+          eyebrow: 'NEW PROMOTION',
+          title: 'Special Collection',
+          subtitle: 'Crafted For Modern Living',
+          description: 'Explore our latest collection designed for your home.',
+          image: '/hero_bed_2.jpg',
+          ctaText: 'Explore Collection'
+        }
+      ]
+    }));
+  };
+
+  const handleRemoveSlide = (index) => {
+    if ((heroCMS.slides || []).length <= 1) {
+      alert('At least 1 slide is required in Hero.');
+      return;
+    }
+    setHeroCMSState(prev => ({
+      ...prev,
+      slides: (prev.slides || []).filter((_, idx) => idx !== index)
+    }));
+  };
+
   const handleSlideImageUpload = (index, e) => {
     const file = e.target.files[0];
     if (file) {
@@ -517,23 +546,137 @@ export default function AdminDashboard() {
               </div>
 
               <div style={styles.formSectionFull}>
-                <h3 style={styles.sectionTitle}>Hero Slider Slides</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <div>
+                    <h3 style={{ ...styles.sectionTitle, margin: 0 }}>Hero Slider Slides ({(heroCMS.slides || []).length})</h3>
+                    <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#666' }}>Edit all 5 hero slides, customize headlines, text, or upload images directly.</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddSlide}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.4rem',
+                      padding: '0.6rem 1.2rem',
+                      backgroundColor: 'hsl(var(--primary-color))',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: '0.9rem',
+                      fontWeight: 600,
+                      boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    <Plus size={16} /> Add New Slide
+                  </button>
+                </div>
+
                 {(heroCMS.slides || []).map((slide, idx) => (
                   <div key={idx} style={{ backgroundColor: '#f9f9f9', padding: '1.25rem', borderRadius: '10px', marginBottom: '1.25rem', border: '1px solid #eee' }}>
-                    <h4 style={{ margin: '0 0 1rem 0', color: 'hsl(var(--primary-color))' }}>Slide #{idx + 1}</h4>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                      <h4 style={{ margin: 0, color: 'hsl(var(--primary-color))', fontSize: '1.05rem', fontWeight: 600 }}>
+                        Slide #{idx + 1} {slide.title ? `– ${slide.title}` : ''}
+                      </h4>
+                      {(heroCMS.slides || []).length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveSlide(idx)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.3rem',
+                            padding: '0.35rem 0.75rem',
+                            backgroundColor: '#fee2e2',
+                            color: '#b91c1c',
+                            border: '1px solid #fca5a5',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            fontSize: '0.8rem',
+                            fontWeight: 500
+                          }}
+                        >
+                          <Trash2 size={14} /> Remove Slide
+                        </button>
+                      )}
+                    </div>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
                       <div style={styles.formGroup}>
-                        <label style={styles.label}>Slide Title</label>
-                        <input type="text" value={slide.title || ''} onChange={e => handleSlideChange(idx, 'title', e.target.value)} style={styles.input} />
+                        <label style={styles.label}>Eyebrow (Top Pill Tag)</label>
+                        <input
+                          type="text"
+                          value={slide.eyebrow || ''}
+                          onChange={e => handleSlideChange(idx, 'eyebrow', e.target.value)}
+                          placeholder="e.g. CURATED INTERIORS"
+                          style={styles.input}
+                        />
                       </div>
                       <div style={styles.formGroup}>
-                        <label style={styles.label}>Slide Subtitle</label>
-                        <input type="text" value={slide.subtitle || ''} onChange={e => handleSlideChange(idx, 'subtitle', e.target.value)} style={styles.input} />
+                        <label style={styles.label}>Slide Title (Headline Line 1)</label>
+                        <input
+                          type="text"
+                          value={slide.title || ''}
+                          onChange={e => handleSlideChange(idx, 'title', e.target.value)}
+                          placeholder="e.g. Curated Furniture,"
+                          style={styles.input}
+                        />
+                      </div>
+                      <div style={styles.formGroup}>
+                        <label style={styles.label}>Slide Subtitle (Headline Line 2)</label>
+                        <input
+                          type="text"
+                          value={slide.subtitle || ''}
+                          onChange={e => handleSlideChange(idx, 'subtitle', e.target.value)}
+                          placeholder="e.g. Starting From ₹3k (only)"
+                          style={styles.input}
+                        />
+                      </div>
+                      <div style={styles.formGroup}>
+                        <label style={styles.label}>CTA Button Text</label>
+                        <input
+                          type="text"
+                          value={slide.ctaText || ''}
+                          onChange={e => handleSlideChange(idx, 'ctaText', e.target.value)}
+                          placeholder="e.g. Explore Collection"
+                          style={styles.input}
+                        />
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+                      <div style={styles.formGroup}>
+                        <label style={styles.label}>Description / Subtext</label>
+                        <textarea
+                          rows="2"
+                          value={slide.description || ''}
+                          onChange={e => handleSlideChange(idx, 'description', e.target.value)}
+                          placeholder="e.g. Precision Craftsmanship. Better Furniture."
+                          style={styles.textarea}
+                        />
                       </div>
                       <div style={styles.formGroup}>
                         <label style={styles.label}>Slide Image URL / Upload</label>
-                        <input type="text" value={slide.image || ''} onChange={e => handleSlideChange(idx, 'image', e.target.value)} style={styles.input} />
-                        <input type="file" accept="image/*" onChange={e => handleSlideImageUpload(idx, e)} style={{ marginTop: '0.5rem', ...styles.input }} />
+                        <input
+                          type="text"
+                          value={slide.image || ''}
+                          onChange={e => handleSlideChange(idx, 'image', e.target.value)}
+                          placeholder="/hero_bed_2.jpg"
+                          style={styles.input}
+                        />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={e => handleSlideImageUpload(idx, e)}
+                          style={{ marginTop: '0.5rem', ...styles.input }}
+                        />
+                        {slide.image && (
+                          <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <img src={slide.image} alt="Preview" style={{ width: '60px', height: '40px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #ddd' }} />
+                            <span style={{ fontSize: '0.75rem', color: '#666' }}>Image Preview</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

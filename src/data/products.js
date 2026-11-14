@@ -46,22 +46,49 @@ export const initialHeroCMS = {
   "offerText": "FLAT 30% OFF ON LUXURY COLLECTIONS",
   "slides": [
     {
-      "title": "The Royal Velvet Wingback",
-      "subtitle": "Handcrafted Elegance & Storage",
+      "id": 1,
+      "eyebrow": "CURATED INTERIORS • TIMELESS DESIGN",
+      "title": "Curated Furniture,",
+      "subtitle": "Starting From ₹3k (only)",
+      "description": "",
       "image": "/hero_bed_2.jpg",
-      "category": "beds"
+      "ctaText": "Explore Collection"
     },
     {
-      "title": "Verona Italian Marble Dining",
-      "subtitle": "Bespoke Marble & Gold Accents",
-      "image": "/hero_slide2.jpg",
-      "category": "dining"
+      "id": 2,
+      "eyebrow": "FROM OUR FACTORY • TO YOUR HOME",
+      "title": "Manufacturing",
+      "subtitle": "With Purpose.",
+      "description": "Precision Craftsmanship. Better Furniture. A Sustainable Tomorrow.",
+      "image": "/realistic_manufacturing.jpg",
+      "ctaText": "See Our Process"
     },
     {
-      "title": "Somnus Sanctuary Bed",
-      "subtitle": "German Gas-Lift Hydraulic Storage",
-      "image": "/hero_slide3.jpg",
-      "category": "beds"
+      "id": 3,
+      "eyebrow": "FAST & SAFE DELIVERY",
+      "title": "Premium Delivery,",
+      "subtitle": "Right To Your Door.",
+      "description": "We treat every piece with the utmost care. Experience hassle-free, secure delivery straight to your room of choice.",
+      "image": "/delivery_realistic.jpg",
+      "ctaText": "Track Order"
+    },
+    {
+      "id": 4,
+      "eyebrow": "PROFESSIONAL ASSEMBLY",
+      "title": "Expertly Crafted,",
+      "subtitle": "Perfectly Assembled.",
+      "description": "Sit back and relax. Our skilled professionals assemble your furniture with precision, leaving your space clean and ready to enjoy.",
+      "image": "/assembly_realistic.jpg",
+      "ctaText": "Book Assembly"
+    },
+    {
+      "id": 5,
+      "eyebrow": "HAPPY LIVING",
+      "title": "The Ultimate Comfort,",
+      "subtitle": "For A Better Tomorrow.",
+      "description": "Turn your house into a home. Quality sleep, beautiful spaces, and lasting memories start with the perfect foundation.",
+      "image": "/happy_living.jpg",
+      "ctaText": "Find Your Comfort"
     }
   ]
 };
@@ -964,11 +991,16 @@ export const saveCategories = (updatedCategories) => {
 export const getHeroCMS = () => {
   try {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('efive_hero_cms_v37');
+      const stored = localStorage.getItem('efive_hero_cms_v38');
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        if (parsed?.slides && parsed.slides.length >= 5) {
+          return parsed;
+        }
       }
-      localStorage.setItem('efive_hero_cms_v37', JSON.stringify(initialHeroCMS));
+      // Migrate or reset to 5 slides
+      localStorage.removeItem('efive_hero_cms_v37');
+      localStorage.setItem('efive_hero_cms_v38', JSON.stringify(initialHeroCMS));
     }
   } catch (e) {
     console.error('Could not load hero CMS', e);
@@ -979,7 +1011,7 @@ export const getHeroCMS = () => {
 export const saveHeroCMS = (updatedHero) => {
   try {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('efive_hero_cms_v37', JSON.stringify(updatedHero));
+      localStorage.setItem('efive_hero_cms_v38', JSON.stringify(updatedHero));
       window.dispatchEvent(new CustomEvent('efive_hero_updated', { detail: updatedHero }));
       window.dispatchEvent(new CustomEvent('efive_cms_updated', { detail: { heroCMS: updatedHero } }));
 
