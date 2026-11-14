@@ -154,7 +154,7 @@ export default function CollectionPage() {
         <section style={styles.heroSection}>
           <div className="container">
             <span style={styles.breadcrumb}>
-              <Link to="/" style={styles.breadcrumbLink}>Home</Link> / <Link to="/collections" style={styles.breadcrumbLink}>Collections</Link> / {data.title}
+              <Link to="/" style={styles.breadcrumbLink}>Home</Link> / {data.title}
             </span>
             <h1 style={styles.heroTitle}>{data.title}</h1>
             <p style={styles.heroTagline}>{data.tagline}</p>

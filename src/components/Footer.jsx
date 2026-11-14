@@ -93,7 +93,7 @@ export default function Footer() {
 
           {/* Links Column 1: Collections */}
           <div style={styles.linksCol}>
-            <FooterLink to="/collections" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Collections</h4></FooterLink>
+            <FooterLink to="/" style={{textDecoration: 'none'}}><h4 style={styles.colTitle}>Collections</h4></FooterLink>
             <ul style={styles.linksList}>
               <li><FooterLink to="/collections/luxury-living-room" style={styles.linkItem}>Luxury Living Room</FooterLink></li>
               <li><FooterLink to="/collections/ergonomic-office-desks" style={styles.linkItem}>Ergonomic Office Desks</FooterLink></li>

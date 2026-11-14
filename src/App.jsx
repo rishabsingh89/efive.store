@@ -35,7 +35,8 @@ export default function App() {
             <Route path="/room-designer" element={<RoomDesigner />} />
             
             {/* SEO Pages */}
-            <Route path="/collections" element={<CollectionsMain />} />
+            {/* Direct redirect to Homepage for /collections */}
+            <Route path="/collections" element={<Navigate to="/" replace />} />
             <Route path="/collections/:slug" element={<CollectionPage />} />
             <Route path="/services" element={<ServicesMain />} />
             <Route path="/services/:slug" element={<ServicePage />} />
