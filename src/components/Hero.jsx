@@ -108,7 +108,7 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
         const rect = hero.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
-        img.style.transform = `scale(1.03) translate(${x * -10}px, ${y * -6}px)`;
+        img.style.transform = `scale(0.96) translate(${x * -10}px, ${y * -6}px)`;
         rafId = null;
       });
     };
@@ -116,7 +116,7 @@ const Hero = React.memo(function Hero({ onExploreClick }) {
     const handleMouseLeave = () => {
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
       const img = imageRef.current;
-      if (img) img.style.transform = 'scale(1.03) translate(0, 0)';
+      if (img) img.style.transform = 'scale(0.96) translate(0, 0)';
     };
 
     hero.addEventListener('mousemove', handleMouseMove, { passive: true });
