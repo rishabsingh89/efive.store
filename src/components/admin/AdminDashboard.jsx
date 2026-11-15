@@ -10,6 +10,41 @@ import {
 } from '../../data/products';
 import { Plus, Edit, Trash2, ChevronLeft, Image, Package, Eye, Layout, Sparkles, Layers } from 'lucide-react';
 
+const compressImageFile = (file, maxWidth = 1200, maxHeight = 900, quality = 0.8) => {
+  return new Promise((resolve) => {
+    if (!file || !file.type.startsWith('image/')) {
+      resolve('');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new window.Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        if (height > maxHeight) {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = () => resolve(reader.result);
+      img.src = e.target.result;
+    };
+    reader.onerror = () => resolve('');
+    reader.readAsDataURL(file);
+  });
+};
+
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('products');
   const [products, setProducts] = useState([]);
@@ -148,14 +183,13 @@ export default function AdminDashboard() {
     }));
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, photoUrl: reader.result }));
-      };
-      reader.readAsDataURL(file);
+      const compressed = await compressImageFile(file, 1200, 900, 0.82);
+      if (compressed) {
+        setFormData((prev) => ({ ...prev, photoUrl: compressed }));
+      }
     }
   };
 
@@ -251,14 +285,13 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleCatImageUpload = (e) => {
+  const handleCatImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCatFormData(prev => ({ ...prev, image: reader.result }));
-      };
-      reader.readAsDataURL(file);
+      const compressed = await compressImageFile(file, 800, 600, 0.82);
+      if (compressed) {
+        setCatFormData(prev => ({ ...prev, image: compressed }));
+      }
     }
   };
 
@@ -332,14 +365,13 @@ export default function AdminDashboard() {
     }));
   };
 
-  const handleSlideImageUpload = (index, e) => {
+  const handleSlideImageUpload = async (index, e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        handleSlideChange(index, 'image', reader.result);
-      };
-      reader.readAsDataURL(file);
+      const compressed = await compressImageFile(file, 1376, 768, 0.85);
+      if (compressed) {
+        handleSlideChange(index, 'image', compressed);
+      }
     }
   };
 

@@ -995,7 +995,7 @@ export const getHeroCMS = () => {
       const storedV38 = localStorage.getItem('efive_hero_cms_v38');
       if (storedV38) {
         const parsed = JSON.parse(storedV38);
-        if (parsed?.slides && parsed.slides.length >= 5) {
+        if (parsed?.slides && Array.isArray(parsed.slides) && parsed.slides.length > 0) {
           return parsed;
         }
       }
@@ -1003,11 +1003,11 @@ export const getHeroCMS = () => {
       const storedV37 = localStorage.getItem('efive_hero_cms_v37');
       if (storedV37) {
         const parsed = JSON.parse(storedV37);
-        if (parsed?.slides && parsed.slides.length >= 5) {
+        if (parsed?.slides && Array.isArray(parsed.slides) && parsed.slides.length > 0) {
           return parsed;
         }
       }
-      // If none exist or insufficient slides, reset to initial data
+      // If none exist, initialize with initialHeroCMS
       localStorage.setItem('efive_hero_cms_v38', JSON.stringify(initialHeroCMS));
       localStorage.setItem('efive_hero_cms_v37', JSON.stringify(initialHeroCMS));
     }

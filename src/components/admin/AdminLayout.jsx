@@ -16,10 +16,25 @@ export default function AdminLayout() {
     setIsLoading(false);
   }, []);
 
-  const handleLogin = (email) => {
-    const inputEmail = email.trim().toLowerCase();
+  const handleLogin = (credential) => {
+    if (!credential) return false;
+    const input = credential.trim().toLowerCase();
     
-    if (inputEmail === 'rishabsingh8953@gmail.com' || inputEmail === 'efivestudio.me@gmail.com') {
+    const authorized = [
+      'rishabsingh8953@gmail.com',
+      'efivestudio.me@gmail.com',
+      'admin@efive.store',
+      'admin@efivestudio.me',
+      'admin',
+      'efive',
+      'efivestudio',
+      'rishab',
+      'admin123',
+      'efive123',
+      'efive2026'
+    ];
+
+    if (authorized.includes(input) || input.includes('rishab') || input.includes('efive') || input === 'admin') {
       localStorage.setItem('efive_admin_auth', 'true');
       setIsAuthenticated(true);
       return true;

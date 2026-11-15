@@ -53,6 +53,14 @@ export default function App() {
               <Route index element={<AdminDashboard />} />
               <Route path="*" element={<AdminDashboard />} />
             </Route>
+            <Route path="/dashboard" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="*" element={<AdminDashboard />} />
+            </Route>
+            <Route path="/admin-dashboard" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="*" element={<AdminDashboard />} />
+            </Route>
             <Route path="/efive-admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="*" element={<AdminDashboard />} />

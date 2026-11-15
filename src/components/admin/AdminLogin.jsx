@@ -3,14 +3,14 @@ import { Helmet } from 'react-helmet-async';
 import { Lock } from 'lucide-react';
 
 export default function AdminLogin({ onLogin }) {
-  const [email, setEmail] = useState('');
+  const [credential, setCredential] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const success = onLogin(email);
+    const success = onLogin(credential);
     if (!success) {
-      setError('Invalid email address. Access denied.');
+      setError('Access denied. Please enter an authorized email or admin passcode.');
     }
   };
 
@@ -26,15 +26,19 @@ export default function AdminLogin({ onLogin }) {
           <Lock size={32} color="#121212" />
         </div>
         <h2 style={styles.title}>Admin Access</h2>
-        <p style={styles.subtitle}>Please enter your authorized email</p>
+        <p style={styles.subtitle}>Enter your authorized email or passcode</p>
         
         <form onSubmit={handleSubmit} style={styles.form}>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email Address"
+            type="text"
+            value={credential}
+            onChange={(e) => {
+              setCredential(e.target.value);
+              if (error) setError('');
+            }}
+            placeholder="Email or Passcode (e.g. admin)"
             required
+            autoComplete="username"
             style={styles.input}
           />
           {error && <p style={styles.error}>{error}</p>}
@@ -42,6 +46,9 @@ export default function AdminLogin({ onLogin }) {
             Secure Login
           </button>
         </form>
+        <p style={{ marginTop: '1.25rem', fontSize: '0.8rem', color: '#888' }}>
+          Tip: You can login using authorized email or admin passcode.
+        </p>
       </div>
     </div>
   );
