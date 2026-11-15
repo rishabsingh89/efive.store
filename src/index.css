@@ -5,16 +5,26 @@
   --font-body: 'Inter', sans-serif;
 
   /* HSL Colors */
-  --bg-color: 122, 15%, 67%;       /* #9EB89F (Sage Green Background) */
-  --text-color: 140, 14%, 21%;     /* #2F3E34 (Deep Forest Text) */
-  --primary-color: 36, 49%, 67%;   /* #D4B483 (Gold Accent) */
-  --primary-hover: 36, 49%, 55%;   /* Darker Gold on hover */
-  --accent-color: 36, 49%, 67%;    /* #D4B483 (Gold Accent) */
-  --surface-color: 0, 0%, 100%;    /* #FFFFFF (Pure White) */
-  --muted-color: 140, 10%, 40%;    /* Muted forest grey-green */
-  --border-color: 122, 10%, 78%;   /* Soft green-tinted border */
-  --card-bg: 0, 0%, 100%;          /* Pure white for card contrast */
-  --secondary-color: 139, 16%, 60%; /* #88A892 (Secondary Green) */
+  --bg-color: 122, 15%, 67%;
+  /* #9EB89F (Sage Green Background) */
+  --text-color: 140, 14%, 21%;
+  /* #2F3E34 (Deep Forest Text) */
+  --primary-color: 36, 49%, 67%;
+  /* #D4B483 (Gold Accent) */
+  --primary-hover: 36, 49%, 55%;
+  /* Darker Gold on hover */
+  --accent-color: 36, 49%, 67%;
+  /* #D4B483 (Gold Accent) */
+  --surface-color: 0, 0%, 100%;
+  /* #FFFFFF (Pure White) */
+  --muted-color: 140, 10%, 40%;
+  /* Muted forest grey-green */
+  --border-color: 122, 10%, 78%;
+  /* Soft green-tinted border */
+  --card-bg: 0, 0%, 100%;
+  /* Pure white for card contrast */
+  --secondary-color: 139, 16%, 60%;
+  /* #88A892 (Secondary Green) */
 
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow-sm: 0 2px 8px rgba(30, 29, 27, 0.04);
@@ -33,7 +43,8 @@
 
 body {
   font-family: var(--font-body);
-  background-color: #1E1D1B; /* Match footer color to hide overscroll space */
+  background-color: #1E1D1B;
+  /* Match footer color to hide overscroll space */
   color: hsl(var(--text-color));
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -41,13 +52,19 @@ body {
 }
 
 #root {
-  background-color: hsl(var(--bg-color)); /* Main app background */
+  background-color: hsl(var(--bg-color));
+  /* Main app background */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   font-weight: 500;
   letter-spacing: -0.02em;
@@ -58,13 +75,16 @@ h1, h2, h3, h4, h5, h6 {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: hsl(var(--bg-color));
 }
+
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--border-color));
   border-radius: var(--radius-sm);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary-color));
 }
@@ -166,60 +186,122 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .img-zoom-container:hover img {
-  transform: scale(1.05);
+  transform: none;
 }
 
 /* ─── Animation Keyframes ─── */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInRight {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes slideInUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Subtle bounce for scroll indicator */
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(5px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(5px);
+  }
 }
 
 /* Premium hero: image slow reveal zoom */
 @keyframes ph-img-reveal {
-  from { opacity: 0; transform: scale(1.08); }
-  to   { opacity: 1; transform: scale(1.04); }
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.04);
+  }
 }
 
 /* Premium hero: content fade + slide up */
 @keyframes ph-fade-up {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Premium hero: eyebrow fade in */
 @keyframes ph-eyebrow-in {
-  from { opacity: 0; transform: translateX(-16px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Shimmer sweep animation for CTA */
 @keyframes ctaShimmer {
-  0%   { left: -100%; }
-  50%  { left: 100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+
+  50% {
+    left: 100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }
 
 /* Float card entry */
 @keyframes ph-float-in {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -234,11 +316,13 @@ h1, h2, h3, h4, h5, h6 {
 .product-card {
   transition: var(--transition-smooth);
 }
+
 .product-card:hover {
   transform: translateY(-4px);
   border-color: hsl(var(--primary-color)) !important;
   box-shadow: var(--shadow-md);
 }
+
 .product-card:hover .quick-cart-btn {
   background-color: hsl(var(--primary-color)) !important;
   color: #fff !important;
@@ -248,6 +332,7 @@ h1, h2, h3, h4, h5, h6 {
 .hero-slide-title {
   animation: heroContentIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
 .hero-slide-desc {
   animation: heroContentIn 0.75s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -279,7 +364,8 @@ button[aria-label="Next slide"]:hover {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 2.5rem 3rem 2rem 2.5rem; /* Reduced top padding */
+  padding: 2.5rem 3rem 2rem 2.5rem;
+  /* Reduced top padding */
   position: relative;
   z-index: 2;
 }
@@ -297,6 +383,7 @@ button[aria-label="Next slide"]:hover {
   animation: ph-eyebrow-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
   backdrop-filter: blur(4px);
 }
+
 .ph-eyebrow__dot {
   width: 8px;
   height: 8px;
@@ -305,6 +392,7 @@ button[aria-label="Next slide"]:hover {
   flex-shrink: 0;
   box-shadow: 0 0 8px rgba(212, 180, 131, 0.6);
 }
+
 .ph-eyebrow__text {
   font-family: var(--font-body);
   font-size: 0.75rem;
@@ -324,26 +412,31 @@ button[aria-label="Next slide"]:hover {
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
+
 .ph-headline__line1 {
-  font-size: clamp(2.8rem, 5vw, 4.5rem); /* Scaled down slightly */
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  /* Scaled down slightly */
   font-weight: 500;
   color: #2F3E34;
   display: block;
   animation: ph-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
 }
+
 .ph-headline__line2 {
-  font-size: clamp(2.8rem, 5vw, 4.5rem); /* Scaled down slightly */
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  /* Scaled down slightly */
   font-weight: 800;
   display: block;
   font-style: italic;
   color: #2F3E34;
   animation: ph-fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.38s both;
-  
+
   /* Retain spacing for the underline */
   padding-bottom: 0.1em;
   position: relative;
   width: fit-content;
 }
+
 .ph-headline__line2::after {
   content: '';
   position: absolute;
@@ -400,24 +493,29 @@ button[aria-label="Next slide"]:hover {
   position: relative;
   overflow: hidden;
 }
+
 .ph-cta-primary::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent 40%, rgba(212, 180, 131,0.3) 100%);
+  background: linear-gradient(135deg, transparent 40%, rgba(212, 180, 131, 0.3) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
+
 .ph-cta-primary:hover {
   transform: translateY(-4px);
   box-shadow: 0 15px 35px rgba(30, 29, 27, 0.35);
 }
+
 .ph-cta-primary:hover::before {
   opacity: 1;
 }
+
 .ph-cta-icon {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .ph-cta-primary:hover .ph-cta-icon,
 .ph-cta-secondary:hover .ph-cta-icon {
   transform: translateX(5px);
@@ -430,7 +528,8 @@ button[aria-label="Next slide"]:hover {
   gap: 0.6rem;
   padding: 1.1rem 2.25rem;
   color: #2F3E34;
-  background: #C8D8C9; /* Modern light green */
+  background: #C8D8C9;
+  /* Modern light green */
   border: 1px solid #A8C4A9;
   border-radius: 40px;
   text-decoration: none;
@@ -441,17 +540,20 @@ button[aria-label="Next slide"]:hover {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
 }
+
 .ph-cta-secondary:hover {
   background: #A8C4A9;
   border-color: #A5D6A7;
   transform: translateY(-4px);
   box-shadow: 0 10px 25px rgba(46, 125, 50, 0.15);
 }
+
 .ph-cta-sparkle {
   color: #2E7D32;
   flex-shrink: 0;
   transition: transform 0.4s ease;
 }
+
 .ph-cta-secondary:hover .ph-cta-sparkle,
 .ph-cta-primary:hover .ph-cta-sparkle {
   transform: rotate(15deg) scale(1.1);
@@ -468,9 +570,11 @@ button[aria-label="Next slide"]:hover {
   opacity: 0.55;
   transition: opacity 0.2s ease;
 }
+
 .ph-scroll-indicator:hover {
   opacity: 0.85;
 }
+
 .ph-scroll-text {
   font-family: var(--font-body);
   font-size: 0.75rem;
@@ -478,6 +582,7 @@ button[aria-label="Next slide"]:hover {
   text-transform: uppercase;
   color: #4A6350;
 }
+
 .ph-scroll-arrow {
   color: #4A6350;
   animation: bounce 2.2s ease-in-out infinite;
@@ -508,6 +613,7 @@ button[aria-label="Next slide"]:hover {
   object-fit: cover;
   object-position: center;
   display: block;
+  transform: scale(1.03);
   animation: ph-img-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -519,7 +625,7 @@ button[aria-label="Next slide"]:hover {
   left: 0;
   right: 0;
   height: 35%;
-  background: linear-gradient(to top, rgba(20,18,16,0.45), transparent);
+  background: linear-gradient(to top, rgba(20, 18, 16, 0.45), transparent);
   pointer-events: none;
 }
 
@@ -541,6 +647,7 @@ button[aria-label="Next slide"]:hover {
   box-shadow: 0 8px 32px rgba(30, 29, 27, 0.12);
   animation: ph-float-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.9s both;
 }
+
 .ph-float-card__icon {
   width: 32px;
   height: 32px;
@@ -552,11 +659,13 @@ button[aria-label="Next slide"]:hover {
   justify-content: center;
   flex-shrink: 0;
 }
+
 .ph-float-card__content {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
 }
+
 .ph-float-card__label {
   font-family: var(--font-body);
   font-size: 0.65rem;
@@ -565,6 +674,7 @@ button[aria-label="Next slide"]:hover {
   text-transform: uppercase;
   color: #9C7A4F;
 }
+
 .ph-float-card__value {
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -577,10 +687,11 @@ button[aria-label="Next slide"]:hover {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.6);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   flex-shrink: 0;
 }
+
 .ph-swatch-label {
   font-family: var(--font-body);
   font-size: 0.65rem;
@@ -603,6 +714,7 @@ button[aria-label="Next slide"]:hover {
   .premium-hero__left {
     padding: 3rem 3rem 3rem 2.5rem;
   }
+
   .ph-subtext {
     max-width: 400px;
   }
@@ -617,24 +729,29 @@ button[aria-label="Next slide"]:hover {
     height: auto;
     max-height: none;
   }
+
   .premium-hero__left {
     padding: 3rem 3rem 2rem 3rem;
     order: 1;
   }
+
   .premium-hero__right {
     order: 2;
     height: 100%;
     min-height: 40vh;
   }
+
   .ph-img-frame {
     margin: 0;
     border-radius: 0;
     height: 100%;
   }
+
   .ph-float-card {
     left: 2rem;
     bottom: 2rem;
   }
+
   .ph-swatch-strip {
     left: 2rem;
     top: 2rem;
@@ -646,26 +763,32 @@ button[aria-label="Next slide"]:hover {
   .premium-hero__left {
     padding: 2.5rem 1.5rem 1.5rem 1.5rem;
   }
+
   .premium-hero__right {
     height: 100%;
     min-height: 35vh;
   }
+
   .ph-float-card {
     left: 1rem;
     bottom: 1.5rem;
   }
+
   .ph-swatch-strip {
     left: 1rem;
     top: 1.5rem;
   }
+
   .ph-headline__line1,
   .ph-headline__line2 {
     font-size: clamp(2.8rem, 8vw, 3.6rem);
   }
+
   .ph-cta-row {
     gap: 1rem;
     margin-bottom: 1.5rem;
   }
+
   .ph-cta-primary {
     padding: 0.95rem 1.8rem;
     font-size: 0.85rem;
@@ -677,18 +800,22 @@ button[aria-label="Next slide"]:hover {
   .premium-hero__left {
     padding: 1.75rem 1.25rem 1rem 1.25rem;
   }
+
   .ph-headline__line1,
   .ph-headline__line2 {
     font-size: 2.6rem;
   }
+
   .ph-subtext {
     font-size: 1rem;
   }
+
   .ph-cta-row {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
+
   .ph-cta-primary,
   .ph-cta-secondary {
     width: 100%;
@@ -702,6 +829,7 @@ button[aria-label="Next slide"]:hover {
   height: 46px !important;
   transition: all 0.3s ease;
 }
+
 .navbar-logo-img {
   height: 180px !important;
   transition: all 0.3s ease;
@@ -712,9 +840,11 @@ button[aria-label="Next slide"]:hover {
     width: 110px !important;
     height: 40px !important;
   }
+
   .navbar-logo-img {
     height: 160px !important;
   }
+
   .nav-tagline-desktop {
     display: none !important;
   }
@@ -726,13 +856,16 @@ button[aria-label="Next slide"]:hover {
     gap: 0.75rem !important;
     padding: 0 1rem !important;
   }
+
   .navbar-logo-container {
     width: 95px !important;
     height: 36px !important;
   }
+
   .navbar-logo-img {
     height: 140px !important;
   }
+
   .navbar-search {
     order: 3;
     flex: 1 1 100% !important;
@@ -745,6 +878,7 @@ button[aria-label="Next slide"]:hover {
     width: 85px !important;
     height: 32px !important;
   }
+
   .navbar-logo-img {
     height: 125px !important;
   }
@@ -769,6 +903,7 @@ button[aria-label="Next slide"]:hover {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
+
   .category-card {
     min-width: auto;
   }
@@ -785,7 +920,7 @@ button[aria-label="Next slide"]:hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
   padding: 0;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .category-card:hover {
@@ -838,6 +973,7 @@ button[aria-label="Next slide"]:hover {
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .calc-slider::-webkit-slider-thumb:hover {
   transform: scale(1.15);
   box-shadow: 0 4px 14px rgba(212, 180, 131, 0.55);
@@ -859,23 +995,28 @@ button[aria-label="Next slide"]:hover {
   border-color: #D4B483 !important;
   box-shadow: 0 4px 16px rgba(212, 180, 131, 0.12);
 }
+
 .calc-config-btn:hover {
   border-color: #D4B483 !important;
   background-color: rgba(212, 180, 131, 0.04) !important;
 }
+
 .calc-quality-card:hover {
   box-shadow: 0 4px 16px rgba(30, 29, 27, 0.06);
   transform: translateY(-2px);
 }
+
 .calc-addon-btn:hover {
   border-color: #D4B483 !important;
   box-shadow: 0 2px 10px rgba(212, 180, 131, 0.08);
 }
+
 .calc-wa-btn:hover {
   background-color: #1ebe57 !important;
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
   transform: translateY(-1px);
 }
+
 .calc-browse-btn:hover {
   border-color: #D4B483 !important;
   background-color: rgba(212, 180, 131, 0.06) !important;
@@ -884,16 +1025,24 @@ button[aria-label="Next slide"]:hover {
 /* Hero calculator CTA button hover */
 .calc-hero-cta:hover {
   background: linear-gradient(135deg, #15753F 0%, #1E944E 40%, #27AE60 100%) !important;
-  box-shadow: 0 8px 32px rgba(46,204,113,0.55), 0 4px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.25) !important;
+  box-shadow: 0 8px 32px rgba(46, 204, 113, 0.55), 0 4px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
   transform: translateX(-50%) translateY(-3px) scale(1.03) !important;
-  border-color: rgba(255,255,255,0.35) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
 }
 
 /* Shimmer sweep animation for CTA */
 @keyframes ctaShimmer {
-  0%   { left: -100%; }
-  50%  { left: 100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+
+  50% {
+    left: 100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }
 
 /* ─── Calculator Responsive Breakpoints ─── */
@@ -907,9 +1056,11 @@ button[aria-label="Next slide"]:hover {
   .calc-cat-row {
     grid-template-columns: 1fr !important;
   }
+
   .calc-quality-grid {
     grid-template-columns: 1fr !important;
   }
+
   .calc-addon-grid {
     grid-template-columns: 1fr !important;
   }
@@ -918,8 +1069,9 @@ button[aria-label="Next slide"]:hover {
 /* Large Category Cards Step 1 */
 .calc-cat-large:hover {
   transform: translateY(-8px) !important;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2) !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2) !important;
 }
+
 .calc-cat-large:hover h3 {
   color: #D4B483 !important;
   transition: color 0.3s ease;
@@ -928,11 +1080,12 @@ button[aria-label="Next slide"]:hover {
 /* Room Decor Cards */
 .calc-decor-card:hover {
   transform: translateY(-4px) !important;
-  box-shadow: 0 6px 20px rgba(30,29,27,0.08) !important;
+  box-shadow: 0 6px 20px rgba(30, 29, 27, 0.08) !important;
   border-color: #D4B483 !important;
 }
+
 .calc-decor-card:hover img,
-.calc-decor-card:hover > div:first-of-type {
+.calc-decor-card:hover>div:first-of-type {
   filter: brightness(1.05);
 }
 
@@ -944,18 +1097,18 @@ button[aria-label="Next slide"]:hover {
 .rd-bhk-card:hover {
   transform: translateY(-4px);
   border-color: #D4B483 !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* Room Sidebar Button Hover */
 .rd-room-btn:hover:not(.roomBtnActive) {
-  background-color: hsl(40,20%,97%) !important;
+  background-color: hsl(40, 20%, 97%) !important;
 }
 
 /* Shop Panel Buttons */
 .rd-cat-btn:hover {
   border-color: #D4B483 !important;
-  background-color: hsl(40,20%,98%) !important;
+  background-color: hsl(40, 20%, 98%) !important;
 }
 
 .rd-add-btn:hover {
@@ -969,7 +1122,7 @@ button[aria-label="Next slide"]:hover {
 
 /* Customization Toggle */
 .rd-cust-toggle:hover {
-  background-color: hsl(40,20%,98%) !important;
+  background-color: hsl(40, 20%, 98%) !important;
 }
 
 /* Summary Bar */
@@ -982,6 +1135,7 @@ button[aria-label="Next slide"]:hover {
   border-color: #999 !important;
   background-color: #f5f5f5 !important;
 }
+
 .rd-btn-primary:hover {
   background-color: #B3956D !important;
 }
@@ -1037,12 +1191,12 @@ svg text {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   height: 100%;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
 .product-card-enhanced:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
   border-color: hsl(var(--primary-color));
 }
 
@@ -1123,7 +1277,8 @@ svg text {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
-  .catalog-product-grid > * {
+
+  .catalog-product-grid>* {
     min-width: auto;
   }
 }
@@ -1133,14 +1288,16 @@ svg text {
   .rd-main-layout {
     flex-direction: column !important;
   }
-  .rd-main-layout > div:first-child {
+
+  .rd-main-layout>div:first-child {
     width: 100% !important;
     height: 45vh !important;
     flex-shrink: 0 !important;
     border-right: none !important;
     border-bottom: 1px solid var(--border-color);
   }
-  .rd-main-layout > div:nth-child(2) {
+
+  .rd-main-layout>div:nth-child(2) {
     height: 55vh !important;
     flex: none !important;
   }
@@ -1153,22 +1310,26 @@ svg text {
   flex-direction: column;
   flex-grow: 1;
 }
+
 .product-rating-container {
   display: flex;
   align-items: center;
   gap: 0.4rem;
   margin-bottom: 0.25rem;
 }
+
 .product-stars {
   display: flex;
   gap: 1px;
 }
+
 .product-rating-text {
   font-size: 0.75rem;
   color: hsl(var(--muted-color));
   font-weight: 500;
   margin-top: 2px;
 }
+
 .product-title {
   font-size: 0.95rem;
   font-weight: 600;
@@ -1184,11 +1345,13 @@ svg text {
   height: 2.6rem;
   transition: color 0.2s ease;
 }
+
 .product-swatches {
   display: flex;
   gap: 0.4rem;
   margin-bottom: 0.4rem;
 }
+
 .product-swatch-dot {
   width: 12px;
   height: 12px;
@@ -1197,27 +1360,32 @@ svg text {
   cursor: pointer;
   padding: 0;
 }
+
 .product-bottom-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
 }
+
 .product-price-container {
   display: flex;
   flex-direction: column;
 }
+
 .product-price {
   font-size: 1rem;
   font-weight: 600;
   color: hsl(var(--text-color));
 }
+
 .product-original-price {
   font-size: 0.75rem;
   text-decoration: line-through;
   color: hsl(var(--muted-color));
   margin-top: 0.1rem;
 }
+
 .product-wa-btn {
   width: 42px;
   height: 42px;
@@ -1238,41 +1406,51 @@ svg text {
   .product-details-content {
     padding: 0.6rem;
   }
+
   .product-rating-container {
     margin-bottom: 0.25rem;
     gap: 0.2rem;
   }
+
   .product-rating-text {
     font-size: 0.65rem;
   }
+
   .product-title {
     font-size: 0.85rem;
     line-height: 1.25;
     height: 2.15rem;
     margin-bottom: 0.4rem;
   }
+
   .product-swatches {
     margin-bottom: 0.4rem;
     gap: 0.3rem;
   }
+
   .product-swatch-dot {
     width: 10px;
     height: 10px;
   }
+
   .product-price {
     font-size: 0.95rem;
   }
+
   .product-original-price {
     font-size: 0.7rem;
   }
+
   .product-wa-btn {
     width: 32px;
     height: 32px;
   }
+
   .wa-icon {
     width: 16px;
     height: 16px;
   }
+
   .star-icon {
     width: 10px;
     height: 10px;
@@ -1300,7 +1478,7 @@ svg text {
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   text-align: left;
 }
@@ -1312,14 +1490,14 @@ svg text {
   margin-bottom: 0.5rem;
   color: #fff;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .calc-cat-desc-large {
   font-size: 1.05rem;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 @media (max-width: 768px) {
@@ -1328,25 +1506,30 @@ svg text {
     gap: 1rem;
     margin-top: 1.5rem;
   }
+
   .calc-cat-large {
     height: 180px;
     padding: 1rem 1.25rem;
     border-radius: 12px;
   }
+
   .calc-cat-title-large {
     font-size: 1.4rem;
     margin-bottom: 0.2rem;
   }
+
   .calc-cat-desc-large {
     font-size: 0.85rem;
     line-height: 1.3;
   }
+
   .calc-cat-icon-wrapper {
     width: 42px !important;
     height: 42px !important;
     margin-bottom: 0.5rem !important;
     border-radius: 8px !important;
   }
+
   .calc-cat-icon {
     width: 20px;
     height: 20px;
@@ -1446,7 +1629,7 @@ svg text {
   align-items: center;
   justify-content: center;
   color: #0F5B30;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
   transition: transform 0.3s ease;
 }
 
@@ -1534,7 +1717,8 @@ svg text {
   background-color: #E9F5EC;
   border-radius: 50%;
   z-index: 2;
-  border-right: 8px solid rgba(15, 91, 48, 0.03); /* Subtle depth */
+  border-right: 8px solid rgba(15, 91, 48, 0.03);
+  /* Subtle depth */
 }
 
 .nh-bg-img {
@@ -1552,7 +1736,7 @@ svg text {
   color: #fff;
   line-height: 1.1;
   transform: rotate(-8deg);
-  text-shadow: 2px 2px 10px rgba(0,0,0,0.25);
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
   z-index: 3;
 }
 
@@ -1563,36 +1747,45 @@ svg text {
     grid-template-rows: auto 1fr;
     height: calc(100vh - 72px);
   }
+
   .nh-curve {
     display: none;
   }
+
   .nh-hero__left {
     padding: 3rem;
   }
+
   .nh-hero__right {
     height: 100%;
     min-height: 0;
   }
+
   .nh-top-script {
     font-size: 2.5rem;
     right: 5%;
     top: 10%;
   }
 }
+
 @media (max-width: 768px) {
   .nh-hero__left {
     padding: 2.5rem 1.5rem;
   }
+
   .nh-line-green {
     font-size: 3.5rem;
   }
+
   .nh-features {
     flex-wrap: wrap;
     gap: 1rem;
   }
+
   .nh-cta-row {
     flex-direction: column;
   }
+
   .nh-bottom-script {
     font-size: 1.8rem;
   }
@@ -1610,7 +1803,7 @@ svg text {
   transform: scale(4);
   transform-origin: left center;
   z-index: 100;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
@@ -1618,16 +1811,19 @@ svg text {
 .calc-bhk-btn {
   user-select: none;
 }
+
 .calc-bhk-btn:hover:not(.active) {
   border-color: #9E4316 !important;
   color: #9E4316 !important;
   background-color: #FDF9F5 !important;
   transform: translateY(-1px);
 }
+
 .calc-planner-cta:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(147, 64, 21, 0.45) !important;
 }
+
 .calc-back-pill:hover {
   border-color: #9E4316 !important;
   color: #9E4316 !important;
@@ -1639,6 +1835,7 @@ svg text {
     flex-direction: column !important;
     gap: 2rem !important;
   }
+
   .hero-right-col-responsive {
     min-height: auto !important;
     flex-direction: row !important;
@@ -1660,6 +1857,7 @@ svg text {
     padding: 10px 10px !important;
     font-size: 0.82rem !important;
   }
+
   .hero-right-col-responsive {
     display: none !important;
   }
